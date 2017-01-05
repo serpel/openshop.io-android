@@ -10,7 +10,7 @@ android {
         javaMaxHeapSize "3g"
     }
 
-    signingConfigs {
+    /*signingConfigs {
         release {
             try {
                 storeFile file("openshopKeystore.jks")
@@ -21,7 +21,7 @@ android {
                 throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD, KEYSTORE_ALIAS and KEY_PASSWORD in gradle.properties." + ex)
             }
         }
-    }
+    }*/
 
     defaultConfig {
         applicationId "bf.io.openshop"
@@ -30,7 +30,7 @@ android {
         versionCode 2
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.release
+        //signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -43,7 +43,7 @@ android {
         release {
             minifyEnabled false
             debuggable false
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
 
             // For release build should be added custom proGuard
 //            minifyEnabled true
