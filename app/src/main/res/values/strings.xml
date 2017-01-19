@@ -150,6 +150,8 @@
     <string name="free">free</string>
     <string name="Summary">Summary</string>
     <string name="Total_colon">Total:</string>
+    <string name="Comment_colon">Comment:</string>
+    <string name="Comment">Comment</string>
 
 
     <!-- Wishlist related -->
@@ -197,4 +199,6 @@
     <string name="content_description_intro_screen">Intro screen</string>
     <string name="content_description_product_image">Product image</string>
     <string name="content_description_shipping_info">Shipping info</string>
+    <string name="brand">Brand</string>
+    <string name="season">Season</string>
 </resources>

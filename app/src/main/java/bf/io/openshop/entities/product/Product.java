@@ -13,18 +13,19 @@ public class Product {
     private long remoteId;
     private String url;
     private String name;
-    private double price;
+    //private double price;
 
-    @SerializedName("price_formatted")
-    private String priceFormatted;
+    //@SerializedName("price_formatted")
+    //private String priceFormatted;
 
-    @SerializedName("discount_price")
-    private double discountPrice;
+    //@SerializedName("discount_price")
+    //private double discountPrice;
 
-    @SerializedName("discount_price_formatted")
-    private String discountPriceFormatted;
+    ///@SerializedName("discount_price_formatted")
+    ///private String discountPriceFormatted;
     private long category;
-    private String currency;
+    private String brand;
+    private String season;
     private String code;
     private String description;
 
@@ -71,52 +72,28 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getPriceFormatted() {
-        return priceFormatted;
-    }
-
-    public void setPriceFormatted(String priceFormatted) {
-        this.priceFormatted = priceFormatted;
-    }
-
-    public double getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(double discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    public String getDiscountPriceFormatted() {
-        return discountPriceFormatted;
-    }
-
-    public void setDiscountPriceFormatted(String discountPriceFormatted) {
-        this.discountPriceFormatted = discountPriceFormatted;
-    }
-
     public long getCategory() {
         return category;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
     public void setCategory(long category) {
         this.category = category;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public String getCode() {
@@ -176,17 +153,9 @@ public class Product {
 
         if (id != product.id) return false;
         if (remoteId != product.remoteId) return false;
-        if (Double.compare(product.price, price) != 0) return false;
-        if (Double.compare(product.discountPrice, discountPrice) != 0) return false;
         if (category != product.category) return false;
         if (url != null ? !url.equals(product.url) : product.url != null) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
-        if (priceFormatted != null ? !priceFormatted.equals(product.priceFormatted) : product.priceFormatted != null)
-            return false;
-        if (discountPriceFormatted != null ? !discountPriceFormatted.equals(product.discountPriceFormatted) : product.discountPriceFormatted != null)
-            return false;
-        if (currency != null ? !currency.equals(product.currency) : product.currency != null)
-            return false;
         if (code != null ? !code.equals(product.code) : product.code != null) return false;
         if (description != null ? !description.equals(product.description) : product.description != null)
             return false;
@@ -208,14 +177,7 @@ public class Product {
         result = 31 * result + (int) (remoteId ^ (remoteId >>> 32));
         result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        temp = Double.doubleToLongBits(price);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (priceFormatted != null ? priceFormatted.hashCode() : 0);
-        temp = Double.doubleToLongBits(discountPrice);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (discountPriceFormatted != null ? discountPriceFormatted.hashCode() : 0);
         result = 31 * result + (int) (category ^ (category >>> 32));
-        result = 31 * result + (currency != null ? currency.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (mainImage != null ? mainImage.hashCode() : 0);
@@ -232,12 +194,7 @@ public class Product {
                 ", remoteId=" + remoteId +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
-                ", price=" + price +
-                ", priceFormatted='" + priceFormatted + '\'' +
-                ", discountPrice=" + discountPrice +
-                ", discountPriceFormatted='" + discountPriceFormatted + '\'' +
                 ", category=" + category +
-                ", currency='" + currency + '\'' +
                 ", code='" + code + '\'' +
                 ", description='" + description + '\'' +
                 ", mainImage='" + mainImage + '\'' +

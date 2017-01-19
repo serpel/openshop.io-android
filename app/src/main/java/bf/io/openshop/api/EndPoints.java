@@ -7,17 +7,19 @@ public class EndPoints {
     /**
      * Base server url.
      */
-    private static final String API_URL                  = "http://77.93.198.186/v1.2/";    // staging
+    //private static final String API_URL                  = "http://77.93.198.186/v1.2/";    // staging
+    private static final String API_URL                 = "http://77.93.198.186/v1.2/";    // staging
+    private static final String API_URL2                = "http://200.59.27.2/OpenshopBackend/api/list";    // staging
 
-    public static final String SHOPS                    = API_URL.concat(CONST.ORGANIZATION_ID + "/shops");
-    public static final String SHOPS_SINGLE             = API_URL.concat(CONST.ORGANIZATION_ID + "/shops/%d");
-    public static final String NAVIGATION_DRAWER        = API_URL.concat("%d/navigation_drawer");
-    public static final String BANNERS                  = API_URL.concat("%d/banners");
+    public static final String SHOPS                    = API_URL2.concat("/GetShops");
+    public static final String SHOPS_SINGLE             = API_URL2.concat("/GetShops/%d");
+    public static final String NAVIGATION_DRAWER        = API_URL2.concat("/GetNavigations/%d");
+    public static final String BANNERS                  = API_URL2.concat("/GetBanners");
     public static final String PAGES_SINGLE             = API_URL.concat("%d/pages/%d");
     public static final String PAGES_TERMS_AND_COND     = API_URL.concat("%d/pages/terms");
-    public static final String PRODUCTS                 = API_URL.concat("%d/products");
-    public static final String PRODUCTS_SINGLE          = API_URL.concat("%d/products/%d");
-    public static final String PRODUCTS_SINGLE_RELATED  = API_URL.concat("%d/products/%d?include=related");
+    public static final String PRODUCTS                 = API_URL2.concat("/GetProducts");
+    public static final String PRODUCTS_SINGLE          = API_URL2.concat("/GetProduct/%d");
+    public static final String PRODUCTS_SINGLE_RELATED  = API_URL2.concat("/GetProduct/%d?include=related");
     public static final String USER_REGISTER            = API_URL.concat("%d/users/register");
     public static final String USER_LOGIN_EMAIL         = API_URL.concat("%d/login/email");
     public static final String USER_LOGIN_FACEBOOK      = API_URL.concat("%d/login/facebook");
@@ -36,7 +38,7 @@ public class EndPoints {
     public static final String WISHLIST                 = API_URL.concat("%d/wishlist");
     public static final String WISHLIST_SINGLE          = API_URL.concat("%d/wishlist/%d");
     public static final String WISHLIST_IS_IN_WISHLIST  = API_URL.concat("%d/wishlist/is-in-wishlist/%d");
-    public static final String REGISTER_NOTIFICATION    = API_URL.concat("%d/devices");
+    public static final String REGISTER_NOTIFICATION    = API_URL2.concat("/GetDevices");
 
 
     // Notifications parameters

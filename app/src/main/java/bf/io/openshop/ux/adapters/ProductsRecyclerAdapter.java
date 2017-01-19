@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         holder.bindContent(product);
         // - replace the contents of the view with that element
         holder.productNameTV.setText(holder.product.getName());
+        holder.productSKU.setText(holder.product.getCode());
 
         if (loadHighRes && product.getMainImageHighRes() != null) {
             Picasso.with(context).load(product.getMainImageHighRes())
@@ -95,7 +98,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
                     .into(holder.productImage);
         }
 
-        // Determine if product is on sale
+       /* // Determine if product is on sale
         double pr = holder.product.getPrice();
         double dis = holder.product.getDiscountPrice();
         if (pr == dis || Math.abs(pr - dis) / Math.max(Math.abs(pr), Math.abs(dis)) < 0.000001) {
@@ -111,7 +114,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
             holder.productPriceTV.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
             holder.productPriceTV.setTextColor(ContextCompat.getColor(context, R.color.textSecondary));
             holder.productPriceDiscountTV.setText(holder.product.getDiscountPriceFormatted());
-        }
+        }*/
     }
 
     public void clear() {
@@ -148,15 +151,17 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ResizableImageView productImage;
         public TextView productNameTV;
-        public TextView productPriceTV;
-        public TextView productPriceDiscountTV;
+        //public TextView productPriceTV;
+        //public TextView productPriceDiscountTV;
+        public TextView productSKU;
         private Product product;
 
         public ViewHolder(View v, final CategoryRecyclerInterface categoryRecyclerInterface) {
             super(v);
             productNameTV = (TextView) v.findViewById(R.id.product_item_name);
-            productPriceTV = (TextView) v.findViewById(R.id.product_item_price);
-            productPriceDiscountTV = (TextView) v.findViewById(R.id.product_item_discount);
+            productSKU = (TextView) v.findViewById(R.id.product_item_sku);
+            //productPriceTV = (TextView) v.findViewById(R.id.product_item_price);
+            //productPriceDiscountTV = (TextView) v.findViewById(R.id.product_item_discount);
             productImage = (ResizableImageView) v.findViewById(R.id.product_item_image);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

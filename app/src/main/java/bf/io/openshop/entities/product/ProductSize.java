@@ -9,6 +9,9 @@ public class ProductSize {
     @SerializedName("remote_id")
     private long remoteId;
     private String value;
+    //SAP Fields
+    private String description;
+    //END Sap Fields
 
     public ProductSize() {
     }
@@ -41,6 +44,14 @@ public class ProductSize {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

@@ -29,7 +29,7 @@
 
     <!-- Products related strings -->
     <string name="Just_arrived">Recien llegado</string>
-    <string name="No_banners">No banners</string>
+    <string name="No_banners">No anuncio</string>
     <string name="Show_offers">Mostrar ofertas</string>
     <string name="FILTER">Filtro</string>
     <string name="Apply">Aplicar</string>
@@ -145,6 +145,8 @@
     <string name="free">Gratis</string>
     <string name="Summary">Resumen</string>
     <string name="Total_colon">Total:</string>
+    <string name="Comment_colon">Comentario:</string>
+    <string name="Comment">Comentario</string>
 
     <!-- Wishlist related -->
     <string name="Your_wishlist_is_empty">Tu lista de deseos esta vacía</string>
@@ -190,4 +192,6 @@
     <string name="content_description_intro_screen">Pantalla de Inicio</string>
     <string name="content_description_product_image">Imagen del producto</string>
     <string name="content_description_shipping_info">Informacion de envio</string>
+    <string name="brand">Marca</string>
+    <string name="season">Temporada</string>
 </resources>

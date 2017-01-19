@@ -75,55 +75,192 @@
                         android:paddingTop="8dp">
 
                         <TextView
+                            android:id="@+id/product_sku"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
+                            android:gravity="start"
+                            android:textSize="16sp"
+                            tools:text="SKU"/>
+
+                        <TextView
                             android:id="@+id/product_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:padding="6dp"
+                            android:gravity="start"
                             android:textSize="16sp"
                             tools:text="Test product name"/>
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/base_margin_horizontal"
+                        android:paddingRight="@dimen/base_margin_horizontal"
+                        android:paddingTop="8dp">
+
                         <RelativeLayout
-                            android:id="@+id/product_price_layout"
+                            android:id="@+id/product_wh_details"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp">
+                            android:layout_marginTop="0dp">
 
                             <TextView
-                                android:id="@+id/product_price"
+                                android:id="@+id/product_stock_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@+id/product_price_discount"
-                                android:layout_toStartOf="@+id/product_price_discount"
                                 android:padding="6dp"
                                 android:textSize="15sp"
-                                tools:text="995 eur"/>
+                                tools:text="Stock"/>
 
                             <TextView
-                                android:id="@+id/product_price_discount"
+                                android:id="@+id/product_stock_qty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="6dp"
+                                android:layout_toEndOf="@+id/product_stock_label"
+                                android:layout_toRightOf="@+id/product_stock_label"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                tools:text="100"/>
+
+                            <TextView
+                                android:id="@+id/product_available_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/product_stock_qty"
+                                android:layout_toEndOf="@+id/product_stock_qty"
+                                android:padding="6dp"
+                                android:textSize="15sp"
+                                tools:text="Available"/>
+
+                            <TextView
+                                android:id="@+id/product_available"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:padding="6dp"
                                 android:textColor="@color/colorAccent"
+                                android:layout_toRightOf="@+id/product_available_label"
+                                android:layout_toEndOf="@+id/product_available_label"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
-                                tools:text="995 eur"/>
-
-                            <TextView
-                                android:id="@+id/product_price_discount_percent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="6dp"
-                                android:layout_marginStart="6dp"
-                                android:layout_toEndOf="@+id/product_price_discount"
-                                android:layout_toRightOf="@+id/product_price_discount"
-                                android:background="@color/colorAccent"
-                                android:padding="6dp"
-                                android:textColor="@color/textIconColorPrimary"
-                                android:textSize="15sp"
-                                tools:text="-50%"/>
+                                tools:text="100"/>
                         </RelativeLayout>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/base_margin_horizontal"
+                        android:paddingRight="@dimen/base_margin_horizontal"
+                        android:paddingTop="8dp">
+
+                        <RelativeLayout
+                            android:id="@+id/product_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp">
+
+                            <TextView
+                                android:id="@+id/product_brand_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="6dp"
+                                android:textSize="15sp"
+                                android:visibility="visible"
+                                android:text="@string/brand"
+                                tools:text="Brand"/>
+
+                            <TextView
+                                android:id="@+id/product_brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="6dp"
+                                android:layout_toEndOf="@+id/product_brand_label"
+                                android:layout_toRightOf="@+id/product_brand_label"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                tools:text="VAN HEUSEN"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/base_margin_horizontal"
+                        android:paddingRight="@dimen/base_margin_horizontal"
+                        android:paddingTop="0dp">
+
+                        <RelativeLayout
+                            android:id="@+id/product_season_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/product_season_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="6dp"
+                                android:textSize="15sp"
+                                android:visibility="visible"
+                                android:text="@string/season"
+                                tools:text="Season"/>
+
+                            <TextView
+                                android:id="@+id/product_season"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="6dp"
+                                android:layout_toEndOf="@+id/product_season_label"
+                                android:layout_toRightOf="@+id/product_season_label"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                tools:text="T16"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/product_price_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/base_margin_horizontal"
+                        android:paddingRight="@dimen/base_margin_horizontal"
+                        android:layout_marginTop="0dp">
+
+                        <TextView
+                            android:id="@+id/product_price_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="6dp"
+                            android:textSize="15sp"
+                            tools:text="Price"/>
+
+                        <TextView
+                            android:id="@+id/product_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/product_price_label"
+                            android:layout_toRightOf="@+id/product_price_label"
+                            android:padding="6dp"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            tools:text="995 eur"/>
+                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -243,7 +380,7 @@
                             android:layout_marginBottom="@dimen/base_margin_vertical"
                             android:fontFamily="sans-serif-light"
                             android:textSize="14sp"/>
-
+<!--
                         <Button
                             android:id="@+id/product_send_to_a_friend"
                             style="?android:attr/borderlessButtonStyle"
@@ -260,7 +397,8 @@
                             android:text="@string/SEND_TO_A_FRIEND"
                             android:textColor="@color/textIconColorPrimary"
                             android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:visibility="invisible"/>-->
 
                         <TextView
                             android:layout_width="fill_parent"

@@ -36,6 +36,7 @@ import com.facebook.share.widget.MessageDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,11 +91,19 @@ public class ProductFragment extends Fragment {
 
     // Fields referencing product related views.
     private TextView productNameTv;
-    private TextView productPriceDiscountTv;
+    private TextView productSKU;
+    private TextView productBrand;
+    private TextView productSeason;
     private TextView productPriceTv;
+    private TextView productStock;
+    private TextView productAvailable;
+    //private TextView productPriceDiscountTv;
+
+    private TextView productBrandLabel;
+    private TextView productSeasonLabel;
+
     private TextView productInfoTv;
     private TextView productPriceDiscountPercentTv;
-
     /**
      * Refers to the displayed product.
      */
@@ -161,9 +170,21 @@ public class ProductFragment extends Fragment {
         contentScrollLayout = (ScrollView) view.findViewById(R.id.product_scroll_layout);
 
         productNameTv = (TextView) view.findViewById(R.id.product_name);
-        productPriceDiscountPercentTv = (TextView) view.findViewById(R.id.product_price_discount_percent);
-        productPriceDiscountTv = (TextView) view.findViewById(R.id.product_price_discount);
+        productSKU = (TextView) view.findViewById(R.id.product_sku);
+        productBrand = (TextView) view.findViewById(R.id.product_brand);
+        productSeason = (TextView) view.findViewById(R.id.product_season);
         productPriceTv = (TextView) view.findViewById(R.id.product_price);
+
+        productBrandLabel = (TextView) view.findViewById(R.id.product_brand_label);
+        productSeasonLabel = (TextView) view.findViewById(R.id.product_season_label);
+
+
+        productStock = (TextView) view.findViewById(R.id.product_stock_qty);
+        productAvailable = (TextView) view.findViewById(R.id.product_available);
+
+
+        //productPriceDiscountPercentTv = (TextView) view.findViewById(R.id.product_price_discount_percent);
+        //productPriceDiscountTv = (TextView) view.findViewById(R.id.product_price_discount);
         productInfoTv = (TextView) view.findViewById(R.id.product_info);
 
         colorSpinner = (Spinner) view.findViewById(R.id.product_color_spinner);
@@ -232,6 +253,7 @@ public class ProductFragment extends Fragment {
             }
         });
 
+        /*
         Button sendToFriendBtn = (Button) view.findViewById(R.id.product_send_to_a_friend);
         sendToFriendBtn.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -266,6 +288,7 @@ public class ProductFragment extends Fragment {
                 }
             }
         });
+        */
     }
 
     /**
@@ -369,7 +392,9 @@ public class ProductFragment extends Fragment {
      */
     private void getProduct(final long productId) {
         // Load product info
-        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
+        //TODO: multiple companies
+        //String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
+        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, productId);
         setContentVisible(CONST.VISIBLE.PROGRESS);
 
         GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
@@ -533,9 +558,13 @@ public class ProductFragment extends Fragment {
             Analytics.logProductView(product.getRemoteId(), product.getName());
 
             productNameTv.setText(product.getName());
+            productSKU.setText(product.getCode());
+            //SAP Bussiness One realated information
+            productBrand.setText(product.getBrand());
+            productSeason.setText(product.getSeason());
 
             // Determine if product is on sale
-            double pr = product.getPrice();
+           /* double pr = product.getPrice();
             double dis = product.getDiscountPrice();
             if (pr == dis || Math.abs(pr - dis) / Math.max(Math.abs(pr), Math.abs(dis)) < 0.000001) {
                 productPriceDiscountTv.setText(product.getDiscountPriceFormatted());
@@ -550,7 +579,7 @@ public class ProductFragment extends Fragment {
                 productPriceTv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 productPriceDiscountPercentTv.setVisibility(View.VISIBLE);
                 productPriceDiscountPercentTv.setText(Utils.calculateDiscountPercent(getContext(), pr, dis));
-            }
+            }*/
             if (product.getDescription() != null) {
                 productInfoTv.setMovementMethod(LinkMovementMethod.getInstance());
                 productInfoTv.setText(Utils.safeURLSpanLinks(Html.fromHtml(product.getDescription()), getActivity()));
@@ -691,7 +720,8 @@ public class ProductFragment extends Fragment {
                     if (addToCartProgress != null)
                         addToCartProgress.setVisibility(View.INVISIBLE);
 
-                    Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), product.getDiscountPrice());
+                    //TODO: FIX ANALITIC ADD PRODUCT TO CART CHECHO
+                    Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), 0.0);
                     MainActivity.updateCartCountNotification();
 
                     String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);

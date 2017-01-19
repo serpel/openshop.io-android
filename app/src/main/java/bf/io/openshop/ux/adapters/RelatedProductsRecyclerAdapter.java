@@ -63,7 +63,7 @@ public class RelatedProductsRecyclerAdapter extends RecyclerView.Adapter<Related
             holder.productName.setText(product.getName());
 
             // Determine if product is on sale
-            double pr = holder.product.getPrice();
+            /*double pr = holder.product.getPrice();
             double dis = holder.product.getDiscountPrice();
             if (pr == dis || Math.abs(pr - dis) / Math.max(Math.abs(pr), Math.abs(dis)) < 0.000001) {
                 holder.productPrice.setVisibility(View.VISIBLE);
@@ -78,7 +78,7 @@ public class RelatedProductsRecyclerAdapter extends RecyclerView.Adapter<Related
                 holder.productPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 holder.productPrice.setTextColor(ContextCompat.getColor(context, R.color.textSecondary));
                 holder.productDiscount.setText(holder.product.getDiscountPriceFormatted());
-            }
+            }*/
 
             Picasso.with(context)
                     .load(product.getMainImage())

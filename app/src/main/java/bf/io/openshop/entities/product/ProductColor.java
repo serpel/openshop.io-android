@@ -11,6 +11,9 @@ public class ProductColor {
     private String value;
     private String code;
     private String img;
+    //SAP Fields
+    private String description;
+    //END SAP Fields
 
     public ProductColor() {
     }

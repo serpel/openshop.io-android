@@ -9,6 +9,12 @@ public class ProductVariant {
     private ProductSize size;
     private String[] images;
     private String code;
+    //SAP Fields
+    private int quantity;
+    private int is_committed;
+    private double price;
+    private String currency;
+    //END SAP Fields
 
     public ProductVariant() {
     }
@@ -56,6 +62,38 @@ public class ProductVariant {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getIs_committed() {
+        return is_committed;
+    }
+
+    public void setIs_committed(int is_committed) {
+        this.is_committed = is_committed;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override
