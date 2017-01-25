@@ -246,7 +246,7 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
         });
 
         // Registration
-        TextView loginFormRegistrationButton = (TextView) view.findViewById(R.id.login_form_registration_btn);
+        /*TextView loginFormRegistrationButton = (TextView) view.findViewById(R.id.login_form_registration_btn);
         loginFormRegistrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,7 +265,7 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
                     }
                 }, 200);
             }
-        });
+        });*/
 
         // Email forgotten password
         TextView loginEmailFormForgottenButton = (TextView) view.findViewById(R.id.login_email_forgotten_password);
@@ -301,13 +301,13 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
         });
 
         // FB login
-        Button fbLogin = (Button) view.findViewById(R.id.login_form_facebook);
+        /*Button fbLogin = (Button) view.findViewById(R.id.login_form_facebook);
         fbLogin.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 invokeFacebookLogin();
             }
-        });
+        });*/
 
         Button emailLogin = (Button) view.findViewById(R.id.login_email_confirm);
         emailLogin.setOnClickListener(new OnSingleClickListener() {
@@ -317,21 +317,21 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
             }
         });
 
-        Button registerBtn = (Button) view.findViewById(R.id.login_registration_confirm);
-        registerBtn.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                invokeRegisterNewUser();
-            }
-        });
+//        Button registerBtn = (Button) view.findViewById(R.id.login_registration_confirm);
+//        registerBtn.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View v) {
+//                invokeRegisterNewUser();
+//            }
+//        });
 
-        Button resetPassword = (Button) view.findViewById(R.id.login_email_forgotten_confirm);
-        resetPassword.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                invokeResetPassword();
-            }
-        });
+//        Button resetPassword = (Button) view.findViewById(R.id.login_email_forgotten_confirm);
+//        resetPassword.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View v) {
+//                invokeResetPassword();
+//            }
+//        });
     }
 
     private void invokeFacebookLogin() {
