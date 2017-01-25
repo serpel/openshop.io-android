@@ -201,4 +201,7 @@
     <string name="content_description_shipping_info">Shipping info</string>
     <string name="brand">Brand</string>
     <string name="season">Season</string>
+    <string name="IsCommitted">Is Committed</string>
+    <string name="Stock">Stock</string>
+    <string name="Price">Price</string>
 </resources>

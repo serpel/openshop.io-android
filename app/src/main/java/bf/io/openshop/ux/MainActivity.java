@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     /**
      * BroadcastReceiver used in service for Gcm registration.
      */
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    //private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     // Fields used in searchView.
     private SimpleCursorAdapter searchSuggestionsAdapter;
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         searchSuggestionsList = new ArrayList<>();
 
         // GCM registration //
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+       /* mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 boolean sentToken = SettingsMy.getTokenSentToServer();
@@ -225,7 +225,9 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                 }
             }
         };
-        registerGcmOnServer();
+        */
+
+        // registerGcmOnServer();
         // end of GCM registration //
 
         addInitialFragment();
@@ -301,7 +303,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             } else {
                 // If cart count is loaded for the first time, we need to load whole cart because of synchronization.
                 if (initialize) {
-                    String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(this).getId());
+                    //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(this).getId());
+                    String url = String.format(EndPoints.CART, user.getId());
                     JsonRequest req = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -324,12 +327,14 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                     req.setShouldCache(false);
                     MyApplication.getInstance().addToRequestQueue(req, CONST.MAIN_ACTIVITY_REQUESTS_TAG);
                 } else {
-                    String url = String.format(EndPoints.CART_INFO, SettingsMy.getActualNonNullShop(this).getId());
+                    //String url = String.format(EndPoints.CART_INFO, SettingsMy.getActualNonNullShop(this).getId());
+                    String url = String.format(EndPoints.CART_INFO, user.getId());
                     GsonRequest<CartInfo> req = new GsonRequest<>(Request.Method.GET, url, null, CartInfo.class, new Response.Listener<CartInfo>() {
                         @Override
                         public void onResponse(CartInfo response) {
-                            Timber.d("getCartCount: %s", response.toString());
-                            showNotifyCount(response.getProductCount());
+                            //TODO: publish this on the openshop.io
+                            Timber.d("getCartCount: %s", response.getProductCount());
+                                showNotifyCount(response.getProductCount());
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -768,8 +773,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         AppEventsLogger.activateApp(this);
 
         // GCM registration
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(SettingsMy.REGISTRATION_COMPLETE));
+        //LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+        //        new IntentFilter(SettingsMy.REGISTRATION_COMPLETE));
     }
 
     @Override
@@ -780,6 +785,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         MyApplication.getInstance().cancelPendingRequests(CONST.MAIN_ACTIVITY_REQUESTS_TAG);
 
         // GCM registration
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        //LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
 }

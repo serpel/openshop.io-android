@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -82,6 +83,7 @@ public class ProductFragment extends Fragment {
 
     private static final String PRODUCT_ID = "product_id";
 
+    private int quantity = 1;
     private ProgressBar progressView;
 
     // Fields referencing complex screen layouts.
@@ -96,11 +98,12 @@ public class ProductFragment extends Fragment {
     private TextView productSeason;
     private TextView productPriceTv;
     private TextView productStock;
-    private TextView productAvailable;
+    private TextView productIsCommited;
+    private TextView quantityEditText;
     //private TextView productPriceDiscountTv;
 
-    private TextView productBrandLabel;
-    private TextView productSeasonLabel;
+    private TextView productBrandLabel,productSeasonLabel,productStockLabel,prducttIsCommitedLabel,pricePriceLabel;
+    private ImageView plusImage, minusImage;
 
     private TextView productInfoTv;
     private TextView productPriceDiscountPercentTv;
@@ -177,11 +180,12 @@ public class ProductFragment extends Fragment {
 
         productBrandLabel = (TextView) view.findViewById(R.id.product_brand_label);
         productSeasonLabel = (TextView) view.findViewById(R.id.product_season_label);
-
+        productStockLabel = (TextView) view.findViewById(R.id.product_stock_label);
+        prducttIsCommitedLabel = (TextView) view.findViewById(R.id.product_is_committed_label);
+        pricePriceLabel = (TextView) view.findViewById(R.id.product_price_label);
 
         productStock = (TextView) view.findViewById(R.id.product_stock_qty);
-        productAvailable = (TextView) view.findViewById(R.id.product_available);
-
+        productIsCommited = (TextView) view.findViewById(R.id.product_is_committed);
 
         //productPriceDiscountPercentTv = (TextView) view.findViewById(R.id.product_price_discount_percent);
         //productPriceDiscountTv = (TextView) view.findViewById(R.id.product_price_discount);
@@ -193,10 +197,34 @@ public class ProductFragment extends Fragment {
         prepareButtons(view);
         prepareProductImagesLayout(view);
         prepareScrollViewAndWishlist(view);
+        prepareQuantityButton(view);
 
         long productId = getArguments().getLong(PRODUCT_ID, 0);
         getProduct(productId);
         return view;
+    }
+
+    private void prepareQuantityButton(View view){
+        plusImage = (ImageView) view.findViewById(R.id.plusImage);
+        minusImage = (ImageView) view.findViewById(R.id.minusImage);
+        quantityEditText = (EditText) view.findViewById(R.id.quantity_edittext);
+        quantityEditText.setText(String.valueOf(quantity));
+
+        plusImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quantityEditText.setText(String.valueOf(++quantity));
+            }
+        });
+
+        minusImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(quantity > 0){
+                    quantityEditText.setText(String.valueOf(--quantity));
+                }
+            }
+        });
     }
 
     /**
@@ -221,6 +249,7 @@ public class ProductFragment extends Fragment {
                     } else {
                         selectedProductVariant = selectedVariantSize;
                     }
+                    updateProductVariantAttributes(selectedProductVariant);
                 } else {
                     selectedProductVariant = null;
                     Timber.e(new RuntimeException(), "User click on null product variant. WTF");
@@ -233,6 +262,26 @@ public class ProductFragment extends Fragment {
                 selectedProductVariant = null;
             }
         });
+    }
+
+    /*
+    * Update price and stock by product variant
+    *
+    * */
+
+    private void updateProductVariantAttributes(ProductVariant productVariant)
+    {
+        if(productVariant == null){
+            productStock.setText("0");
+            productIsCommited.setText("0");
+            productPriceTv.setText("0.0");
+
+        } else {
+            productStock.setText(String.valueOf(productVariant.getQuantity()));
+            productIsCommited.setText(String.valueOf(productVariant.getIs_committed()));
+            String priceFormatted = productVariant.getCurrency() != null ? productVariant.getCurrency().concat(" " + String.valueOf(productVariant.getPrice())) : String.valueOf(productVariant.getPrice());
+            productPriceTv.setText(priceFormatted);
+        }
     }
 
     /**
@@ -702,17 +751,18 @@ public class ProductFragment extends Fragment {
             if (addToCartProgress != null) addToCartProgress.setVisibility(View.VISIBLE);
 
             // get selected radio button from radioGroup
-            JSONObject jo = new JSONObject();
+            /*JSONObject jo = new JSONObject();
             try {
                 jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, selectedProductVariant.getId());
             } catch (JSONException e) {
                 Timber.e(e, "Create json add product to cart exception");
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
                 return;
-            }
+            }*/
 
-            String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
-            JsonRequest addToCart = new JsonRequest(Request.Method.POST, url, jo, new Response.Listener<JSONObject>() {
+            //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), selectedProductVariant.getId(), quantity);
+            JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
@@ -720,7 +770,7 @@ public class ProductFragment extends Fragment {
                     if (addToCartProgress != null)
                         addToCartProgress.setVisibility(View.INVISIBLE);
 
-                    //TODO: FIX ANALITIC ADD PRODUCT TO CART CHECHO
+                    //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
                     Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), 0.0);
                     MainActivity.updateCartCountNotification();
 

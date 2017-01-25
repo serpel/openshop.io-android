@@ -194,4 +194,7 @@
     <string name="content_description_shipping_info">Informacion de envio</string>
     <string name="brand">Marca</string>
     <string name="season">Temporada</string>
+    <string name="IsCommitted">Reservado</string>
+    <string name="Stock">Cantidad</string>
+    <string name="Price">Precio</string>
 </resources>

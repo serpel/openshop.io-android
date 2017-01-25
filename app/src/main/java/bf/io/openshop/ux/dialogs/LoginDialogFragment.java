@@ -393,10 +393,10 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
 
     private void logInWithEmail(EditText editTextEmail, EditText editTextPassword) {
         SettingsMy.setUserEmailHint(editTextEmail.getText().toString());
-        String url = String.format(EndPoints.USER_LOGIN_EMAIL, SettingsMy.getActualNonNullShop(getActivity()).getId());
         progressDialog.show();
 
-        JSONObject jo;
+        //String url = String.format(EndPoints.USER_LOGIN_EMAIL, SettingsMy.getActualNonNullShop(getActivity()).getId());
+       /* JSONObject jo;
         try {
             jo = JsonUtils.createUserAuthentication(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim());
             editTextPassword.setText("");
@@ -405,9 +405,16 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
             MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
             return;
         }
-        if (BuildConfig.DEBUG) Timber.d("Login user: %s", jo.toString());
+        if (BuildConfig.DEBUG) Timber.d("Login user: %s", jo.toString());*/
 
-        GsonRequest<User> userLoginEmailRequest = new GsonRequest<>(Request.Method.POST, url, jo.toString(), User.class,
+        String username = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+        editTextPassword.setText("");
+
+        String url = String.format(EndPoints.USER_LOGIN_EMAIL, username, password);
+        if (BuildConfig.DEBUG) Timber.d("Login user: %s, password %s", username, password);
+
+        GsonRequest<User> userLoginEmailRequest = new GsonRequest<>(Request.Method.GET, url, null, User.class,
                 new Response.Listener<User>() {
                     @Override
                     public void onResponse(@NonNull User response) {

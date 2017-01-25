@@ -127,7 +127,8 @@ public class CartFragment extends Fragment {
     private void getCartContent() {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
-            String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            String url = String.format(EndPoints.CART, user.getId());
 
             progressDialog.show();
             GsonRequest<Cart> getCart = new GsonRequest<>(Request.Method.GET, url, null, Cart.class,
@@ -230,11 +231,17 @@ public class CartFragment extends Fragment {
             private void deleteItemFromCart(long id, boolean isDiscount) {
                 User user = SettingsMy.getActiveUser();
                 if (user != null) {
+                    String url = String.format(EndPoints.CART_ITEM_DELETE, user.getId(), id);
+
+                    //TODO: in my app not exist discounts
+                    /*
                     String url;
+
                     if (isDiscount)
                         url = String.format(EndPoints.CART_DISCOUNTS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), id);
                     else
                         url = String.format(EndPoints.CART_ITEM, SettingsMy.getActualNonNullShop(getActivity()).getId(), id);
+                    */
 
                     progressDialog.show();
                     JsonRequest req = new JsonRequest(Request.Method.DELETE, url, null, new Response.Listener<JSONObject>() {

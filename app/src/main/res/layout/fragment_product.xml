@@ -91,7 +91,6 @@
                             android:gravity="start"
                             android:textSize="16sp"
                             tools:text="Test product name"/>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -115,7 +114,8 @@
                                 android:layout_height="wrap_content"
                                 android:padding="6dp"
                                 android:textSize="15sp"
-                                tools:text="Stock"/>
+                                android:text="@string/Stock"
+                                tools:text="@string/Stock"/>
 
                             <TextView
                                 android:id="@+id/product_stock_qty"
@@ -130,24 +130,25 @@
                                 tools:text="100"/>
 
                             <TextView
-                                android:id="@+id/product_available_label"
+                                android:id="@+id/product_is_committed_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/product_stock_qty"
                                 android:layout_toEndOf="@+id/product_stock_qty"
                                 android:padding="6dp"
                                 android:textSize="15sp"
-                                tools:text="Available"/>
+                                android:text="@string/IsCommitted"
+                                tools:text="@string/IsCommitted"/>
 
                             <TextView
-                                android:id="@+id/product_available"
+                                android:id="@+id/product_is_committed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:padding="6dp"
                                 android:textColor="@color/colorAccent"
-                                android:layout_toRightOf="@+id/product_available_label"
-                                android:layout_toEndOf="@+id/product_available_label"
+                                android:layout_toRightOf="@+id/product_is_committed_label"
+                                android:layout_toEndOf="@+id/product_is_committed_label"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 tools:text="100"/>
@@ -247,7 +248,8 @@
                             android:layout_height="wrap_content"
                             android:padding="6dp"
                             android:textSize="15sp"
-                            tools:text="Price"/>
+                            android:text="@string/Price"
+                            tools:text="@string/Price"/>
 
                         <TextView
                             android:id="@+id/product_price"
@@ -298,6 +300,51 @@
                             android:paddingBottom="8dp"
                             android:spinnerMode="dialog"/>
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/qut"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="2dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/minusImage"
+                            android:layout_width="31dp"
+                            android:layout_height="31dp"
+                            android:src="@drawable/minus" />
+
+                        <EditText
+                            android:id="@+id/quantity_edittext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginLeft="30dp"
+                            android:background="#00000000"
+                            android:inputType="number"
+                            android:hint="1"
+                            android:maxLength="3"
+                            android:textColor="@color/colorAccentDark"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/plusImage"
+                            android:layout_width="31dp"
+                            android:layout_height="31dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginStart="30dp"
+                            android:src="@drawable/plus" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginBottom="@dimen/base_margin_vertical"
+                        android:layout_marginTop="@dimen/base_margin_vertical_half"
+                        android:background="@color/line_light_grey"/>
 
                     <!-- Add to cart button with progress bar-->
                     <RelativeLayout
