@@ -67,7 +67,7 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:textSize="14sp"
-                    tools:text="15 pcs"/>
+                    tools:text="15 uni"/>
             </RelativeLayout>
         </LinearLayout>
 

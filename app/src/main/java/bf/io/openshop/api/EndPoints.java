@@ -30,6 +30,7 @@ public class EndPoints {
     public static final String CART_ADD_ITEM            = API_URL2.concat("/AddToCart?userId=%d&product_variant_id=%d&quantity=%d");
     public static final String CART_INFO                = API_URL2.concat("/CartInfo?userId=%d");
     public static final String CART_ITEM                = API_URL2.concat("/Cart/%d");
+    public static final String CART_ITEM_UPDATE         = API_URL2.concat("/UpdateToCart?userId=%d&productCartItemId=%d&newQuantity=%d&newProductVariantId=%d");
     public static final String CART_ITEM_DELETE         = API_URL2.concat("/DeleteToCart?userId=%d&id=%d");
     public static final String CART_DELIVERY_INFO       = API_URL2.concat("/Cart/delivery-info");
     public static final String CART_DISCOUNTS           = API_URL2.concat("/Cart/discounts");

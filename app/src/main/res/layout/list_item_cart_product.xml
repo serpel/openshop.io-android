@@ -69,7 +69,7 @@
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:textSize="14sp"
-                tools:text="15 pcs"/>
+                tools:text="15 uni"/>
 
             <TextView
                 android:id="@+id/cart_product_details"

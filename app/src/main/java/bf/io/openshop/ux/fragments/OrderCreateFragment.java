@@ -168,7 +168,7 @@ public class OrderCreateFragment extends Fragment {
      * @param view fragment base view.
      */
     private void prepareFields(View view) {
-        nameInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_name_wrapper);
+        /*nameInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_name_wrapper);
         streetInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_street_wrapper);
         houseNumberInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_houseNumber_wrapper);
         cityInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_city_wrapper);
@@ -189,7 +189,7 @@ public class OrderCreateFragment extends Fragment {
         } else {
             LoginExpiredDialogFragment loginExpiredDialogFragment = new LoginExpiredDialogFragment();
             loginExpiredDialogFragment.show(getFragmentManager(), MSG_LOGIN_EXPIRED_DIALOG_FRAGMENT);
-        }
+        }*/
     }
 
     /**
@@ -228,6 +228,10 @@ public class OrderCreateFragment extends Fragment {
         }
     }
 
+    private void prepareExtraLayout(View view){
+
+    }
+
 
     private void prepareDeliveryLayout(View view) {
         deliveryProgressBar = (ProgressBar) view.findViewById(R.id.delivery_progress);
@@ -236,14 +240,14 @@ public class OrderCreateFragment extends Fragment {
 //        final View deliveryPaymentBtn = view.findViewById(R.id.order_create_delivery_payment_button);
 
         this.deliveryShippingLayout = view.findViewById(R.id.order_create_delivery_shipping_layout);
-        this.deliveryPaymentLayout = view.findViewById(R.id.order_create_delivery_payment_layout);
+        //this.deliveryPaymentLayout = view.findViewById(R.id.order_create_delivery_payment_layout);
 
         selectedShippingNameTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_name);
         selectedShippingPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_price);
-        selectedPaymentNameTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_name);
-        selectedPaymentPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_price);
+        //selectedPaymentNameTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_name);
+        //selectedPaymentPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_price);
 
-        deliveryShippingLayout.setOnClickListener(new View.OnClickListener() {
+       /* deliveryShippingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShippingDialogFragment shippingDialogFragment = ShippingDialogFragment.newInstance(delivery, selectedShipping, new ShippingDialogInterface() {
@@ -264,9 +268,9 @@ public class OrderCreateFragment extends Fragment {
                 });
                 shippingDialogFragment.show(getFragmentManager(), ShippingDialogFragment.class.getSimpleName());
             }
-        });
+        });*/
 
-        deliveryPaymentLayout.setOnClickListener(new View.OnClickListener() {
+        /*deliveryPaymentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PaymentDialogFragment paymentDialogFragment = PaymentDialogFragment.newInstance(selectedShipping, selectedPayment, new PaymentDialogInterface() {
@@ -278,7 +282,7 @@ public class OrderCreateFragment extends Fragment {
                 });
                 paymentDialogFragment.show(getFragmentManager(), "PaymentDialog");
             }
-        });
+        });*/
     }
 
     /**

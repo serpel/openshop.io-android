@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:textSize="14sp"
-                    tools:text="3 pcs total"/>
+                    tools:text="3 uni total"/>
             </LinearLayout>
 
             <View

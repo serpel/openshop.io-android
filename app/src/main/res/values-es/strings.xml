@@ -106,7 +106,7 @@
     <string name="Shopping_cart">Carrito de compras</string>
     <string name="Your_cart_is_empty">Tu carrito esta vacio</string>
     <string name="START_SHOPPING">INICIAR COMPRA</string>
-    <string name="SHIPPING_AND_PAYMENT">PAGO</string>
+    <string name="SHIPPING_AND_PAYMENT">Crear Orden</string>
     <string name="Please_select_a_size">Por favor selecciona talla</string>
     <string name="added_to_cart">Agregado al carrito</string>
     <string name="Go_to_cart">Ir al carrito</string>
@@ -118,6 +118,7 @@
     <string name="Do_you_have_a_discount_code">Tienes codigo de descuento?</string>
     <string name="Enter_the_discount_code">Digita codigo de descuento</string>
     <string name="Internal_error_reload_cart_please">Error internto, por favor recarga carrito</string>
+    <string name="Customer">Cliente</string>
 
     <!-- Order related strings-->
     <string name="Order">Orden</string>
@@ -174,7 +175,7 @@
     <string name="format_space_prefix"> %1$s</string>
     <string name="format_comma_prefix">, %1$s</string>
     <string name="format_string_division">%1$s / %2$s</string>
-    <string name="format_quantity">%1$d ks</string>
+    <string name="format_quantity">%1$d u</string>
     <string name="format_string_quantity">%1$s %2$dx</string>
     <string name="format_plus">+ %1$s</string>
     <string name="format_number">%1$d</string>
@@ -197,4 +198,6 @@
     <string name="IsCommitted">Reservado</string>
     <string name="Stock">Cantidad</string>
     <string name="Price">Precio</string>
+    <string name="Seller">Vendedor</string>
+    <string name="Choose_seller">Escoger Vendedor</string>
 </resources>

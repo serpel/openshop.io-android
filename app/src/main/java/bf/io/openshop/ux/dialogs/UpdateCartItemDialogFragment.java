@@ -159,8 +159,9 @@ public class UpdateCartItemDialogFragment extends DialogFragment {
     }
 
     private void getProductDetail(CartProductItem cartProductItem) {
-        String url = String.format(EndPoints.PRODUCTS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), cartProductItem.getVariant().getProductId());
+        //String url = String.format(EndPoints.PRODUCTS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), cartProductItem.getVariant().getProductId());
 
+        String url = String.format(EndPoints.PRODUCTS_SINGLE, cartProductItem.getVariant().getProductId());
         setProgressActive(true);
 
         GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
@@ -282,7 +283,7 @@ public class UpdateCartItemDialogFragment extends DialogFragment {
     private void updateProductInCart(long productCartId, long newVariantId, int newQuantity) {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
-            JSONObject jo = new JSONObject();
+            /*JSONObject jo = new JSONObject();
             try {
                 jo.put(JsonUtils.TAG_QUANTITY, newQuantity);
                 jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, newVariantId);
@@ -291,12 +292,13 @@ public class UpdateCartItemDialogFragment extends DialogFragment {
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
                 return;
             }
-            Timber.d("update product: %s", jo.toString());
+            Timber.d("update product: %s", jo.toString());*/
 
-            String url = String.format(EndPoints.CART_ITEM, SettingsMy.getActualNonNullShop(getActivity()).getId(), productCartId);
+            //String url = String.format(EndPoints.CART_ITEM, SettingsMy.getActualNonNullShop(getActivity()).getId(), productCartId);
+            String url = String.format(EndPoints.CART_ITEM_UPDATE, user.getId(), productCartId, newQuantity, newVariantId);
 
             setProgressActive(true);
-            JsonRequest req = new JsonRequest(Request.Method.PUT, url, jo, new Response.Listener<JSONObject>() {
+            JsonRequest req = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Timber.d("Update item in cart: %s", response.toString());
