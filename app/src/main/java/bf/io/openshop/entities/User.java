@@ -24,6 +24,8 @@ public class User {
     private String gender;
     private String country;
 
+    @SerializedName("sales_person_id")
+    private int SalesPersonId;
 
     public User() {
     }
@@ -46,6 +48,14 @@ public class User {
 
     public String getAccessToken() {
         return accessToken;
+    }
+
+    public int getSalesPersonId() {
+        return SalesPersonId;
+    }
+
+    public void setSalesPersonId(int salesPersonId) {
+        SalesPersonId = salesPersonId;
     }
 
     public void setAccessToken(String accessToken) {

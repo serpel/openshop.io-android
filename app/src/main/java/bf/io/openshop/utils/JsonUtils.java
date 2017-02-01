@@ -43,6 +43,9 @@ public class JsonUtils {
     public static final String TAG_TOTAL_FORMATTED = "total_formatted";
     public static final String TAG_SHIPPING_PRICE_FORMATTED = "shipping_price_formatted";
     public static final String TAG_NOTE = "note";
+    public static final String TAG_CARD_CODE = "card_code";
+    public static final String TAG_SALES_PERSON_CODE = "sales_person_code";
+    public static final String TAG_SERIES = "series";
 
     private JsonUtils() {}
 
@@ -55,27 +58,15 @@ public class JsonUtils {
     public static JSONObject createOrderJson(Order order) throws JSONException {
         JSONObject jo = new JSONObject();
 
-        jo.put(TAG_SHIPPING_TYPE, order.getShippingType());
-        if (order.getPaymentType() == -1) {
-            jo.put(TAG_PAYMENT_TYPE, null);
-        } else {
-            jo.put(TAG_PAYMENT_TYPE, order.getPaymentType());
+        jo.put(TAG_SALES_PERSON_CODE, order.getSalesPersonCode());
+        jo.put(TAG_SERIES, order.getSeries());
+
+        if(order.getCardCode() != null){
+            jo.put(TAG_CARD_CODE, order.getCardCode());
         }
 
-        jo.put(TAG_NAME, order.getName());
-        jo.put(TAG_STREET, order.getStreet());
-        jo.put(TAG_HOUSE_NUMBER, order.getHouseNumber());
-        jo.put(TAG_CITY, order.getCity());
-        jo.put(TAG_ZIP, order.getZip());
-        jo.put(TAG_EMAIL, order.getEmail());
-        jo.put(TAG_PHONE, order.getPhone());
-
-        if (order.getNote() != null) {
-            jo.put(TAG_NOTE, order.getNote());
-        }
-
-        if (order.getRegion() != null) {
-            jo.put(TAG_REGION, order.getRegion().getId());
+        if (order.getComment() != null) {
+            jo.put(TAG_NOTE, order.getComment());
         }
 
         Timber.d("JSONParser postOrder: %s", jo.toString());

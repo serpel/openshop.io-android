@@ -89,7 +89,7 @@ public class CartFragment extends Fragment {
         cartFooter = view.findViewById(R.id.cart_footer);
         cartItemCountTv = (TextView) view.findViewById(R.id.cart_footer_quantity);
         cartTotalPriceTv = (TextView) view.findViewById(R.id.cart_footer_price);
-        view.findViewById(R.id.cart_footer_action).setOnClickListener(new OnSingleClickListener() {
+        /*view.findViewById(R.id.cart_footer_action).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 DiscountDialogFragment discountDialog = DiscountDialogFragment.newInstance(new RequestListener() {
@@ -108,7 +108,7 @@ public class CartFragment extends Fragment {
                     discountDialog.show(getFragmentManager(), DiscountDialogFragment.class.getSimpleName());
                 }
             }
-        });
+        });*/
 
         Button order = (Button) view.findViewById(R.id.cart_order);
         order.setOnClickListener(new OnSingleClickListener() {

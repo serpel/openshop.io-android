@@ -127,23 +127,18 @@ public class OrderCreateFragment extends Fragment {
         finishOrder.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if (isRequiredFieldsOk()) {
+
+                Order order = new Order();
+                v.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                postOrder(order);
+
+               /*if (isRequiredFieldsOk()) {
                     // Prepare data
                     Order order = new Order();
-                    order.setName(Utils.getTextFromInputLayout(nameInputWrapper));
-                    order.setCity(Utils.getTextFromInputLayout(cityInputWrapper));
-                    order.setStreet(Utils.getTextFromInputLayout(streetInputWrapper));
-                    order.setHouseNumber(Utils.getTextFromInputLayout(houseNumberInputWrapper));
-                    order.setZip(Utils.getTextFromInputLayout(zipInputWrapper));
-                    order.setEmail(Utils.getTextFromInputLayout(emailInputWrapper));
-                    order.setShippingType(selectedShipping.getId());
-                    if (selectedPayment != null) {
-                        order.setPaymentType(selectedPayment.getId());
-                    } else {
-                        order.setPaymentType(-1);
-                    }
-                    order.setPhone(Utils.getTextFromInputLayout(phoneInputWrapper));
-                    order.setNote(Utils.getTextFromInputLayout(noteInputWrapper));
+                    //order.setPhone(Utils.getTextFromInputLayout(phoneInputWrapper));
+                    //order.setNote(Utils.getTextFromInputLayout(noteInputWrapper));
 
                     // Hide keyboard
                     v.clearFocus();
@@ -151,13 +146,12 @@ public class OrderCreateFragment extends Fragment {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                     postOrder(order);
-                }
+                }*/
             }
         });
 
-        showSelectedShipping(selectedShipping);
-        showSelectedPayment(selectedPayment);
-
+        //showSelectedShipping(selectedShipping);
+        //showSelectedPayment(selectedPayment);
         getUserCart();
         return view;
     }
@@ -228,10 +222,6 @@ public class OrderCreateFragment extends Fragment {
         }
     }
 
-    private void prepareExtraLayout(View view){
-
-    }
-
 
     private void prepareDeliveryLayout(View view) {
         deliveryProgressBar = (ProgressBar) view.findViewById(R.id.delivery_progress);
@@ -243,11 +233,11 @@ public class OrderCreateFragment extends Fragment {
         //this.deliveryPaymentLayout = view.findViewById(R.id.order_create_delivery_payment_layout);
 
         selectedShippingNameTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_name);
-        selectedShippingPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_price);
+        //selectedShippingPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_price);
         //selectedPaymentNameTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_name);
         //selectedPaymentPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_price);
 
-       /* deliveryShippingLayout.setOnClickListener(new View.OnClickListener() {
+        /*deliveryShippingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShippingDialogFragment shippingDialogFragment = ShippingDialogFragment.newInstance(delivery, selectedShipping, new ShippingDialogInterface() {
@@ -334,7 +324,8 @@ public class OrderCreateFragment extends Fragment {
     private void getUserCart() {
         final User user = SettingsMy.getActiveUser();
         if (user != null) {
-            String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            String url = String.format(EndPoints.CART, user.getId());
 
             progressDialog.show();
             GsonRequest<Cart> getCart = new GsonRequest<>(Request.Method.GET, url, null, Cart.class,
@@ -431,6 +422,11 @@ public class OrderCreateFragment extends Fragment {
     private void postOrder(final Order order) {
         final User user = SettingsMy.getActiveUser();
         if (user != null) {
+
+            order.setSalesPersonCode(user.getSalesPersonId());
+            order.setSeries(71);
+            order.setCardCode("C0001");
+
             JSONObject jo;
             try {
                 jo = JsonUtils.createOrderJson(order);
@@ -441,10 +437,11 @@ public class OrderCreateFragment extends Fragment {
             }
 
             Timber.d("Post order jo: %s", jo.toString());
-            String url = String.format(EndPoints.ORDERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            //String url = String.format(EndPoints.ORDERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            String url = String.format(EndPoints.ORDERS_CREATE, user.getId(), cart.getId(), jo.toString());
 
             progressDialog.show();
-            postOrderRequest = new GsonRequest<>(Request.Method.POST, url, jo.toString(), Order.class, new Response.Listener<Order>() {
+            postOrderRequest = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {
                 @Override
                 public void onResponse(Order order) {
                     Timber.d("response: %s", order.toString());
@@ -452,7 +449,7 @@ public class OrderCreateFragment extends Fragment {
 
                     Analytics.logOrderCreatedEvent(cart, order.getRemoteId(), orderTotalPrice, selectedShipping);
 
-                    updateUserData(user, order);
+                    //updateUserData(user, order);
                     MainActivity.updateCartCountNotification();
 
                     DialogFragment thankYouDF = OrderCreateSuccessDialogFragment.newInstance(false);
@@ -488,15 +485,8 @@ public class OrderCreateFragment extends Fragment {
      */
     private void updateUserData(User user, Order order) {
         if (user != null) {
-            if (order.getName() != null && !order.getName().isEmpty()) {
-                user.setName(order.getName());
-            }
             user.setEmail(order.getEmail());
             user.setPhone(order.getPhone());
-            user.setCity(order.getCity());
-            user.setStreet(order.getStreet());
-            user.setZip(order.getZip());
-            user.setHouseNumber(order.getHouseNumber());
             SettingsMy.setActiveUser(user);
         } else {
             Timber.e(new NullPointerException(), "Null user after successful order.");

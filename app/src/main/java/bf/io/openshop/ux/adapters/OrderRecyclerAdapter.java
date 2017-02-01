@@ -64,11 +64,8 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             ViewHolderHeader viewHolderHeader = (ViewHolderHeader) holder;
 
             viewHolderHeader.orderId.setText(order.getRemoteId());
-            viewHolderHeader.orderName.setText(order.getName());
             viewHolderHeader.orderDateCreated.setText(Utils.parseDate(order.getDateCreated()));
             viewHolderHeader.orderTotal.setText(order.getTotalFormatted());
-            viewHolderHeader.orderShippingMethod.setText(order.getShippingName());
-            viewHolderHeader.orderShippingPrice.setText(order.getShippingPriceFormatted());
         } else {
             Timber.e(new RuntimeException(), "Unknown holder type.");
         }
