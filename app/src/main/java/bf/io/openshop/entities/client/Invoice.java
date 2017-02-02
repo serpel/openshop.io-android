@@ -1,14 +1,21 @@
 package bf.io.openshop.entities.client;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by alienware on 2/1/2017.
  */
 
 public class Invoice {
+    @SerializedName("invoice_code")
     private String invoiceCode;
+    @SerializedName("created_date")
     private String createdDate;
+    @SerializedName("due_date")
     private String dueDate;
+    @SerializedName("total_amount")
     private Double totalAmount;
+    @SerializedName("payed_amount")
     private Double payedAmount;
 
     public Invoice(){}

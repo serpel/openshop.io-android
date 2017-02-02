@@ -1,5 +1,7 @@
 package bf.io.openshop.entities.client;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,9 +10,11 @@ import java.util.List;
 
 public class Client {
     private String name;
+    @SerializedName("card_code")
     private String cardCode;
     private String phone;
     private String email;
+    @SerializedName("invoices")
     private List<Invoice> invoiceList;
 
     public Client(){}
