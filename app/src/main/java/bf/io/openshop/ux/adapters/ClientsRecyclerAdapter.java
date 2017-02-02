@@ -64,25 +64,14 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Product product = getItem(position);
-        holder.bindContent(product);
+        Client client = getItem(position);
+        holder.bindContent(client);
         // - replace the contents of the view with that element
-        holder.productNameTV.setText(holder.product.getName());
-        holder.productSKU.setText(holder.product.getCode());
-
-        if (loadHighRes && product.getMainImageHighRes() != null) {
-            Picasso.with(context).load(product.getMainImageHighRes())
-                    .fit().centerInside()
-                    .placeholder(R.drawable.placeholder_loading)
-                    .error(R.drawable.placeholder_error)
-                    .into(holder.productImage);
-        } else {
-            Picasso.with(context).load(holder.product.getMainImage())
-                    .fit().centerInside()
-                    .placeholder(R.drawable.placeholder_loading)
-                    .error(R.drawable.placeholder_error)
-                    .into(holder.productImage);
-        }
+        holder.clientName.setText(holder.client.getName());
+        holder.clientPhone.setText(holder.client.getPhone());
+        holder.clientCardCode.setText(holder.client.getCardCode());
+        //holder.clientPhone.setText(holder.client.getPhone());
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView clientCardCode;

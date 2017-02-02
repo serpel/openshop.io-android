@@ -642,6 +642,16 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, ProductFragment.class.getSimpleName());
     }
 
+    public void onClientSelected(String card_code) {
+
+        Timber.d("Entro aqui");
+       /* Fragment fragment = ClientsFragment.newInstance(productId);
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }s
+        replaceFragment(fragment, ProductFragment.class.getSimpleName());*/
+    }
+
     /**
      * Launch {@link SettingsFragment}.
      */
