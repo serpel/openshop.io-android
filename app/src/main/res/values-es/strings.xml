@@ -200,4 +200,9 @@
     <string name="Price">Precio</string>
     <string name="Seller">Vendedor</string>
     <string name="Choose_seller">Escoger Vendedor</string>
+
+    <string name="created_date">Fecha</string>
+    <string name="due_date">Fecha Expiracion</string>
+    <string name="total_amount">Total</string>
+    <string name="payed_amount">Total pagado</string>
 </resources>

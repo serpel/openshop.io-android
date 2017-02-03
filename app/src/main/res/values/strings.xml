@@ -207,4 +207,10 @@
     <string name="Price">Price</string>
     <string name="Seller">Seller</string>
     <string name="Choose_seller">Choose Seller</string>
+
+
+    <string name="created_date">Created Date</string>
+    <string name="due_date">Due Date</string>
+    <string name="total_amount">Total amount</string>
+    <string name="payed_amount">Paid amount</string>
 </resources>

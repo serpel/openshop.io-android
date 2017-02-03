@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/client_item_linear_layout"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
@@ -58,14 +64,16 @@
             android:textSize="14sp"
             tools:text="2665-3862"/>
     </RelativeLayout>
+</LinearLayout>
 
     <View
-        android:id="@+id/drawer_list_item_divider"
+        android:id="@+id/client_drawer_list_item_divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@+id/client_item_relative_layout"
+        android:layout_below="@+id/client_item_linear_layout"
         android:background="@color/line_lighter_grey"
         android:visibility="gone"
         tools:visibility="visible"/>
 
-</LinearLayout>
+</RelativeLayout>
+

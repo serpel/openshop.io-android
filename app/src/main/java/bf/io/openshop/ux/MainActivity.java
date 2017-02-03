@@ -51,6 +51,7 @@ import com.android.volley.VolleyError;
 import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONObject;
+import org.w3c.dom.DocumentFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,7 @@ import bf.io.openshop.ux.fragments.BannersFragment;
 import bf.io.openshop.ux.fragments.CartFragment;
 import bf.io.openshop.ux.fragments.CategoryFragment;
 import bf.io.openshop.ux.fragments.ClientsFragment;
+import bf.io.openshop.ux.fragments.DocumentsFragment;
 import bf.io.openshop.ux.fragments.DrawerFragment;
 import bf.io.openshop.ux.fragments.OrderCreateFragment;
 import bf.io.openshop.ux.fragments.OrderFragment;
@@ -643,15 +645,37 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, ProductFragment.class.getSimpleName());
     }
 
-    public void onClientSelected(String card_code) {
+    public void onOpenClientFragment() {
 
-        Timber.d("OnClientOptionSelected");
+        Timber.d("onOpenClientFragment");
 
         Fragment fragment = ClientsFragment.newInstance();
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
         }
         replaceFragment(fragment, ClientsFragment.class.getSimpleName());
+    }
+
+    public void onClientSelected(String card_code) {
+
+        Timber.d("OnClientOptionSelected card_code: %s", card_code);
+
+        Fragment fragment = DocumentsFragment.newInstance(card_code);
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+        replaceFragment(fragment, DocumentsFragment.class.getSimpleName());
+    }
+
+    public void onDocumentSelected(String card_code) {
+
+        Timber.d("OnClientOptionSelected card_code: %s", card_code);
+
+        Fragment fragment = DocumentsFragment.newInstance(card_code);
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+        replaceFragment(fragment, DocumentsFragment.class.getSimpleName());
     }
 
     /**

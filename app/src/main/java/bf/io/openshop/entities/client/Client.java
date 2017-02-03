@@ -14,8 +14,8 @@ public class Client {
     private String cardCode;
     private String phone;
     private String email;
-    @SerializedName("invoices")
-    private List<Invoice> invoiceList;
+    @SerializedName("documents")
+    private List<Document> invoiceList;
 
     public Client(){}
 
@@ -51,11 +51,11 @@ public class Client {
         this.email = email;
     }
 
-    public List<Invoice> getInvoiceList() {
+    public List<Document> getInvoiceList() {
         return invoiceList;
     }
 
-    public void setInvoiceList(List<Invoice> invoiceList) {
+    public void setInvoiceList(List<Document> invoiceList) {
         this.invoiceList = invoiceList;
     }
 }

@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
  * Created by alienware on 2/1/2017.
  */
 
-public class Invoice {
-    @SerializedName("invoice_code")
-    private String invoiceCode;
+public class Document {
+    @SerializedName("document_code")
+    private String documentCode;
     @SerializedName("created_date")
     private String createdDate;
     @SerializedName("due_date")
@@ -18,14 +18,14 @@ public class Invoice {
     @SerializedName("payed_amount")
     private Double payedAmount;
 
-    public Invoice(){}
+    public Document(){}
 
-    public String getInvoiceCode() {
-        return invoiceCode;
+    public String getDocumentCode() {
+        return documentCode;
     }
 
-    public void setInvoiceCode(String invoiceCode) {
-        this.invoiceCode = invoiceCode;
+    public void setDocumentCode(String documentCode) {
+        this.documentCode = documentCode;
     }
 
     public String getDueDate() {

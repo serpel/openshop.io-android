@@ -136,7 +136,7 @@ public class DrawerFragment extends Fragment {
                 if(drawerItemCategory.getOriginalId() == CLIENT_ID ){
                     //Aqui hacer el fragment replacement
                     if (getActivity() instanceof MainActivity)
-                        ((MainActivity) getActivity()).onClientSelected("");
+                        ((MainActivity) getActivity()).onOpenClientFragment();
                     closeDrawerMenu();
                 }else {
                     if (drawerItemCategory.getChildren() == null || drawerItemCategory.getChildren().isEmpty()) {
