@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -71,6 +74,8 @@ public class OrderCreateFragment extends Fragment {
     private double orderTotalPrice;
     private TextView cartItemsTotalPrice;
     private TextView orderTotalPriceTv;
+    private EditText commentEditText;
+
 
     // View with user information used to create order
     private TextInputLayout nameInputWrapper;
@@ -95,6 +100,8 @@ public class OrderCreateFragment extends Fragment {
     private TextView selectedPaymentPriceTv;
     private GsonRequest<Order> postOrderRequest;
 
+    private Spinner sellerSpinner;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,6 +115,7 @@ public class OrderCreateFragment extends Fragment {
         scrollLayout = (ScrollView) view.findViewById(R.id.order_create_scroll_layout);
         cartItemsLayout = (LinearLayout) view.findViewById(R.id.order_create_cart_items_layout);
         cartItemsTotalPrice = (TextView) view.findViewById(R.id.order_create_total_price);
+        commentEditText = (EditText) view.findViewById(R.id.order_comment);
 
         orderTotalPriceTv = (TextView) view.findViewById(R.id.order_create_summary_total_price);
         TextView termsAndConditionsTv = (TextView) view.findViewById(R.id.order_create_summary_terms_and_condition);
@@ -120,6 +128,9 @@ public class OrderCreateFragment extends Fragment {
             }
         });
 
+        sellerSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
+        prepareSellerSpinner(view);
+
         prepareFields(view);
         prepareDeliveryLayout(view);
 
@@ -128,7 +139,9 @@ public class OrderCreateFragment extends Fragment {
             @Override
             public void onSingleClick(View v) {
 
+                //TODO: Fix Seller Selection
                 Order order = new Order();
+                order.setComment(commentEditText.getText().toString());
                 v.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -155,6 +168,16 @@ public class OrderCreateFragment extends Fragment {
         getUserCart();
         return view;
     }
+
+    //TODO: ARREGLAR CHANCHADA
+    private void prepareSellerSpinner(View view){
+        Spinner sellerSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
+        String sellers[] = {"Sergio Peralta", "Vendedor Institucional"};
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, sellers);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sellerSpinner.setAdapter(spinnerArrayAdapter);
+    }
+
 
     /**
      * Prepare content views, adapters and listeners.
@@ -232,7 +255,7 @@ public class OrderCreateFragment extends Fragment {
         this.deliveryShippingLayout = view.findViewById(R.id.order_create_delivery_shipping_layout);
         //this.deliveryPaymentLayout = view.findViewById(R.id.order_create_delivery_payment_layout);
 
-        selectedShippingNameTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_name);
+        //selectedShippingNameTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_name);
         //selectedShippingPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_price);
         //selectedPaymentNameTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_name);
         //selectedPaymentPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_price);
@@ -423,7 +446,8 @@ public class OrderCreateFragment extends Fragment {
         final User user = SettingsMy.getActiveUser();
         if (user != null) {
 
-            order.setSalesPersonCode(user.getSalesPersonId());
+            //order.setSalesPersonCode(user.getSalesPersonId());
+            order.setSalesPersonCode(1);
             order.setSeries(71);
             order.setCardCode("C0001");
 
@@ -447,7 +471,7 @@ public class OrderCreateFragment extends Fragment {
                     Timber.d("response: %s", order.toString());
                     progressDialog.cancel();
 
-                    Analytics.logOrderCreatedEvent(cart, order.getRemoteId(), orderTotalPrice, selectedShipping);
+                    //Analytics.logOrderCreatedEvent(cart, order.getRemoteId(), orderTotalPrice, selectedShipping);
 
                     //updateUserData(user, order);
                     MainActivity.updateCartCountNotification();
@@ -460,12 +484,7 @@ public class OrderCreateFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     progressDialog.cancel();
                     // Return 501 for sample application.
-                    if (postOrderRequest != null && postOrderRequest.getStatusCode() == 501) {
-                        DialogFragment thankYouDF = OrderCreateSuccessDialogFragment.newInstance(true);
-                        thankYouDF.show(getFragmentManager(), OrderCreateSuccessDialogFragment.class.getSimpleName());
-                    } else {
-                        MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                    }
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), user.getAccessToken());
             postOrderRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());

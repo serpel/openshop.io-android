@@ -40,6 +40,7 @@ import bf.io.openshop.entities.drawerMenu.DrawerResponse;
 import bf.io.openshop.interfaces.DrawerRecyclerInterface;
 import bf.io.openshop.interfaces.DrawerSubmenuRecyclerInterface;
 import bf.io.openshop.utils.MsgUtils;
+import bf.io.openshop.ux.MainActivity;
 import bf.io.openshop.ux.adapters.DrawerRecyclerAdapter;
 import bf.io.openshop.ux.adapters.DrawerSubmenuRecyclerAdapter;
 import timber.log.Timber;
@@ -49,6 +50,7 @@ import timber.log.Timber;
  */
 public class DrawerFragment extends Fragment {
 
+    private static final int CLIENT_ID = -100;
     private static final int BANNERS_ID = -123;
     public static final String NULL_DRAWER_LISTENER_WTF = "Null drawer listener. WTF.";
 
@@ -130,18 +132,26 @@ public class DrawerFragment extends Fragment {
         drawerRecyclerAdapter = new DrawerRecyclerAdapter(getContext(), new DrawerRecyclerInterface() {
             @Override
             public void onCategorySelected(View v, DrawerItemCategory drawerItemCategory) {
-                if (drawerItemCategory.getChildren() == null || drawerItemCategory.getChildren().isEmpty()) {
-                    if (drawerListener != null) {
-                        if (drawerItemCategory.getId() == BANNERS_ID)
-                            drawerListener.onDrawerBannersSelected();
-                        else
-                            drawerListener.onDrawerItemCategorySelected(drawerItemCategory);
-                        closeDrawerMenu();
-                    } else {
-                        Timber.e(new RuntimeException(), NULL_DRAWER_LISTENER_WTF);
-                    }
-                } else
-                    animateSubListShow(drawerItemCategory);
+
+                if(drawerItemCategory.getOriginalId() == CLIENT_ID ){
+                    //Aqui hacer el fragment replacement
+                    if (getActivity() instanceof MainActivity)
+                        ((MainActivity) getActivity()).onClientSelected("");
+                    closeDrawerMenu();
+                }else {
+                    if (drawerItemCategory.getChildren() == null || drawerItemCategory.getChildren().isEmpty()) {
+                        if (drawerListener != null) {
+                            if (drawerItemCategory.getId() == BANNERS_ID)
+                                drawerListener.onDrawerBannersSelected();
+                            else
+                                drawerListener.onDrawerItemCategorySelected(drawerItemCategory);
+                            closeDrawerMenu();
+                        } else {
+                            Timber.e(new RuntimeException(), NULL_DRAWER_LISTENER_WTF);
+                        }
+                    } else
+                        animateSubListShow(drawerItemCategory);
+                }
             }
 
             @Override

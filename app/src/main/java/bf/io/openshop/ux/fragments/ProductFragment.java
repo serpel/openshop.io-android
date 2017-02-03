@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -119,7 +121,7 @@ public class ProductFragment extends Fragment {
     /**
      * Spinner offering all available product colors.
      */
-    private Spinner colorSpinner;
+    private Spinner colorSpinner, warerhouseSpinner;
 
     private SizeVariantSpinnerAdapter sizeVariantSpinnerAdapter;
     private ArrayList<String> productImagesUrls;
@@ -194,6 +196,9 @@ public class ProductFragment extends Fragment {
         colorSpinner = (Spinner) view.findViewById(R.id.product_color_spinner);
         prepareSizeSpinner(view);
 
+        warerhouseSpinner = (Spinner) view.findViewById(R.id.product_warehouse_spinner);
+        prepareWareHouseSpinner(view);
+
         prepareButtons(view);
         prepareProductImagesLayout(view);
         prepareScrollViewAndWishlist(view);
@@ -225,6 +230,15 @@ public class ProductFragment extends Fragment {
                 }
             }
         });
+    }
+
+
+    private void prepareWareHouseSpinner(View view){
+        Spinner warehouseSpinner = (Spinner) view.findViewById(R.id.product_warehouse_spinner);
+        String warehouse[] = {"01"};
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, warehouse);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        warehouseSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     /**

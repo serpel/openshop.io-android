@@ -81,6 +81,7 @@ import bf.io.openshop.ux.fragments.AccountFragment;
 import bf.io.openshop.ux.fragments.BannersFragment;
 import bf.io.openshop.ux.fragments.CartFragment;
 import bf.io.openshop.ux.fragments.CategoryFragment;
+import bf.io.openshop.ux.fragments.ClientsFragment;
 import bf.io.openshop.ux.fragments.DrawerFragment;
 import bf.io.openshop.ux.fragments.OrderCreateFragment;
 import bf.io.openshop.ux.fragments.OrderFragment;
@@ -644,12 +645,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
     public void onClientSelected(String card_code) {
 
-        Timber.d("Entro aqui");
-       /* Fragment fragment = ClientsFragment.newInstance(productId);
+        Timber.d("OnClientOptionSelected");
+
+        Fragment fragment = ClientsFragment.newInstance();
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
-        }s
-        replaceFragment(fragment, ProductFragment.class.getSimpleName());*/
+        }
+        replaceFragment(fragment, ClientsFragment.class.getSimpleName());
     }
 
     /**

@@ -43,6 +43,7 @@ public class JsonUtils {
     public static final String TAG_TOTAL_FORMATTED = "total_formatted";
     public static final String TAG_SHIPPING_PRICE_FORMATTED = "shipping_price_formatted";
     public static final String TAG_NOTE = "note";
+    public static final String TAG_COMMENT = "comment";
     public static final String TAG_CARD_CODE = "card_code";
     public static final String TAG_SALES_PERSON_CODE = "sales_person_code";
     public static final String TAG_SERIES = "series";
@@ -66,7 +67,7 @@ public class JsonUtils {
         }
 
         if (order.getComment() != null) {
-            jo.put(TAG_NOTE, order.getComment());
+            jo.put(TAG_COMMENT, order.getComment());
         }
 
         Timber.d("JSONParser postOrder: %s", jo.toString());

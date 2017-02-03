@@ -65,7 +65,6 @@ public class ClientsFragment extends Fragment {
     private static final String SEARCH_QUERY = "search_query";
     private String searchQuery = null;
 
-    private TextView emptyContentView;
     private RecyclerView clientsRecycler;
     private GridLayoutManager clientsRecyclerLayoutManager;
     private ClientsRecyclerAdapter clientsRecyclerAdapter;
@@ -95,7 +94,6 @@ public class ClientsFragment extends Fragment {
         Timber.d("%s - onCreateView", this.getClass().getSimpleName());
         View view = inflater.inflate(R.layout.fragment_clients, container, false);
 
-        this.emptyContentView = (TextView) view.findViewById(R.id.category_products_empty);
         this.loadMoreProgress = view.findViewById(R.id.client_load_more_progress);
 
         Bundle startBundle = getArguments();
@@ -140,6 +138,8 @@ public class ClientsFragment extends Fragment {
                 return new ImageView(getContext());
             }
         });*/
+
+        clientsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         clientsRecycler.setLayoutManager(clientsRecyclerLayoutManager);
         endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(clientsRecyclerLayoutManager) {
@@ -236,10 +236,8 @@ public class ClientsFragment extends Fragment {
 
     private void checkEmptyContent() {
         if (clientsRecyclerAdapter != null && clientsRecyclerAdapter.getItemCount() > 0) {
-            emptyContentView.setVisibility(View.INVISIBLE);
             clientsRecycler.setVisibility(View.VISIBLE);
         } else {
-            emptyContentView.setVisibility(View.VISIBLE);
             clientsRecycler.setVisibility(View.INVISIBLE);
         }
     }
