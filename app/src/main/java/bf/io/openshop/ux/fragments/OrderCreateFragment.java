@@ -2,6 +2,7 @@ package bf.io.openshop.ux.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -59,6 +60,9 @@ import bf.io.openshop.ux.dialogs.PaymentDialogFragment;
 import bf.io.openshop.ux.dialogs.ShippingDialogFragment;
 import timber.log.Timber;
 
+import static bf.io.openshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
+import static bf.io.openshop.SettingsMy.getSettings;
+
 /**
  * Fragment allowing the user to create order.
  */
@@ -100,6 +104,8 @@ public class OrderCreateFragment extends Fragment {
     private TextView selectedPaymentPriceTv;
     private GsonRequest<Order> postOrderRequest;
 
+    private TextView subtotalTextView, totalTextView, discountTextView, isvTexView;
+
     private Spinner sellerSpinner;
 
 
@@ -114,8 +120,11 @@ public class OrderCreateFragment extends Fragment {
 
         scrollLayout = (ScrollView) view.findViewById(R.id.order_create_scroll_layout);
         cartItemsLayout = (LinearLayout) view.findViewById(R.id.order_create_cart_items_layout);
-        cartItemsTotalPrice = (TextView) view.findViewById(R.id.order_create_total_price);
         commentEditText = (EditText) view.findViewById(R.id.order_comment);
+        subtotalTextView = (TextView) view.findViewById(R.id.order_create_subtotal);
+        totalTextView = (TextView) view.findViewById(R.id.order_create_total_price);
+        discountTextView = (TextView) view.findViewById(R.id.order_create_discount);
+        isvTexView = (TextView) view.findViewById(R.id.order_create_isv);
 
         orderTotalPriceTv = (TextView) view.findViewById(R.id.order_create_summary_total_price);
         TextView termsAndConditionsTv = (TextView) view.findViewById(R.id.order_create_summary_terms_and_condition);
@@ -410,8 +419,15 @@ public class OrderCreateFragment extends Fragment {
                 }
             }
 
-            cartItemsTotalPrice.setText(cart.getTotalPriceFormatted());
-            orderTotalPriceTv.setText(cart.getTotalPriceFormatted());
+            //TODO: verify this calculation
+            double subtotal = cart.getTotalPrice();
+            subtotalTextView.setText(String.format("%s %s", getString(R.string.SubTotal), subtotal));
+            double discount = 0;
+            discountTextView.setText(String.format("%s %s", getString(R.string.Discount), String.valueOf(discount)));
+            double isv = (subtotal * 15)/100;
+            isvTexView.setText(String.format("%s %s", getString(R.string.ISV), String.valueOf(isv)));
+            double total = (subtotal + discount) +  isv;
+            totalTextView.setText(String.format("%s %s", getString(R.string.Total_colon), total));
 
             // TODO pull to scroll could be cool here
             String url = String.format(EndPoints.CART_DELIVERY_INFO, SettingsMy.getActualNonNullShop(getActivity()).getId());
@@ -447,9 +463,13 @@ public class OrderCreateFragment extends Fragment {
         if (user != null) {
 
             //order.setSalesPersonCode(user.getSalesPersonId());
+
+            SharedPreferences prefs = getSettings();
+            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "C0001");
+
             order.setSalesPersonCode(1);
             order.setSeries(71);
-            order.setCardCode("C0001");
+            order.setCardCode(card_code);
 
             JSONObject jo;
             try {

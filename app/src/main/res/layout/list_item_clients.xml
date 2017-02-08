@@ -15,7 +15,7 @@
         android:id="@+id/client_item_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp">
+        android:paddingBottom="12dp">
 
         <TextView
             android:id="@+id/client_item_card_code"
@@ -72,7 +72,7 @@
         android:layout_height="2dp"
         android:layout_below="@+id/client_item_linear_layout"
         android:background="@color/line_lighter_grey"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility="visible"/>
 
 </RelativeLayout>

@@ -81,10 +81,12 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
         public TextView totalAmount;
         public TextView payedAmount;
         public TextView createdDateText, dueDateText, totalText, payedText;
+        //public TextView clientCode;
         private Document document;
 
         public ViewHolder(View v, final DocumentRecyclerInterface documentRecyclerInterface) {
             super(v);
+            //clientCode = (TextView) v.findViewById(R.id.document_client_code);
             documentCode = (TextView) v.findViewById(R.id.document_code);
             createdDate = (TextView) v.findViewById(R.id.document_created_date);
             dueDate = (TextView) v.findViewById(R.id.document_due_date);

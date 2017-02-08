@@ -205,4 +205,12 @@
     <string name="due_date">Fecha Expiracion</string>
     <string name="total_amount">Total</string>
     <string name="payed_amount">Total pagado</string>
+    <string name="Balance">Balance</string>
+    <string name="InOrder">En Pedidos</string>
+    <string name="CreditLimit">Limite de Credito</string>
+    <string name="PayCondition">Condicion de Pago</string>
+    <string name="BeginOrder">Iniciar Orden</string>
+    <string name="SubTotal">Subtotal:</string>
+    <string name="ISV">ISV:</string>
+    <string name="Discount">Descuento:</string>
 </resources>

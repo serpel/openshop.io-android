@@ -20,6 +20,7 @@ public class SettingsMy {
     public static final String PREF_ACTUAL_SHOP = "pref_actual_shop";
     public static final String PREF_ACTIVE_USER = "pref_active_user";
     public static final String PREF_USER_EMAIL = "pref_user_email";
+    public static final String PREF_CLIENT_CARD_CODE_SELECTED = "pref_client_card_code_selected";
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";

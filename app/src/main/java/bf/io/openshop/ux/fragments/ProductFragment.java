@@ -466,7 +466,7 @@ public class ProductFragment extends Fragment {
                     public void onResponse(@NonNull Product response) {
                         MainActivity.setActionBarTitle(response.getName());
                         if (response.getVariants() != null && response.getVariants().size() > 0) {
-                            getWishListInfo(productId);
+                            //getWishListInfo(productId);
                         }
                         addRecommendedProducts(response.getRelated());
                         refreshScreenData(response);

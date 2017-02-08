@@ -43,6 +43,41 @@
                     android:layout_marginTop="8dp"
                     android:orientation="vertical"/>
 
+                <TextView
+                    android:id="@+id/order_create_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Subtotal: 0.0 USD"/>
+
+                <!-- Total cart price-->
+                <TextView
+                    android:id="@+id/order_create_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Descuento: 0.0 USD"/>
+
+                <!-- Total cart price-->
+                <TextView
+                    android:id="@+id/order_create_isv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Impuesto: 0.0 USD"/>
+
                 <!-- Total cart price-->
                 <TextView
                     android:id="@+id/order_create_total_price"
@@ -53,7 +88,7 @@
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    tools:text="15212 USD"/>
+                    tools:text="Total: 15212 USD"/>
             </LinearLayout>
 
             <!-- Visual screen divider-->

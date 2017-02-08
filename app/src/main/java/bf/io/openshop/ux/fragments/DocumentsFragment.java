@@ -1,5 +1,6 @@
 package bf.io.openshop.ux.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,14 +17,19 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.w3c.dom.Text;
+
 import bf.io.openshop.CONST;
 import bf.io.openshop.MyApplication;
 import bf.io.openshop.R;
+import bf.io.openshop.SettingsMy;
 import bf.io.openshop.api.EndPoints;
 import bf.io.openshop.api.GsonRequest;
 import bf.io.openshop.entities.client.Client;
@@ -40,6 +46,8 @@ import bf.io.openshop.ux.adapters.ClientsRecyclerAdapter;
 import bf.io.openshop.ux.adapters.DocumentsRecyclerAdapter;
 import timber.log.Timber;
 
+import static bf.io.openshop.SettingsMy.getSettings;
+
 /**
  * Created by alienware on 2/2/2017.
  */
@@ -55,6 +63,8 @@ public class DocumentsFragment extends Fragment {
     private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
     private View loadMoreProgress;
 
+    private TextView clientCode, clientName, clientCreditLimit, clientBalance, clientInOrders, clientPayCondition;
+    private Button documentBegin;
     public static DocumentsFragment newInstance() {
         Bundle args = new Bundle();
         args.putString(SEARCH_QUERY, null);
@@ -118,6 +128,30 @@ public class DocumentsFragment extends Fragment {
             MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, getString(R.string.Internal_error), MsgUtils.ToastLength.LONG);
             Timber.e(new RuntimeException(), "Run category fragment without arguments.");
         }
+
+        clientCode = (TextView) view.findViewById(R.id.document_client_code);
+        clientName = (TextView) view.findViewById(R.id.document_client_name);
+        clientCreditLimit =  (TextView) view.findViewById(R.id.document_document_credit_limit);
+        clientBalance = (TextView) view.findViewById(R.id.document_balance);
+        clientInOrders = (TextView) view.findViewById(R.id.document_orders);
+        clientPayCondition = (TextView) view.findViewById(R.id.document_document_pay_condition);
+
+        documentBegin = (Button) view.findViewById(R.id.document_begin);
+        documentBegin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String customer = clientCode.getText().toString();
+
+                SharedPreferences prefs = getSettings();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, customer);
+                editor.commit();
+
+                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Customer) + ": " + customer , MsgUtils.ToastLength.SHORT);
+            }
+        });
+
         return view;
     }
 
@@ -216,7 +250,16 @@ public class DocumentsFragment extends Fragment {
 //                        Timber.d("response:" + response.toString());
                         documentsRecyclerAdapter.addDocuments(response.getDocuments());
                         checkEmptyContent();
+
+                        clientCode.setText(response.getClientCardCode());
+                        clientName.setText(response.getClientName());
+                        clientCreditLimit.setText(String.valueOf(response.getCreaditLimit()));
+                        clientBalance.setText(String.valueOf(response.getBalance()));
+                        clientInOrders.setText(String.valueOf(response.getInOrders()));
+                        clientPayCondition.setText(response.getPayCondition());
+
                         loadMoreProgress.setVisibility(View.GONE);
+
                     }
                 }, new Response.ErrorListener() {
             @Override

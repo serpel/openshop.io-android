@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ import bf.io.openshop.utils.MsgUtils;
 import bf.io.openshop.utils.RecyclerMarginDecorator;
 import bf.io.openshop.ux.MainActivity;
 import bf.io.openshop.ux.adapters.ProductsRecyclerAdapter;
+import bf.io.openshop.ux.adapters.ProductsRowRecyclerAdapter;
 import bf.io.openshop.ux.adapters.SortSpinnerAdapter;
 import bf.io.openshop.ux.dialogs.FilterDialogFragment;
 import timber.log.Timber;
@@ -94,7 +96,8 @@ public class CategoryFragment extends Fragment {
     private TextView emptyContentView;
     private RecyclerView productsRecycler;
     private GridLayoutManager productsRecyclerLayoutManager;
-    private ProductsRecyclerAdapter productsRecyclerAdapter;
+    //private ProductsRecyclerAdapter productsRecyclerAdapter;
+    private ProductsRowRecyclerAdapter productsRecyclerAdapter;
     private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
 
     // Filters parameters
@@ -273,6 +276,7 @@ public class CategoryFragment extends Fragment {
             switchLayoutManager.setImageResource(R.drawable.grid_on);
             // TODO A better solution would be to dynamically determine the number of columns.
             productsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 2);
+            //productsLinearRecyclerLayoutManager = new LinearLayoutManager(getActivity())
         }
         productsRecycler.setLayoutManager(productsRecyclerLayoutManager);
         endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(productsRecyclerLayoutManager) {
@@ -295,12 +299,12 @@ public class CategoryFragment extends Fragment {
                 if (isList) {
                     isList = false;
                     switchLayoutManager.setImageResource(R.drawable.grid_on);
-                    productsRecyclerAdapter.defineImagesQuality(false);
+                    //productsRecyclerAdapter.defineImagesQuality(false);
                     animateRecyclerLayoutChange(2);
                 } else {
                     isList = true;
                     switchLayoutManager.setImageResource(R.drawable.grid_off);
-                    productsRecyclerAdapter.defineImagesQuality(true);
+                    //productsRecyclerAdapter.defineImagesQuality(true);
                     animateRecyclerLayoutChange(1);
                 }
             }
@@ -308,7 +312,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private void prepareRecyclerAdapter() {
-        productsRecyclerAdapter = new ProductsRecyclerAdapter(getActivity(), new CategoryRecyclerInterface() {
+        productsRecyclerAdapter = new ProductsRowRecyclerAdapter(getActivity(), new CategoryRecyclerInterface() {
             @Override
             public void onProductSelected(View caller, Product product) {
                 if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
