@@ -291,23 +291,6 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
     }
 
     private void prepareActionButtons(View view) {
-        TextView loginBaseSkip = (TextView) view.findViewById(R.id.login_form_skip);
-        loginBaseSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if (loginDialogInterface != null) loginDialogInterface.skipLogin();
-                dismiss();
-            }
-        });
-
-        // FB login
-        /*Button fbLogin = (Button) view.findViewById(R.id.login_form_facebook);
-        fbLogin.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                invokeFacebookLogin();
-            }
-        });*/
 
         Button emailLogin = (Button) view.findViewById(R.id.login_email_confirm);
         emailLogin.setOnClickListener(new OnSingleClickListener() {
@@ -316,22 +299,6 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
                 invokeLoginWithEmail();
             }
         });
-
-//        Button registerBtn = (Button) view.findViewById(R.id.login_registration_confirm);
-//        registerBtn.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View v) {
-//                invokeRegisterNewUser();
-//            }
-//        });
-
-//        Button resetPassword = (Button) view.findViewById(R.id.login_email_forgotten_confirm);
-//        resetPassword.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View v) {
-//                invokeResetPassword();
-//            }
-//        });
     }
 
     private void invokeFacebookLogin() {

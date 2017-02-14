@@ -96,6 +96,7 @@ public class GridMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_grid_menu, container, false);
+        MainActivity.setActionBarTitle(getString(R.string.MainMenu));
 
         clientsButton = (Button) view.findViewById(R.id.main_menu_clients);
         inventoryButton = (Button) view.findViewById(R.id.main_menu_inventory);
@@ -167,22 +168,21 @@ public class GridMenuFragment extends Fragment {
 
                 if (SettingsMy.getActiveUser() != null) {
                     LoginDialogFragment.logoutUser();
-                } else {
-                    LoginDialogFragment loginDialogFragment = LoginDialogFragment.newInstance(new LoginDialogInterface() {
-                        @Override
-                        public void successfulLoginOrRegistration(User user) {
-                            MainActivity.updateCartCountNotification();
-
-                            Fragment fragment = new GridMenuFragment();
-                            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                                fragment.setReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-                            }
-                            replaceFragment(fragment, GridMenuFragment.class.getSimpleName());
-                        }
-                    });
-                    loginDialogFragment.show(getFragmentManager(), LoginDialogFragment.class.getSimpleName());
                 }
 
+                LoginDialogFragment loginDialogFragment = LoginDialogFragment.newInstance(new LoginDialogInterface() {
+                    @Override
+                    public void successfulLoginOrRegistration(User user) {
+                        MainActivity.updateCartCountNotification();
+
+                        Fragment fragment = new GridMenuFragment();
+                        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                            fragment.setReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
+                        }
+                        replaceFragment(fragment, GridMenuFragment.class.getSimpleName());
+                    }
+                });
+                loginDialogFragment.show(getFragmentManager(), LoginDialogFragment.class.getSimpleName());
             }
         });
 
@@ -264,5 +264,11 @@ public class GridMenuFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStop() {
+        MyApplication.getInstance().getRequestQueue().cancelAll(CONST.MAIN_MENU_REQUESTS_TAG);
+        super.onStop();
     }
 }

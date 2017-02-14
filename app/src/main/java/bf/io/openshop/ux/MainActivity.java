@@ -160,6 +160,39 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         }
     }
 
+    public static void setActionBarVisible(boolean visible){
+        MainActivity instance = MainActivity.getInstance();
+        if (instance != null) {
+            ActionBar actionBar = instance.getSupportActionBar();
+            if(visible) {
+                actionBar.hide();
+            }else{
+                actionBar.show();
+            }
+        } else {
+            Timber.e(MSG_MAIN_ACTIVITY_INSTANCE_IS_NULL);
+        }
+    }
+
+    public static void restoreActionBar(){
+
+        MainActivity instance = MainActivity.getInstance();
+
+        if (instance != null) {
+            Toolbar toolbar = (Toolbar) instance.findViewById(R.id.main_toolbar);
+            instance.setSupportActionBar(toolbar);
+            ActionBar actionBar = instance.getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayShowHomeEnabled(true);
+            } else {
+                Timber.e(new RuntimeException(), "GetSupportActionBar returned null.");
+            }
+
+            instance.drawerFragment = (DrawerFragment) instance.getSupportFragmentManager().findFragmentById(R.id.main_navigation_drawer_fragment);
+            instance.drawerFragment.setUp((DrawerLayout) instance.findViewById(R.id.main_drawer_layout), toolbar, instance);
+        }
+    }
+
     /**
      * Method checks if MainActivity instance exist. If so, then drawer menu header will be invalidated.
      */
@@ -236,7 +269,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         // end of GCM registration //
 
         //addInitialFragment();
-        addMainMenuFragment();
+        //addMainMenuFragment();
+        addLoginFragment();
 
         // Opened by notification with some data
         if (this.getIntent() != null && this.getIntent().getExtras() != null) {
@@ -515,6 +549,17 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.main_content_frame, fragment).commit();
         fragmentManager.executePendingTransactions();
+    }
+
+    private void addLoginFragment(){
+        LoginDialogFragment loginDialogFragment = LoginDialogFragment.newInstance(new LoginDialogInterface() {
+            @Override
+            public void successfulLoginOrRegistration(User user) {
+                MainActivity.updateCartCountNotification();
+                addMainMenuFragment();
+            }
+        });
+        loginDialogFragment.show(getSupportFragmentManager(), LoginDialogFragment.class.getSimpleName());
     }
 
     /**

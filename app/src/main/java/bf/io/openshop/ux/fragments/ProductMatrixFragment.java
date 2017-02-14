@@ -116,7 +116,8 @@ public class ProductMatrixFragment extends Fragment {
         mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
         mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
 
-        ((MainActivity)getActivity()).getSupportActionBar().hide();
+
+        //MainActivity.setActionBarVisible(false);
 
         //This show the scrollview correctly
         NestedScrollView scrollView = (NestedScrollView) view.findViewById (R.id.product_matrix_nested_scroll);
@@ -129,6 +130,7 @@ public class ProductMatrixFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.product_matrix_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        ((MainActivity)getActivity()).getSupportActionBar().hide();
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.product_matrix_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
@@ -240,7 +242,7 @@ public class ProductMatrixFragment extends Fragment {
 
             this.product = product;
             SKUDescriptionText.setText(product.getCode() + " - " + product.getName() + " - " + product.getSeason());
-            ((MainActivity) getActivity()).getSupportActionBar().setTitle(product.getCode());
+            MainActivity.setActionBarTitle(product.getCode());
 
             setSpinners(product);
         } else {
@@ -296,13 +298,17 @@ public class ProductMatrixFragment extends Fragment {
 
     @Override
     public void onStop() {
+        //MainActivity.setActionBarVisible(true);
         MyApplication.getInstance().cancelPendingRequests(CONST.PRODUCT_REQUESTS_TAG);
         setContentVisible(CONST.VISIBLE.CONTENT);
+        MainActivity.restoreActionBar();
+        ((MainActivity)getActivity()).getSupportActionBar().show();
         super.onStop();
     }
 
     @Override
     public void onResume() {
+        //MainActivity.setActionBarVisible(false);
         super.onResume();
     }
 
