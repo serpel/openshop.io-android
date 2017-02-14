@@ -1,8 +1,12 @@
 package bf.io.openshop.entities.product;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class ProductVariant {
+public class ProductVariant implements Serializable {
 
     private long id;
     private ProductColor color;
@@ -14,14 +18,26 @@ public class ProductVariant {
     private int is_committed;
     private double price;
     private String currency;
+    private String warehouse;
+    private int new_quantity;
     //END SAP Fields
 
     public ProductVariant() {
+        new_quantity = 0;
     }
 
     public ProductVariant(long id, ProductSize size) {
         this.id = id;
         this.size = size;
+        this.new_quantity = 0;
+    }
+
+    public int getNew_quantity() {
+        return new_quantity;
+    }
+
+    public void setNew_quantity(int new_quantity) {
+        this.new_quantity = new_quantity;
     }
 
     public long getId() {
@@ -94,6 +110,14 @@ public class ProductVariant {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse;
     }
 
     @Override

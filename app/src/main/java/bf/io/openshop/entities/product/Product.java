@@ -3,6 +3,7 @@ package bf.io.openshop.entities.product;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
@@ -130,6 +131,19 @@ public class Product {
 
     public List<ProductVariant> getVariants() {
         return variants;
+    }
+
+    public ArrayList<ProductVariant> getVariantsBySize(ProductSize size){
+
+        ArrayList<ProductVariant> items = new ArrayList<>();
+
+        for(ProductVariant variant : this.variants){
+            if(variant.getSize().getValue().equals(size.getValue())){
+                items.add(variant);
+            }
+        }
+
+        return items;
     }
 
     public void setVariants(List<ProductVariant> variants) {

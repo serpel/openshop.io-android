@@ -1,8 +1,13 @@
 package bf.io.openshop.entities.product;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class ProductColor {
+import java.io.Serializable;
+
+public class ProductColor implements Parcelable {
 
     private long id = 0;
 
@@ -106,4 +111,36 @@ public class ProductColor {
                 ", img='" + img + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(remoteId);
+        parcel.writeLong(id);
+        parcel.writeString(value);
+        parcel.writeString(code);
+        parcel.writeString(img);
+    }
+
+    private ProductColor(Parcel parcel){
+        remoteId = parcel.readLong();
+        id = parcel.readInt();
+        value = parcel.readString();
+        code = parcel.readString();
+        img = parcel.readString();
+    }
+
+    public static final Parcelable.Creator<ProductColor> CREATOR = new
+            Parcelable.Creator<ProductColor>() {
+                public ProductColor createFromParcel(Parcel in) {
+                    return new ProductColor(in);
+                }
+
+                public ProductColor[] newArray(int size) {
+                    return new ProductColor[size];
+                }};
 }

@@ -90,6 +90,7 @@ import bf.io.openshop.ux.fragments.OrderFragment;
 import bf.io.openshop.ux.fragments.OrdersHistoryFragment;
 import bf.io.openshop.ux.fragments.PageFragment;
 import bf.io.openshop.ux.fragments.ProductFragment;
+import bf.io.openshop.ux.fragments.ProductMatrixFragment;
 import bf.io.openshop.ux.fragments.SettingsFragment;
 import bf.io.openshop.ux.fragments.WishlistFragment;
 import timber.log.Timber;
@@ -638,11 +639,17 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
      * @param productId id of product for display.
      */
     public void onProductSelected(long productId) {
-        Fragment fragment = ProductFragment.newInstance(productId);
+        /*Fragment fragment = ProductFragment.newInstance(productId);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
         }
-        replaceFragment(fragment, ProductFragment.class.getSimpleName());
+        replaceFragment(fragment, ProductFragment.class.getSimpleName());*/
+
+        Fragment fragment = ProductMatrixFragment.newInstance(productId);
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+        replaceFragment(fragment, ProductMatrixFragment.class.getSimpleName());
     }
 
     public void onOpenClientFragment() {

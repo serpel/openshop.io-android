@@ -42,6 +42,7 @@ public class CONST {
      * Volley request unknown status code
      */
     public static final int MissingStatusCode = 9999;
+    public static final int MaxQuantityOrder =  999;
 
     /**
      * Possible visibility states of layout parts.

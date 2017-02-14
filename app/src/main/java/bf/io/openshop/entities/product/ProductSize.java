@@ -2,7 +2,9 @@ package bf.io.openshop.entities.product;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ProductSize {
+import java.io.Serializable;
+
+public class ProductSize implements Serializable {
 
     private long id;
 
