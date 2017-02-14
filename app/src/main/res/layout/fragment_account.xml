@@ -36,24 +36,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/base_margin_vertical"
-                android:text="@string/Address_colon"
-                android:textColor="@color/textSecondary"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/account_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                tools:text="Brnenska 14, Brno, 61200"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_margin_vertical"
                 android:text="@string/Email_colon"
                 android:textColor="@color/textSecondary"
                 android:textSize="12sp"/>
@@ -66,21 +48,6 @@
                 android:textSize="16sp"
                 tools:text="test@mailing.com"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_margin_vertical"
-                android:text="@string/Phone_colon"
-                android:textColor="@color/textSecondary"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/account_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                tools:text="903578123"/>
         </LinearLayout>
 
         <LinearLayout
@@ -96,14 +63,12 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/account_update"
+                    android:id="@+id/account_settings"
                     style="@style/buttonSecondaryStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/Account"
-                    android:visibility="gone"
-                    tools:visibility="visible"/>
+                    android:text="@string/Settings"/>
 
                 <View
                     android:layout_width="@dimen/base_margin"
@@ -126,35 +91,16 @@
                 android:layout_marginTop="@dimen/base_margin_vertical"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/account_dispensing_places"
-                    style="@style/buttonSecondaryStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/Branches"/>
-
-                <View
-                    android:layout_width="@dimen/base_margin"
-                    android:layout_height="match_parent"/>
-
-                <Button
-                    android:id="@+id/account_settings"
-                    style="@style/buttonSecondaryStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/Settings"/>
             </LinearLayout>
 
             <Button
-                android:id="@+id/account_login_logout_btn"
+                android:id="@+id/account_back"
                 style="@style/buttonPrimaryStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/base_margin"
-                android:text="@string/Log_in"
+                android:text="@string/Back"
                 android:visibility="visible"/>
         </LinearLayout>
     </LinearLayout>

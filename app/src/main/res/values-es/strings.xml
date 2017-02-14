@@ -213,4 +213,6 @@
     <string name="SubTotal">Subtotal:</string>
     <string name="ISV">ISV:</string>
     <string name="Discount">Descuento:</string>
+    <string name="Zero">0</string>
+    <string name="Back">Atras</string>
 </resources>

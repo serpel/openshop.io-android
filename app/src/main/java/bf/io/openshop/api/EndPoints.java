@@ -30,7 +30,7 @@ public class EndPoints {
     public static final String USER_LOGIN_EMAIL         = API_URL2.concat("/LoginByEmail?username=%s&password=%s");
     public static final String USER_LOGIN_FACEBOOK      = API_URL.concat("%d/login/facebook");
     public static final String USER_RESET_PASSWORD      = API_URL.concat("%d/users/reset-password");
-    public static final String USER_SINGLE              = API_URL.concat("/Users/%d");
+    public static final String USER_SINGLE              = API_URL2.concat("/GetUser/%d");
     public static final String USER_CHANGE_PASSWORD     = API_URL.concat("%d/users/%d/password");
     public static final String CART                     = API_URL2.concat("/Cart?userId=%d");
     public static final String CART_ADD_ITEM            = API_URL2.concat("/AddToCart?userId=%d&product_variant_id=%d&quantity=%d");
@@ -49,6 +49,7 @@ public class EndPoints {
     public static final String WISHLIST_SINGLE          = API_URL.concat("%d/wishlist/%d");
     public static final String WISHLIST_IS_IN_WISHLIST  = API_URL.concat("%d/wishlist/is-in-wishlist/%d");
     public static final String REGISTER_NOTIFICATION    = API_URL2.concat("/GetDevices");
+    public static final String MAIN_MENU_BADGE_COUNT    = API_URL2.concat("/GetMenuBadgeCount");
 
 
     // Notifications parameters

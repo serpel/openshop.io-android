@@ -35,4 +35,6 @@
     <color name="grey">#d7666666</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="colorBlack">#2B2827</color>
+    <color name="colorOrange">#E1501F</color>
 </resources>

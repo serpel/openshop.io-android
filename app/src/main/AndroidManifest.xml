@@ -69,7 +69,8 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <!-- GCM part -->
+<!--
+        &lt;!&ndash; GCM part &ndash;&gt;
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -98,7 +99,7 @@
         </service>
         <service
             android:name="bf.io.openshop.utils.MyRegistrationIntentService"
-            android:exported="false"/>
+            android:exported="false"/>-->
         <!-- end of GCM part-->
 
 

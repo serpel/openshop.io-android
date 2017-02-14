@@ -85,6 +85,7 @@ import bf.io.openshop.ux.fragments.CategoryFragment;
 import bf.io.openshop.ux.fragments.ClientsFragment;
 import bf.io.openshop.ux.fragments.DocumentsFragment;
 import bf.io.openshop.ux.fragments.DrawerFragment;
+import bf.io.openshop.ux.fragments.GridMenuFragment;
 import bf.io.openshop.ux.fragments.OrderCreateFragment;
 import bf.io.openshop.ux.fragments.OrderFragment;
 import bf.io.openshop.ux.fragments.OrdersHistoryFragment;
@@ -234,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         // registerGcmOnServer();
         // end of GCM registration //
 
-        addInitialFragment();
+        //addInitialFragment();
+        addMainMenuFragment();
 
         // Opened by notification with some data
         if (this.getIntent() != null && this.getIntent().getExtras() != null) {
@@ -505,6 +507,14 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
         fragmentTransaction.add(R.id.main_content_frame, fragment).commit();
         frgManager.executePendingTransactions();
+    }
+
+    private void addMainMenuFragment(){
+        Fragment fragment = new GridMenuFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.main_content_frame, fragment).commit();
+        fragmentManager.executePendingTransactions();
     }
 
     /**
