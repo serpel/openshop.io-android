@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="bf.io.openshop"
+    package="intellisysla.com.vanheusenshop"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- General permissions -->
@@ -13,13 +13,13 @@
 
     <!-- GCM permission to prevent other Android applications from registering and receiving the Android application's messages.-->
     <permission
-        android:name="bf.io.openshop.permission.C2D_MESSAGE"
+        android:name="intellisysla.com.vanheusenshop.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
     <uses-permission android:name="bf.io.openshop.permission.C2D_MESSAGE"/>
 
 
     <application
-        android:name="bf.io.openshop.MyApplication"
+        android:name="intellisysla.com.vanheusenshop.MyApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -32,7 +32,7 @@
             android:value="@string/facebook_app_id"/>
 
         <activity
-            android:name=".ux.SplashActivity"
+            android:name="intellisysla.com.vanheusenshop.ux.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name=".ux.MainActivity"
+            android:name="intellisysla.com.vanheusenshop.ux.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -59,7 +59,7 @@
         </activity>
 
         <activity
-            android:name="bf.io.openshop.ux.RestartAppActivity"
+            android:name="intellisysla.com.vanheusenshop.ux.RestartAppActivity"
             android:screenOrientation="portrait"/>
 
         <!-- Facebook activity used for FB login-->

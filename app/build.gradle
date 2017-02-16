@@ -24,11 +24,11 @@ android {
     }*/
 
     defaultConfig {
-        applicationId "bf.io.openshop"
+        applicationId 'intellisysla.com.vanheusenshop'
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 2
-        versionName "1.1"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //signingConfig signingConfigs.release
     }
@@ -57,7 +57,7 @@ android {
 
     productFlavors {
         Modern {
-            minSdkVersion 25
+            minSdkVersion 22
         }
         Legacy {
             minSdkVersion 15
@@ -72,7 +72,7 @@ android {
 }
 
 task clearData(type: Exec) {
-    def clearDataCommand = ['adb', 'shell', 'pm', 'clear', 'bf.io.openshop']
+    def clearDataCommand = ['adb', 'shell', 'pm', 'clear', 'intellisysla.com.vanheusenshop']
     commandLine clearDataCommand
 }
 
@@ -81,8 +81,6 @@ repositories { mavenCentral() }
 dependencies {
     //  if needed jar libraries, add them to libs folder and load them here:
     //  compile fileTree(include: ['*.jar'], dir: 'libs')
-    
-
     //// Unit testing dependencies
     // Set this dependency if you want to use the Hamcrest matcher library
     //// Instrumentation test dependencies
@@ -91,8 +89,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.jakewharton.timber:timber:4.1.2'
     /*compile 'com.google.android.gms:play-services-analytics:10.0.1'
-    compile 'com.google.android.gms:play-services-gcm:10.0.1'
-    compile 'com.google.android.gms:play-services-maps:10.0.1'*/
+            compile 'com.google.android.gms:play-services-gcm:10.0.1'
+            compile 'com.google.android.gms:play-services-maps:10.0.1'*/
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.google.android.gms:play-services-maps:8.4.0'
@@ -104,7 +102,6 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
     compile 'com.android.support:support-v4:25.1.1'
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.19'
     testCompile 'org.hamcrest:hamcrest-library:1.3'

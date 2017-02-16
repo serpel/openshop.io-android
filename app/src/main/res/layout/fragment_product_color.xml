@@ -26,7 +26,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/oval_stroke">
 
-                    <bf.io.openshop.views.RoundedImageView
+                    <intellisysla.com.vanheusenshop.views.RoundedImageView
                         android:id="@+id/product_color_picker_image_view"
                         android:layout_width="30dp"
                         android:layout_height="30dp"

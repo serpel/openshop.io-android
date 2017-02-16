@@ -216,4 +216,6 @@
     <string name="Zero">0</string>
     <string name="Back">Atras</string>
     <string name="MainMenu">Menu Principal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hola!</string>
 </resources>
