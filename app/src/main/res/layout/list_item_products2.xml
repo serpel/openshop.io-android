@@ -46,5 +46,18 @@
             android:textSize="14sp"
             tools:text="BO0002"/>
 
+        <TextView
+            android:id="@+id/product_item_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_item_sku"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:maxLines="2"
+            android:textSize="14sp"
+            tools:text="Van Heusen"/>
+
     </RelativeLayout>
 </LinearLayout>

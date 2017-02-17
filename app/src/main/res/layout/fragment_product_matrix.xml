@@ -22,7 +22,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/parallax_header_imageview"
+                android:id="@+id/product_matrix_image"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_photo"
@@ -34,6 +34,7 @@
                 android:id="@+id/product_matrix_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:titleTextColor="@color/colorPrimaryLight"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 

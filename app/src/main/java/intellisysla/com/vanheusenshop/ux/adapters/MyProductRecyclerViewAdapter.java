@@ -19,6 +19,7 @@ import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductColorFragment.OnListFragmentInteractionListener;
+import intellisysla.com.vanheusenshop.views.ResizableImageView;
 import intellisysla.com.vanheusenshop.views.RoundedImageView;
 import timber.log.Timber;
 

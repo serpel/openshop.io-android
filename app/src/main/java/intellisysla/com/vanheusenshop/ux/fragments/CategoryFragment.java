@@ -51,6 +51,7 @@ import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
+import intellisysla.com.vanheusenshop.ux.adapters.ProductsRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.adapters.ProductsRowRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.adapters.SortSpinnerAdapter;
 import intellisysla.com.vanheusenshop.ux.dialogs.FilterDialogFragment;
@@ -94,7 +95,8 @@ public class CategoryFragment extends Fragment {
     private TextView emptyContentView;
     private RecyclerView productsRecycler;
     private GridLayoutManager productsRecyclerLayoutManager;
-    //private ProductsRecyclerAdapter productsRecyclerAdapter;
+
+    //private ProductsRecyclerAdapter productsRecyclerListAdapter;
     private ProductsRowRecyclerAdapter productsRecyclerAdapter;
     private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
 
@@ -105,7 +107,7 @@ public class CategoryFragment extends Fragment {
 
     // Properties used to restore previous state
     private int toolbarOffset = -1;
-    private boolean isList = false;
+    private boolean isList = true;
 
 
     /**
@@ -267,15 +269,20 @@ public class CategoryFragment extends Fragment {
                 return new ImageView(getContext());
             }
         });
-        if (isList) {
+        /*if (isList) {
             switchLayoutManager.setImageResource(R.drawable.grid_off);
             productsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
         } else {
-            switchLayoutManager.setImageResource(R.drawable.grid_on);
             // TODO A better solution would be to dynamically determine the number of columns.
+            switchLayoutManager.setImageResource(R.drawable.grid_on);
             productsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 2);
             //productsLinearRecyclerLayoutManager = new LinearLayoutManager(getActivity())
-        }
+        }*/
+
+        //TODO: handle different inflater on different views
+        switchLayoutManager.setImageResource(R.drawable.grid_off);
+        productsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
+
         productsRecycler.setLayoutManager(productsRecyclerLayoutManager);
         endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(productsRecyclerLayoutManager) {
             @Override
@@ -294,7 +301,7 @@ public class CategoryFragment extends Fragment {
         switchLayoutManager.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if (isList) {
+                /*if (isList) {
                     isList = false;
                     switchLayoutManager.setImageResource(R.drawable.grid_on);
                     //productsRecyclerAdapter.defineImagesQuality(false);
@@ -304,7 +311,7 @@ public class CategoryFragment extends Fragment {
                     switchLayoutManager.setImageResource(R.drawable.grid_off);
                     //productsRecyclerAdapter.defineImagesQuality(true);
                     animateRecyclerLayoutChange(1);
-                }
+                }*/
             }
         });
     }

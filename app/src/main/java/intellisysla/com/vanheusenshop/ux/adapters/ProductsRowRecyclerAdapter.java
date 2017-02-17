@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.product.Product;
 import intellisysla.com.vanheusenshop.interfaces.CategoryRecyclerInterface;
+import intellisysla.com.vanheusenshop.views.ResizableImageView;
 
 /**
  * Adapter handling list of product items.
@@ -70,6 +73,22 @@ public class ProductsRowRecyclerAdapter extends RecyclerView.Adapter<ProductsRow
         // - replace the contents of the view with that element
         holder.productNameTV.setText(holder.product.getName());
         holder.productSKU.setText(holder.product.getCode());
+        holder.productBrand.setText(holder.product.getBrand());
+        holder.productSeason.setText(holder.product.getSeason());
+
+        if (loadHighRes && product.getMainImageHighRes() != null) {
+            Picasso.with(context).load(product.getMainImageHighRes())
+                    .fit().centerInside()
+                    .placeholder(R.drawable.placeholder_loading)
+                    .error(R.drawable.placeholder_error)
+                    .into(holder.productImage);
+        } else {
+            Picasso.with(context).load(holder.product.getMainImage())
+                    .fit().centerInside()
+                    .placeholder(R.drawable.placeholder_loading)
+                    .error(R.drawable.placeholder_error)
+                    .into(holder.productImage);
+        }
     }
 
     public void clear() {
@@ -80,12 +99,19 @@ public class ProductsRowRecyclerAdapter extends RecyclerView.Adapter<ProductsRow
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productNameTV;
         public TextView productSKU;
+        public TextView productBrand;
+        public TextView productSeason;
+        public ResizableImageView productImage;
         private Product product;
 
         public ViewHolder(View v, final CategoryRecyclerInterface categoryRecyclerInterface) {
             super(v);
             productNameTV = (TextView) v.findViewById(R.id.product_item_name);
             productSKU = (TextView) v.findViewById(R.id.product_item_sku);
+            productBrand = (TextView) v.findViewById(R.id.product_item_brand);
+            productSeason = (TextView) v.findViewById(R.id.product_item_season);
+            productImage = (ResizableImageView) v.findViewById(R.id.product_item_image);
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -47,6 +49,7 @@ import intellisysla.com.vanheusenshop.utils.Analytics;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.adapters.MyProductRecyclerViewAdapter;
+import intellisysla.com.vanheusenshop.views.ResizableImageView;
 import timber.log.Timber;
 
 /**
@@ -55,7 +58,6 @@ import timber.log.Timber;
 
 public class ProductMatrixFragment extends Fragment {
 
-    private int quantity = 0;
     private long productId = -1;
     private Product product;
     private static String ARG_PRODUCT_ID = "product-matrix-product-id";
@@ -67,6 +69,10 @@ public class ProductMatrixFragment extends Fragment {
 
     private TextView SKUDescriptionText;
     private Spinner mWarehouseSpinner;
+    public ImageView productImage;
+
+    private boolean loadHighRes = false;
+
 
     public ProductMatrixFragment() {
     }
@@ -87,6 +93,8 @@ public class ProductMatrixFragment extends Fragment {
 
         if (getArguments() != null) {
             productId = getArguments().getLong(ARG_PRODUCT_ID);
+
+            Timber.d("onCreate() - productId:%d - ProductMatrixFragment", productId);
         }
     }
 
@@ -97,12 +105,10 @@ public class ProductMatrixFragment extends Fragment {
 
         progressView = (ProgressBar) view.findViewById(R.id.product_matrix_progress);
         SKUDescriptionText = (TextView) view.findViewById(R.id.product_matrix_sku);
+        productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
 
         mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
         mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
-
-
-        //MainActivity.setActionBarVisible(false);
 
         //This show the scrollview correctly
         NestedScrollView scrollView = (NestedScrollView) view.findViewById (R.id.product_matrix_nested_scroll);
@@ -227,7 +233,20 @@ public class ProductMatrixFragment extends Fragment {
 
             this.product = product;
             SKUDescriptionText.setText(product.getCode() + " - " + product.getName() + " - " + product.getSeason());
-            MainActivity.setActionBarTitle(product.getCode());
+
+            if (loadHighRes && product.getMainImageHighRes() != null) {
+                Picasso.with(getContext()).load(product.getMainImageHighRes())
+                        .fit().centerInside()
+                        .placeholder(R.drawable.placeholder_loading)
+                        .error(R.drawable.placeholder_error)
+                        .into(productImage);
+            } else {
+                Picasso.with(getContext()).load(product.getMainImage())
+                        .fit().centerInside()
+                        .placeholder(R.drawable.placeholder_loading)
+                        .error(R.drawable.placeholder_error)
+                        .into(productImage);
+            }
 
             setSpinners(product);
         } else {
@@ -288,12 +307,14 @@ public class ProductMatrixFragment extends Fragment {
         setContentVisible(CONST.VISIBLE.CONTENT);
         MainActivity.restoreActionBar();
         ((MainActivity)getActivity()).getSupportActionBar().show();
+        Timber.d("onStop - ProductMatrixFragment");
         super.onStop();
     }
 
     @Override
     public void onResume() {
         //MainActivity.setActionBarVisible(false);
+        Timber.d("onResume - ProductMatrixFragment");
         super.onResume();
     }
 
