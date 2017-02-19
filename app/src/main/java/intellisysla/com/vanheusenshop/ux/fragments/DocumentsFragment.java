@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -137,16 +139,28 @@ public class DocumentsFragment extends Fragment {
 
                 String customer = clientCode.getText().toString();
 
+                Timber.e("OnSelectedClienCardCode %s", customer);
+
                 SharedPreferences prefs = getSettings();
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, customer);
                 editor.commit();
 
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Customer) + ": " + customer , MsgUtils.ToastLength.SHORT);
+
+                addShopFragment();
             }
         });
 
         return view;
+    }
+
+    private void addShopFragment() {
+        Fragment fragment = new BannersFragment();
+        FragmentManager frgManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_content_frame, fragment).commit();
+        frgManager.executePendingTransactions();
     }
 
     private void prepareClientRecycler(View view) {

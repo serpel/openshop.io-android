@@ -1,14 +1,17 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -70,6 +74,7 @@ public class ProductMatrixFragment extends Fragment {
     private TextView SKUDescriptionText;
     private Spinner mWarehouseSpinner;
     public ImageView productImage;
+    private RelativeLayout productContainer;
 
     private boolean loadHighRes = false;
 
@@ -106,6 +111,7 @@ public class ProductMatrixFragment extends Fragment {
         progressView = (ProgressBar) view.findViewById(R.id.product_matrix_progress);
         SKUDescriptionText = (TextView) view.findViewById(R.id.product_matrix_sku);
         productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
+        productContainer = (RelativeLayout) view.findViewById(R.id.product_matrix_main_layout);
 
         mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
         mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
@@ -129,13 +135,35 @@ public class ProductMatrixFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(int i = 0; i < fragments.size(); i++){
-                    ProductColorFragment fragment = (ProductColorFragment) fragments.get(i);
-                    MyProductRecyclerViewAdapter adapter = fragment.GetProductAdapter();
 
-                    for (int j = 0; j < adapter.getItemCount(); j++){
-                        new PostToCartTask().execute(adapter.getItemAt(j));
+                try {
+                    for(int i = 0; i < fragments.size(); i++){
+                        ProductColorFragment fragment = (ProductColorFragment) fragments.get(i);
+                        MyProductRecyclerViewAdapter adapter = fragment.GetProductAdapter();
+
+                        for (int j = 0; j < adapter.getItemCount(); j++){
+                            new PostToCartTask().execute(adapter.getItemAt(j));
+                        }
                     }
+
+                    MainActivity.updateCartCountNotification();
+
+                    String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
+                    Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
+                            .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
+                            .setAction(R.string.Go_to_cart, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (getActivity() instanceof MainActivity)
+                                        ((MainActivity) getActivity()).onCartSelected();
+                                }
+                            });
+                    TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.WHITE);
+                    snackbar.show();
+
+                } catch (Exception e ){
+                    Timber.e("Error on AddtoCard: %s", e.getMessage());
                 }
             }
         });
@@ -156,9 +184,9 @@ public class ProductMatrixFragment extends Fragment {
                     if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
                     //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
                     Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), 0.0);
-                    MainActivity.updateCartCountNotification();
+                    //MainActivity.updateCartCountNotification();
 
-                    String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
+                   // String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
                     /*Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
                             .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
                             .setAction(R.string.Go_to_cart, new View.OnClickListener() {
@@ -302,13 +330,11 @@ public class ProductMatrixFragment extends Fragment {
 
     @Override
     public void onStop() {
+        super.onStop();
         //MainActivity.setActionBarVisible(true);
         MyApplication.getInstance().cancelPendingRequests(CONST.PRODUCT_REQUESTS_TAG);
         setContentVisible(CONST.VISIBLE.CONTENT);
-        MainActivity.restoreActionBar();
-        ((MainActivity)getActivity()).getSupportActionBar().show();
         Timber.d("onStop - ProductMatrixFragment");
-        super.onStop();
     }
 
     @Override
@@ -326,6 +352,9 @@ public class ProductMatrixFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        MainActivity.restoreActionBar();
+        ((MainActivity)getActivity()).getSupportActionBar().show();
+        MainActivity.setActionBarTitle("");
     }
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
