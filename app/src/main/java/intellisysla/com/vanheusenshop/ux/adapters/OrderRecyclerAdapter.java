@@ -64,8 +64,10 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             ViewHolderHeader viewHolderHeader = (ViewHolderHeader) holder;
 
             viewHolderHeader.orderId.setText(order.getRemoteId());
-            viewHolderHeader.orderDateCreated.setText(Utils.parseDate(order.getDateCreated()));
+            viewHolderHeader.orderDateCreated.setText(order.getDateCreated());
             viewHolderHeader.orderTotal.setText(order.getTotalFormatted());
+            viewHolderHeader.orderName.setText(order.getComment());
+            viewHolderHeader.orderStatus.setText(order.getStatus());
         } else {
             Timber.e(new RuntimeException(), "Unknown holder type.");
         }
@@ -124,8 +126,9 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TextView orderName;
         public TextView orderDateCreated;
         public TextView orderTotal;
-        public TextView orderShippingMethod;
-        public TextView orderShippingPrice;
+        public TextView orderStatus;
+/*        public TextView orderShippingMethod;
+        public TextView orderShippingPrice;*/
 
         public ViewHolderHeader(View headerView) {
             super(headerView);
@@ -133,8 +136,9 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             orderName = (TextView) headerView.findViewById(R.id.list_item_order_header_name);
             orderDateCreated = (TextView) headerView.findViewById(R.id.list_item_order_header_dateCreated);
             orderTotal = (TextView) headerView.findViewById(R.id.list_item_order_header_total);
-            orderShippingMethod = (TextView) headerView.findViewById(R.id.list_item_order_header_shipping_method);
-            orderShippingPrice = (TextView) headerView.findViewById(R.id.list_item_order_header_shipping_price);
+            orderStatus = (TextView) headerView.findViewById(R.id.list_item_order_status);
+            /*orderShippingMethod = (TextView) headerView.findViewById(R.id.list_item_order_header_shipping_method);
+            orderShippingPrice = (TextView) headerView.findViewById(R.id.list_item_order_header_shipping_price);*/
         }
     }
 }

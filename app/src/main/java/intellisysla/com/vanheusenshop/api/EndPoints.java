@@ -39,9 +39,9 @@ public class EndPoints {
     public static final String CART_DELIVERY_INFO       = API_URL2.concat("/Cart/delivery-info");
     public static final String CART_DISCOUNTS           = API_URL2.concat("/Cart/discounts");
     public static final String CART_DISCOUNTS_SINGLE    = API_URL2.concat("/Cart/discounts/%d");
-    public static final String ORDERS                   = API_URL2.concat("/Orders?userId=%d");
+    public static final String ORDERS                   = API_URL2.concat("/GetOrders?userId=%d");
     public static final String ORDERS_CREATE            = API_URL2.concat("/CreateOrder?userId=%d&cartId=%d&jo=%s");
-    public static final String ORDERS_SINGLE            = API_URL2.concat("/Orders/%d");
+    public static final String ORDERS_SINGLE            = API_URL2.concat("/Order/%d");
     public static final String BRANCHES                 = API_URL.concat("%d/branches");
     public static final String WISHLIST                 = API_URL.concat("%d/wishlist");
     public static final String WISHLIST_SINGLE          = API_URL.concat("%d/wishlist/%d");

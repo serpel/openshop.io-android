@@ -48,7 +48,7 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
         holder.bindContent(order);
 
         holder.orderIdTv.setText(order.getRemoteId());
-        holder.orderDateCreatedTv.setText(Utils.parseDate(order.getDateCreated()));
+        holder.orderDateCreatedTv.setText(order.getDateCreated());
         holder.orderTotalPriceTv.setText(order.getTotalFormatted());
     }
 
