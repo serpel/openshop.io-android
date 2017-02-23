@@ -79,6 +79,12 @@ public class GridMenuFragment extends Fragment {
         return fragment;
     }
 
+    public static GridMenuFragment newInstance() {
+        GridMenuFragment fragment = new GridMenuFragment();
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

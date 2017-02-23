@@ -715,6 +715,17 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, ClientsFragment.class.getSimpleName());
     }
 
+    public void onOpenMainMenuFragment() {
+
+        Timber.d("onOpenMainMenuFragment");
+
+        Fragment fragment = GridMenuFragment.newInstance();
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+        replaceFragment(fragment, GridMenuFragment.class.getSimpleName());
+    }
+
     public void onClientSelected(String card_code) {
 
         Timber.d("OnClientOptionSelected card_code: %s", card_code);

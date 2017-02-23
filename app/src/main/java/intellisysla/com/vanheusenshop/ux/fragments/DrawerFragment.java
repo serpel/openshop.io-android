@@ -37,6 +37,7 @@ import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerResponse;
+import intellisysla.com.vanheusenshop.entities.mainMenu.MainMenu;
 import intellisysla.com.vanheusenshop.interfaces.DrawerRecyclerInterface;
 import intellisysla.com.vanheusenshop.interfaces.DrawerSubmenuRecyclerInterface;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
@@ -51,6 +52,7 @@ import timber.log.Timber;
 public class DrawerFragment extends Fragment {
 
     private static final int CLIENT_ID = -100;
+    private static final int MAIN_MENU_ID = -130;
     private static final int BANNERS_ID = -123;
     public static final String NULL_DRAWER_LISTENER_WTF = "Null drawer listener. WTF.";
 
@@ -133,8 +135,11 @@ public class DrawerFragment extends Fragment {
             @Override
             public void onCategorySelected(View v, DrawerItemCategory drawerItemCategory) {
 
-                if(drawerItemCategory.getOriginalId() == CLIENT_ID ){
-                    //Aqui hacer el fragment replacement
+                if(drawerItemCategory.getOriginalId() == MAIN_MENU_ID) {
+                    if (getActivity() instanceof MainActivity)
+                        ((MainActivity) getActivity()).onOpenMainMenuFragment();
+                    closeDrawerMenu();
+                } else if(drawerItemCategory.getOriginalId() == CLIENT_ID ){
                     if (getActivity() instanceof MainActivity)
                         ((MainActivity) getActivity()).onOpenClientFragment();
                     closeDrawerMenu();
