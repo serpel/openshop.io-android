@@ -16,7 +16,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import intellisysla.com.vanheusenshop.entities.Shop;
-import intellisysla.com.vanheusenshop.entities.User;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.Utils;
 

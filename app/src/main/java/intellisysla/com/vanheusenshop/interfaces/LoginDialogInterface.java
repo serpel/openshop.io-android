@@ -1,6 +1,6 @@
 package intellisysla.com.vanheusenshop.interfaces;
 
-import intellisysla.com.vanheusenshop.entities.User;
+import intellisysla.com.vanheusenshop.entities.User.User;
 
 /**
  * Interface declaring methods for login dialog.

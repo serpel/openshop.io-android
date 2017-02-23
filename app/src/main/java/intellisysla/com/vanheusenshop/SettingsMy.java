@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import intellisysla.com.vanheusenshop.entities.Shop;
-import intellisysla.com.vanheusenshop.entities.User;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.Utils;
 import intellisysla.com.vanheusenshop.ux.SplashActivity;

@@ -14,6 +14,7 @@ public class CONST {
 
     // Volley requests tags
     public static final String SPLASH_REQUESTS_TAG = "splash_requests";
+    public static final String SALES_PERSON_TAG = "sales_person_requests";
     public static final String DRAWER_REQUESTS_TAG = "drawer_requests";
     public static final String BANNER_REQUESTS_TAG = "banner_requests";
     public static final String CATEGORY_REQUESTS_TAG = "category_requests";

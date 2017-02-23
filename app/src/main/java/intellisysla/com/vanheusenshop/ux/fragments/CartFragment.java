@@ -27,7 +27,7 @@ import intellisysla.com.vanheusenshop.SettingsMy;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.api.JsonRequest;
-import intellisysla.com.vanheusenshop.entities.User;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.cart.Cart;
 import intellisysla.com.vanheusenshop.entities.cart.CartDiscountItem;
 import intellisysla.com.vanheusenshop.entities.cart.CartProductItem;

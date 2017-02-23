@@ -3,6 +3,7 @@ package intellisysla.com.vanheusenshop.ux.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaRouter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +32,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import intellisysla.com.vanheusenshop.CONST;
@@ -38,19 +41,23 @@ import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.SettingsMy;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
-import intellisysla.com.vanheusenshop.entities.User;
+import intellisysla.com.vanheusenshop.entities.User.User;
+import intellisysla.com.vanheusenshop.entities.User.UsersResponse;
 import intellisysla.com.vanheusenshop.entities.cart.Cart;
 import intellisysla.com.vanheusenshop.entities.cart.CartProductItem;
 import intellisysla.com.vanheusenshop.entities.delivery.Delivery;
 import intellisysla.com.vanheusenshop.entities.delivery.DeliveryRequest;
 import intellisysla.com.vanheusenshop.entities.delivery.Payment;
 import intellisysla.com.vanheusenshop.entities.delivery.Shipping;
+import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
+import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerResponse;
 import intellisysla.com.vanheusenshop.entities.order.Order;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.JsonUtils;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.Utils;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
+import intellisysla.com.vanheusenshop.ux.adapters.UserSpinnerAdapter;
 import intellisysla.com.vanheusenshop.ux.dialogs.LoginExpiredDialogFragment;
 import intellisysla.com.vanheusenshop.ux.dialogs.OrderCreateSuccessDialogFragment;
 import timber.log.Timber;
@@ -101,7 +108,8 @@ public class OrderCreateFragment extends Fragment {
 
     private TextView subtotalTextView, totalTextView, discountTextView, isvTexView;
 
-    private Spinner sellerSpinner;
+    private UserSpinnerAdapter userSpinnerAdapter;
+    private User selectedSeller = null;
 
 
     @Override
@@ -132,10 +140,8 @@ public class OrderCreateFragment extends Fragment {
             }
         });
 
-        sellerSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
         prepareSellerSpinner(view);
 
-        prepareFields(view);
         prepareDeliveryLayout(view);
 
         Button finishOrder = (Button) view.findViewById(R.id.order_create_finish);
@@ -169,86 +175,56 @@ public class OrderCreateFragment extends Fragment {
 
         //showSelectedShipping(selectedShipping);
         //showSelectedPayment(selectedPayment);
+        getSellers();
         getUserCart();
         return view;
     }
 
     //TODO: ARREGLAR CHANCHADA
     private void prepareSellerSpinner(View view){
-        Spinner sellerSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
-        String sellers[] = {"Sergio Peralta", "Vendedor Institucional"};
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, sellers);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sellerSpinner.setAdapter(spinnerArrayAdapter);
-    }
 
+        Spinner userSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
+        userSpinnerAdapter = new UserSpinnerAdapter(getActivity());
+        userSpinner.setAdapter(userSpinnerAdapter);
 
-    /**
-     * Prepare content views, adapters and listeners.
-     *
-     * @param view fragment base view.
-     */
-    private void prepareFields(View view) {
-        /*nameInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_name_wrapper);
-        streetInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_street_wrapper);
-        houseNumberInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_houseNumber_wrapper);
-        cityInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_city_wrapper);
-        zipInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_zip_wrapper);
-        phoneInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_phone_wrapper);
-        emailInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_email_wrapper);
-        noteInputWrapper = (TextInputLayout) view.findViewById(R.id.order_create_note_wrapper);
+        userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-        User user = SettingsMy.getActiveUser();
-        if (user != null) {
-            Utils.setTextToInputLayout(nameInputWrapper, user.getName());
-            Utils.setTextToInputLayout(streetInputWrapper, user.getStreet());
-            Utils.setTextToInputLayout(houseNumberInputWrapper, user.getHouseNumber());
-            Utils.setTextToInputLayout(cityInputWrapper, user.getCity());
-            Utils.setTextToInputLayout(zipInputWrapper, user.getZip());
-            Utils.setTextToInputLayout(emailInputWrapper, user.getEmail());
-            Utils.setTextToInputLayout(phoneInputWrapper, user.getPhone());
-        } else {
-            LoginExpiredDialogFragment loginExpiredDialogFragment = new LoginExpiredDialogFragment();
-            loginExpiredDialogFragment.show(getFragmentManager(), MSG_LOGIN_EXPIRED_DIALOG_FRAGMENT);
-        }*/
-    }
+                User user = userSpinnerAdapter.getItem(i);
 
-    /**
-     * Check if all input fields are filled and also that is selected shipping and payment.
-     * Method highlights all unfilled input fields.
-     *
-     * @return true if everything is Ok.
-     */
-    private boolean isRequiredFieldsOk() {
-        // Check and show all missing values
-        String fieldRequired = getString(R.string.Required_field);
-        boolean nameCheck = Utils.checkTextInputLayoutValueRequirement(nameInputWrapper, fieldRequired);
-        boolean streetCheck = Utils.checkTextInputLayoutValueRequirement(streetInputWrapper, fieldRequired);
-        boolean houseNumberCheck = Utils.checkTextInputLayoutValueRequirement(houseNumberInputWrapper, fieldRequired);
-        boolean cityCheck = Utils.checkTextInputLayoutValueRequirement(cityInputWrapper, fieldRequired);
-        boolean zipCheck = Utils.checkTextInputLayoutValueRequirement(zipInputWrapper, fieldRequired);
-        boolean phoneCheck = Utils.checkTextInputLayoutValueRequirement(phoneInputWrapper, fieldRequired);
-        boolean emailCheck = Utils.checkTextInputLayoutValueRequirement(emailInputWrapper, fieldRequired);
+                Timber.d("selectedSalesPersonId: %d,",user.getSalesPersonId());
 
-        if (nameCheck && streetCheck && houseNumberCheck && cityCheck && zipCheck && phoneCheck && emailCheck) {
-            // Check if shipping and payment is selected
-            if (selectedShipping == null) {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Choose_shipping_method), MsgUtils.ToastLength.SHORT);
-                scrollLayout.smoothScrollTo(0, deliveryShippingLayout.getTop());
-                return false;
+                if(user.getName() != null && user.getSalesPersonId() > 0){
+                    selectedSeller = user;
+                }else{
+                    selectedSeller = null;
+                }
             }
 
-            if (selectedPayment == null) {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Choose_payment_method), MsgUtils.ToastLength.SHORT);
-                scrollLayout.smoothScrollTo(0, deliveryShippingLayout.getTop());
-                return false;
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                selectedSeller = null;
             }
-            return true;
-        } else {
-            return false;
-        }
+        });
+
     }
 
+
+    private void getSellers(){
+        GsonRequest<UsersResponse> users = new GsonRequest<>(Request.Method.GET, EndPoints.USERS, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
+            @Override
+            public void onResponse(@NonNull UsersResponse usersResponse) {
+                userSpinnerAdapter.setUserList(usersResponse.getUserList());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        });
+        MyApplication.getInstance().addToRequestQueue(users, CONST.SALES_PERSON_TAG);
+    }
 
     private void prepareDeliveryLayout(View view) {
         deliveryProgressBar = (ProgressBar) view.findViewById(R.id.delivery_progress);
@@ -457,12 +433,14 @@ public class OrderCreateFragment extends Fragment {
         final User user = SettingsMy.getActiveUser();
         if (user != null) {
 
-            //order.setSalesPersonCode(user.getSalesPersonId());
-
             SharedPreferences prefs = getSettings();
             String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "C0001");
 
-            order.setSalesPersonCode(1);
+            if(selectedSeller != null){
+                order.setSalesPersonCode(selectedSeller.getSalesPersonId());
+            }else{
+                order.setSalesPersonCode(1);
+            }
             order.setSeries(71);
             order.setCardCode(card_code);
 

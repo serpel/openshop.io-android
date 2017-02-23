@@ -1,4 +1,4 @@
-package intellisysla.com.vanheusenshop.entities;
+package intellisysla.com.vanheusenshop.entities.User;
 
 
 import com.google.gson.annotations.SerializedName;

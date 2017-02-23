@@ -17,7 +17,7 @@ import java.util.List;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.SettingsMy;
-import intellisysla.com.vanheusenshop.entities.User;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.interfaces.DrawerRecyclerInterface;
