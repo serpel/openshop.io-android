@@ -55,8 +55,8 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
                 + String.valueOf(holder.mItem.getPrice()));
         holder.stock.setText(mContext.getString(R.string.Stock) + ": "
                 + String.valueOf(holder.mItem.getQuantity()));
-        holder.is_committed.setText(mContext.getString(R.string.IsCommitted) + ": "
-                + String.valueOf(holder.mItem.getIs_committed()));
+        holder.is_committed.setText(mContext.getString(R.string.Available) + ": "
+                + String.valueOf(holder.mItem.getQuantity() - holder.mItem.getIs_committed()));
 
         //custom color view circle
         if (holder.mItem.getColor().getCode() != null && (!holder.mItem.getColor().getCode().isEmpty())) {

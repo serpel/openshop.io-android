@@ -17,6 +17,8 @@ public class Order {
     private String dateCreated;
     private String status;
     private int total;
+    @SerializedName("total_order")
+    private double totalOrder;
 
     @SerializedName("total_formatted")
     private String totalFormatted;
@@ -35,6 +37,14 @@ public class Order {
     private String cardCode;
 
     public Order() {
+    }
+
+    public double getTotalOrder() {
+        return totalOrder;
+    }
+
+    public void setTotalOrder(double totalOrder) {
+        this.totalOrder = totalOrder;
     }
 
     public long getId() {

@@ -109,7 +109,7 @@ public class ProductMatrixFragment extends Fragment {
 
         progressView = (ProgressBar) view.findViewById(R.id.product_matrix_progress);
         SKUDescriptionText = (TextView) view.findViewById(R.id.product_matrix_sku);
-        productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
+        //productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
         productContainer = (RelativeLayout) view.findViewById(R.id.product_matrix_main_layout);
 
         mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
@@ -126,9 +126,9 @@ public class ProductMatrixFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.product_matrix_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        ((MainActivity)getActivity()).getSupportActionBar().hide();
+       /* ((MainActivity)getActivity()).getSupportActionBar().hide();
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.product_matrix_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);*/
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -183,22 +183,6 @@ public class ProductMatrixFragment extends Fragment {
                     if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
                     //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
                     Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), 0.0);
-                    //MainActivity.updateCartCountNotification();
-
-                   // String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
-                    /*Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
-                            .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-                            .setAction(R.string.Go_to_cart, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (getActivity() instanceof MainActivity)
-                                        ((MainActivity) getActivity()).onCartSelected();
-                                }
-                            });
-                    TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                    textView.setTextColor(Color.WHITE);
-                    snackbar.show();
-                    */
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -261,7 +245,7 @@ public class ProductMatrixFragment extends Fragment {
             this.product = product;
             SKUDescriptionText.setText(product.getCode() + " - " + product.getName() + " - " + product.getSeason());
 
-            if (loadHighRes && product.getMainImageHighRes() != null) {
+           /* if (loadHighRes && product.getMainImageHighRes() != null) {
                 Picasso.with(getContext()).load(product.getMainImageHighRes())
                         .fit().centerInside()
                         .placeholder(R.drawable.placeholder_loading)
@@ -273,7 +257,7 @@ public class ProductMatrixFragment extends Fragment {
                         .placeholder(R.drawable.placeholder_loading)
                         .error(R.drawable.placeholder_error)
                         .into(productImage);
-            }
+            }*/
 
             setSpinners(product);
         } else {
@@ -351,8 +335,6 @@ public class ProductMatrixFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        MainActivity.restoreActionBar();
-        ((MainActivity)getActivity()).getSupportActionBar().show();
         MainActivity.setActionBarTitle("");
     }
 
