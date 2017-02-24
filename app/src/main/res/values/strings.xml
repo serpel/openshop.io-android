@@ -226,6 +226,7 @@
     <string name="MainMenu">Main Menu</string>
     <string name="Status">Status</string>
     <string name="Available">Available</string>
+    <string name="Count">Count</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

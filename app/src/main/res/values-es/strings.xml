@@ -218,6 +218,7 @@
     <string name="MainMenu">Menu Principal</string>
     <string name="Status">Estado</string>
     <string name="Available">Disponible</string>
+    <string name="Count">Cantidad</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola!</string>
 </resources>

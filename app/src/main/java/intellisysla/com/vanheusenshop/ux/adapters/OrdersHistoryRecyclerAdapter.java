@@ -50,6 +50,7 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
         holder.orderIdTv.setText(order.getRemoteId());
         holder.orderDateCreatedTv.setText(order.getDateCreated());
         holder.orderTotalPriceTv.setText(order.getTotalFormatted());
+        holder.orderCountTv.setText(String.valueOf(order.getTotal()));
     }
 
     private Order getOrderItem(int position) {
@@ -83,6 +84,7 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
         private TextView orderIdTv;
         private TextView orderDateCreatedTv;
         private TextView orderTotalPriceTv;
+        private TextView orderCountTv;
         private Order order;
 
         public ViewHolder(View itemView, final OrdersRecyclerInterface ordersRecyclerInterface) {
@@ -90,6 +92,7 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
             orderIdTv = (TextView) itemView.findViewById(R.id.order_history_item_id);
             orderDateCreatedTv = (TextView) itemView.findViewById(R.id.order_history_item_dateCreated);
             orderTotalPriceTv = (TextView) itemView.findViewById(R.id.order_history_item_totalPrice);
+            orderCountTv = (TextView) itemView.findViewById(R.id.order_history_item_count);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
