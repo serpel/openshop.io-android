@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             Banner banner = new Banner();
             banner.setTarget(target);
             banner.setName(title);
-            onBannerSelected(banner);
+            //onBannerSelected(banner);
 
             Analytics.logOpenedByNotification(target);
         }
@@ -432,7 +432,16 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
             public boolean onQueryTextSubmit(String query) {
                 // Submit search query and hide search action view.
-                onSearchSubmitted(query);
+                //onSearchSubmitted(query);
+
+                Fragment fragment = getLastFragment();
+                if (fragment instanceof ClientsFragment) {
+                    onSearchClientSubmitted(query);
+                }else
+                {
+                    onSearchSubmitted(query);
+                }
+
                 searchView.setQuery("", false);
                 searchView.setIconified(true);
                 searchItem.collapseActionView();
@@ -458,6 +467,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             }
         });
         searchView.setOnQueryTextListener(queryTextListener);
+    }
+
+    private Fragment getLastFragment(){
+        int index = this.getSupportFragmentManager().getBackStackEntryCount() - 1;
+        FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+        String tag = backEntry.getName();
+        return getSupportFragmentManager().findFragmentByTag(tag);
     }
 
     /**
@@ -570,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             FragmentManager frgManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
             fragmentTransaction.addToBackStack(transactionTag);
-            fragmentTransaction.replace(R.id.main_content_frame, newFragment).commit();
+            fragmentTransaction.replace(R.id.main_content_frame, newFragment, transactionTag).commit();
             frgManager.executePendingTransactions();
         } else {
             Timber.e(new RuntimeException(), "Replace fragments with null newFragment parameter.");
@@ -606,6 +622,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         clearBackStack();
         Timber.d("Called onSearchSubmitted with text: %s", searchQuery);
         Fragment fragment = CategoryFragment.newInstance(searchQuery);
+        replaceFragment(fragment, CategoryFragment.class.getSimpleName());
+    }
+
+    private void onSearchClientSubmitted(String searchQuery){
+        clearBackStack();
+        Timber.d("Called onSearchSubmitted with text: %s", searchQuery);
+        Fragment fragment = ClientsFragment.newInstance(searchQuery);
         replaceFragment(fragment, CategoryFragment.class.getSimpleName());
     }
 

@@ -21,6 +21,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
@@ -51,12 +54,7 @@ public class ClientsFragment extends Fragment {
     private View loadMoreProgress;
 
     public static ClientsFragment newInstance() {
-        Bundle args = new Bundle();
-        args.putString(SEARCH_QUERY, null);
-
-        ClientsFragment fragment = new ClientsFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new ClientsFragment();
     }
 
     public static ClientsFragment newInstance(String searchQuery) {
@@ -78,30 +76,21 @@ public class ClientsFragment extends Fragment {
         Bundle startBundle = getArguments();
         if (startBundle != null) {
             searchQuery = startBundle.getString(SEARCH_QUERY, null);
-            boolean isSearch = false;
-            if (searchQuery != null && !searchQuery.isEmpty()) {
-                isSearch = true;
-            }
-
             //Timber.d("Client type: %s. CategoryId: %d. FilterUrl: %s.", categoryType, categoryId, filterParameters);
+        }
+        MainActivity.setActionBarTitle("Clients");
 
-            MainActivity.setActionBarTitle("Clients");
+        // Opened first time (not form backstack)
+        if (clientsRecyclerAdapter == null || clientsRecyclerAdapter.getItemCount() == 0) {
+            prepareRecyclerAdapter();
+            prepareClientRecycler(view);
+            getClients();
 
-            // Opened first time (not form backstack)
-            if (clientsRecyclerAdapter == null || clientsRecyclerAdapter.getItemCount() == 0) {
-                prepareRecyclerAdapter();
-                prepareClientRecycler(view);
-                getClients();
-
-                //Analytics.logCategoryView(categoryId, categoryName, isSearch);
-            } else {
-                prepareClientRecycler(view);
-                //prepareSortSpinner();
-                Timber.d("Restore previous client state. (Clients already loaded) ");
-            }
+            //Analytics.logCategoryView(categoryId, categoryName, isSearch);
         } else {
-            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, getString(R.string.Internal_error), MsgUtils.ToastLength.LONG);
-            Timber.e(new RuntimeException(), "Run category fragment without arguments.");
+            prepareClientRecycler(view);
+            //prepareSortSpinner();
+            Timber.d("Restore previous client state. (Clients already loaded) ");
         }
         return view;
     }
@@ -191,7 +180,21 @@ public class ClientsFragment extends Fragment {
     private void getClients() {
         loadMoreProgress.setVisibility(View.VISIBLE);
 
-        GsonRequest<ClientListResponse> getClientsRequest = new GsonRequest<>(Request.Method.GET, EndPoints.CLIENTS, null, ClientListResponse.class,
+        String url = EndPoints.CLIENTS;
+
+        if (searchQuery != null) {
+            String newSearchQueryString;
+            try {
+                newSearchQueryString = URLEncoder.encode(searchQuery, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                Timber.e(e, "Unsupported encoding exception");
+                newSearchQueryString = URLEncoder.encode(searchQuery);
+            }
+            Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
+            url += "?search=" + newSearchQueryString;
+        }
+
+        GsonRequest<ClientListResponse> getClientsRequest = new GsonRequest<>(Request.Method.GET, url, null, ClientListResponse.class,
                 new Response.Listener<ClientListResponse>() {
                     @Override
                     public void onResponse(@NonNull ClientListResponse response) {

@@ -115,44 +115,26 @@ public class GridMenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //TODO: validate if user is valid login
-
                 Timber.d("onClientButonClick");
-
-                Fragment fragment = ClientsFragment.newInstance();
-                if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    fragment.setReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-                }
-                replaceFragment(fragment, ClientsFragment.class.getSimpleName());
+                ((MainActivity)getActivity()).onOpenClientFragment();
             }
         });
 
         inventoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //TODO: validate if user is valid login
                 Timber.d("onInventoryButonClick");
-
-                Fragment fragment = new BannersFragment();
-                if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    fragment.setReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-                }
-                replaceFragment(fragment, BannersFragment.class.getSimpleName());
+                ((MainActivity)getActivity()).onDrawerBannersSelected();
             }
         });
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //TODO: validate if user is valid login
                 Timber.d("onProfileButonClick");
-
-                Fragment fragment = new AccountFragment();
-                if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    fragment.setReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-                }
-                replaceFragment(fragment, AccountFragment.class.getSimpleName());
+                ((MainActivity)getActivity()).onAccountSelected();
             }
         });
 
@@ -177,12 +159,7 @@ public class GridMenuFragment extends Fragment {
                     @Override
                     public void successfulLoginOrRegistration(User user) {
                         MainActivity.updateCartCountNotification();
-
-                        Fragment fragment = new GridMenuFragment();
-                        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                            fragment.setReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-                        }
-                        replaceFragment(fragment, GridMenuFragment.class.getSimpleName());
+                        ((MainActivity)getActivity()).onOpenMainMenuFragment();
                     }
                 });
                 loginDialogFragment.show(getFragmentManager(), LoginDialogFragment.class.getSimpleName());
@@ -194,7 +171,7 @@ public class GridMenuFragment extends Fragment {
         return view;
     }
 
-    private void replaceFragment(Fragment newFragment, String transactionTag) {
+   /* private void replaceFragment(Fragment newFragment, String transactionTag) {
         if (newFragment != null) {
             FragmentManager frgManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
@@ -204,7 +181,7 @@ public class GridMenuFragment extends Fragment {
         } else {
             Timber.e(new RuntimeException(), "Replace fragments with null newFragment parameter.");
         }
-    }
+    }*/
 
     public void getBadgeCount(){
         GsonRequest<MainMenu> getProductRequest = new GsonRequest<>(Request.Method.GET, EndPoints.MAIN_MENU_BADGE_COUNT, null, MainMenu.class,
