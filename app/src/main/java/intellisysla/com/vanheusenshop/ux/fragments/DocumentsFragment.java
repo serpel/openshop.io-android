@@ -20,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -57,7 +58,7 @@ public class DocumentsFragment extends Fragment {
     private GridLayoutManager documentsRecyclerLayoutManager;
     private DocumentsRecyclerAdapter documentsRecyclerAdapter;
     private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
-    private View loadMoreProgress;
+    private ProgressBar loadMoreProgress;
 
     private TextView clientCode, clientName, clientCreditLimit, clientBalance, clientInOrders, clientPayCondition;
     private Button documentBegin;
@@ -95,7 +96,7 @@ public class DocumentsFragment extends Fragment {
         Timber.d("%s - onCreateView", this.getClass().getSimpleName());
         View view = inflater.inflate(R.layout.fragment_documents, container, false);
 
-        this.loadMoreProgress = view.findViewById(R.id.documents_load_more_progress);
+        this.loadMoreProgress = (ProgressBar) view.findViewById(R.id.documents_load_more_progress);
 
         Bundle startBundle = getArguments();
         if (startBundle != null) {

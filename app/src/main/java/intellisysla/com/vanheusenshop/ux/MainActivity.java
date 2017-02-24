@@ -445,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                 searchView.setQuery("", false);
                 searchView.setIconified(true);
                 searchItem.collapseActionView();
+
                 return true;
             }
         };
