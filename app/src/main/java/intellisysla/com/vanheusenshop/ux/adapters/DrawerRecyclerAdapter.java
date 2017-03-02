@@ -98,7 +98,7 @@ public class DrawerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             User user = SettingsMy.getActiveUser();
             if (user != null) {
-                viewHolderHeader.userName.setText(user.getEmail());
+                viewHolderHeader.userName.setText(user.getName());
             } else {
                 viewHolderHeader.userName.setText(context.getString(R.string.Unknown_user));
             }
