@@ -47,7 +47,8 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
         Order order = getOrderItem(position);
         holder.bindContent(order);
 
-        holder.orderIdTv.setText(order.getRemoteId());
+        holder.orderIdTv.setText(String.valueOf(order.getId()));
+        holder.orderSAPId.setText(order.getRemoteId());
         holder.orderDateCreatedTv.setText(order.getDateCreated());
         holder.orderTotalPriceTv.setText(order.getTotalFormatted());
         holder.orderCountTv.setText(String.valueOf(order.getTotal()));
@@ -82,6 +83,7 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView orderIdTv;
+        private TextView orderSAPId;
         private TextView orderDateCreatedTv;
         private TextView orderTotalPriceTv;
         private TextView orderCountTv;
@@ -90,6 +92,7 @@ public class OrdersHistoryRecyclerAdapter extends RecyclerView.Adapter<OrdersHis
         public ViewHolder(View itemView, final OrdersRecyclerInterface ordersRecyclerInterface) {
             super(itemView);
             orderIdTv = (TextView) itemView.findViewById(R.id.order_history_item_id);
+            orderSAPId = (TextView) itemView.findViewById(R.id.order_history_item_sap_id);
             orderDateCreatedTv = (TextView) itemView.findViewById(R.id.order_history_item_dateCreated);
             orderTotalPriceTv = (TextView) itemView.findViewById(R.id.order_history_item_totalPrice);
             orderCountTv = (TextView) itemView.findViewById(R.id.order_history_item_count);

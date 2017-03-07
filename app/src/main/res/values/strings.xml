@@ -227,6 +227,11 @@
     <string name="Status">Status</string>
     <string name="Available">Available</string>
     <string name="Count">Count</string>
+    <string name="Resend">Resend</string>
+    <string name="Id">ID</string>
+    <string name="SAP">SAP</string>
+    <string name="Begin">Begin</string>
+    <string name="End">End</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

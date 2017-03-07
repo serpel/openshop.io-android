@@ -284,7 +284,8 @@ public class CategoryFragment extends Fragment {
         productsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         productsRecycler.setLayoutManager(productsRecyclerLayoutManager);
-        endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(productsRecyclerLayoutManager) {
+        //TODO: fix scroller
+        /*endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(productsRecyclerLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
                 Timber.e("Load more");
@@ -295,7 +296,7 @@ public class CategoryFragment extends Fragment {
                 }
             }
         };
-        productsRecycler.addOnScrollListener(endlessRecyclerScrollListener);
+        productsRecycler.addOnScrollListener(endlessRecyclerScrollListener);*/
         productsRecycler.setAdapter(productsRecyclerAdapter);
 
         switchLayoutManager.setOnClickListener(new OnSingleClickListener() {

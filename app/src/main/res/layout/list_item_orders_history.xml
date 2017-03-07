@@ -11,7 +11,16 @@
         android:id="@+id/order_history_item_id"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.2"
+        android:layout_weight="0.15"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="125364"/>
+
+    <TextView
+        android:id="@+id/order_history_item_sap_id"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
         android:gravity="start"
         android:textSize="14sp"
         tools:text="125364"/>
@@ -20,7 +29,7 @@
         android:id="@+id/order_history_item_dateCreated"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.4"
+        android:layout_weight="0.30"
         android:gravity="start"
         android:textSize="14sp"
         tools:text="2.8.1992"/>
@@ -38,7 +47,7 @@
         android:id="@+id/order_history_item_totalPrice"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.3"
+        android:layout_weight="0.25"
         android:gravity="end"
         android:textSize="14sp"
         android:textStyle="bold"

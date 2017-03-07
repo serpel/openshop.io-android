@@ -1,19 +1,42 @@
 package intellisysla.com.vanheusenshop.ux.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import intellisysla.com.vanheusenshop.CONST;
+import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.SettingsMy;
+import intellisysla.com.vanheusenshop.api.EndPoints;
+import intellisysla.com.vanheusenshop.api.GsonRequest;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.order.Order;
+import intellisysla.com.vanheusenshop.utils.JsonUtils;
+import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.Utils;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
+import intellisysla.com.vanheusenshop.ux.dialogs.LoginExpiredDialogFragment;
+import intellisysla.com.vanheusenshop.ux.dialogs.OrderCreateSuccessDialogFragment;
 import intellisysla.com.vanheusenshop.views.ResizableImageView;
 import timber.log.Timber;
+
+import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
+import static intellisysla.com.vanheusenshop.SettingsMy.getSettings;
 
 /**
  * Adapter handling list of order items.
@@ -26,6 +49,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     private LayoutInflater layoutInflater;
     private Context context;
     private Order order;
+    private static long orderId;
 
     /**
      * Creates an adapter that handles a list of order items.
@@ -63,11 +87,19 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (holder instanceof ViewHolderHeader) {
             ViewHolderHeader viewHolderHeader = (ViewHolderHeader) holder;
 
-            viewHolderHeader.orderId.setText(order.getRemoteId());
+            viewHolderHeader.orderId.setText(String.valueOf(order.getId()));
             viewHolderHeader.orderDateCreated.setText(order.getDateCreated());
             viewHolderHeader.orderTotal.setText(order.getTotalFormatted());
             viewHolderHeader.orderName.setText(order.getComment());
             viewHolderHeader.orderStatus.setText(order.getStatus());
+            orderId = order.getId();
+
+            if(order.getRemoteId() != null){
+                viewHolderHeader.orderResend.setVisibility(View.GONE);
+            }else{
+                viewHolderHeader.orderResend.setVisibility(View.VISIBLE);
+            }
+
         } else {
             Timber.e(new RuntimeException(), "Unknown holder type.");
         }
@@ -127,8 +159,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TextView orderDateCreated;
         public TextView orderTotal;
         public TextView orderStatus;
-/*        public TextView orderShippingMethod;
-        public TextView orderShippingPrice;*/
+        public Button orderResend;
 
         public ViewHolderHeader(View headerView) {
             super(headerView);
@@ -137,8 +168,40 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             orderDateCreated = (TextView) headerView.findViewById(R.id.list_item_order_header_dateCreated);
             orderTotal = (TextView) headerView.findViewById(R.id.list_item_order_header_total);
             orderStatus = (TextView) headerView.findViewById(R.id.list_item_order_status);
-            /*orderShippingMethod = (TextView) headerView.findViewById(R.id.list_item_order_header_shipping_method);
-            orderShippingPrice = (TextView) headerView.findViewById(R.id.list_item_order_header_shipping_price);*/
+            orderResend = (Button) headerView.findViewById(R.id.order_resend);
+
+            orderResend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //MsgUtils.showToast(this.context, MsgUtils.TOAST_TYPE_MESSAGE, "Se ha reenviado pedido", MsgUtils.ToastLength.LONG);
+                }
+            });
         }
     }
+/*
+    private void postOrder(final long orderId) {
+
+        final User user = SettingsMy.getActiveUser();
+        if (user != null) {
+            String url = String.format(EndPoints.ORDERS_RECREATE, order.getId());
+            postOrderRequest = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {
+                @Override
+                public void onResponse(Order order) {
+                    Timber.d("response: %s", order.toString());
+                    progressDialog.cancel();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.cancel();
+                    // Return 501 for sample application.
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            }, getFragmentManager(), user.getAccessToken());
+            postOrderRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            postOrderRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(postOrderRequest, CONST.ORDER_CREATE_REQUESTS_TAG);
+        }
+    }
+*/
 }

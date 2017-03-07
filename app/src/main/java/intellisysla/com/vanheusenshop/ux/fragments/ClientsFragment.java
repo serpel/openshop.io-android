@@ -110,18 +110,18 @@ public class ClientsFragment extends Fragment {
         clientsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         clientsRecycler.setLayoutManager(clientsRecyclerLayoutManager);
-        endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(clientsRecyclerLayoutManager) {
+        /*endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(clientsRecyclerLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
                 Timber.e("Load more");
-                /*if (productsMetadata != null && productsMetadata.getLinks() != null && productsMetadata.getLinks().getNext() != null) {
+                *//*if (productsMetadata != null && productsMetadata.getLinks() != null && productsMetadata.getLinks().getNext() != null) {
                     getProducts(productsMetadata.getLinks().getNext());
                 } else {
                     Timber.d("CustomLoadMoreDataFromApi NO MORE DATA");
-                }*/
+                }*//*
             }
         };
-        clientsRecycler.addOnScrollListener(endlessRecyclerScrollListener);
+        clientsRecycler.addOnScrollListener(endlessRecyclerScrollListener);*/
         clientsRecycler.setAdapter(clientsRecyclerAdapter);
     }
 

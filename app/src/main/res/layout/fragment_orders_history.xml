@@ -22,6 +22,55 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="start"
+                android:text="@string/Begin"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/order_history_begin"
+                android:textColor="#000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="2016/06/01"
+                android:focusable="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="start"
+                android:text="@string/End"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/order_history_end"
+                android:textColor="#000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="2016/06/01"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimaryLight"
             android:orientation="horizontal"
             android:padding="@dimen/base_margin"
@@ -30,9 +79,9 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:gravity="start"
-                android:text="@string/Order"
+                android:text="@string/Id"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -40,7 +89,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
+                android:layout_weight="0.15"
+                android:gravity="start"
+                android:text="@string/SAP"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.35"
                 android:gravity="start"
                 android:text="@string/Date_created"
                 android:textColor="@color/colorAccent"
@@ -50,7 +109,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:gravity="start"
                 android:text="@string/Count"
                 android:textColor="@color/colorAccent"

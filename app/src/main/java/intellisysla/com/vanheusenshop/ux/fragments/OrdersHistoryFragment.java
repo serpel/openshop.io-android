@@ -1,6 +1,7 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,10 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
@@ -46,6 +53,8 @@ public class OrdersHistoryFragment extends Fragment {
     // Fields referencing complex screen layouts.
     private View empty;
     private View content;
+    private EditText beginEdit, endEdit;
+    private Calendar myCalendar = Calendar.getInstance();
 
     /**
      * Request metadata containing urls for endlessScroll.
@@ -72,6 +81,58 @@ public class OrdersHistoryFragment extends Fragment {
 
         empty = view.findViewById(R.id.order_history_empty);
         content = view.findViewById(R.id.order_history_content);
+        beginEdit = (EditText) view.findViewById(R.id.order_history_begin);
+        endEdit = (EditText) view.findViewById(R.id.order_history_end);
+
+        myCalendar = Calendar.getInstance();
+
+        beginEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(getContext(),
+                        R.style.MyDatePicker,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year,int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                                String myFormat = "yyyy/MM/dd";
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                beginEdit.setText(sdf.format(myCalendar.getTime()));
+                            }
+                        },
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH)-1,
+                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                ).show();
+            }
+        });
+
+        endEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(getContext(),
+                        R.style.MyDatePicker,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                                String myFormat = "yyyy/MM/dd";
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                endEdit.setText(sdf.format(myCalendar.getTime()));
+                            }
+                        },
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH)+2,
+                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                ).show();
+            }
+        });
 
         prepareOrdersHistoryRecycler(view);
 

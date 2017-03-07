@@ -219,6 +219,11 @@
     <string name="Status">Estado</string>
     <string name="Available">Disponible</string>
     <string name="Count">Cantidad</string>
+    <string name="Resend">Reenviar</string>
+    <string name="Id">ID</string>
+    <string name="SAP">SAP</string>
+    <string name="Begin">Inicio</string>
+    <string name="End">Final</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola!</string>
 </resources>

@@ -118,4 +118,11 @@
             android:textColor="@color/textPrimary"
             android:textSize="14sp"/>
     </LinearLayout>
+
+    <Button
+        android:layout_marginTop="5dp"
+        android:id="@+id/order_resend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Resend"/>
 </LinearLayout>
