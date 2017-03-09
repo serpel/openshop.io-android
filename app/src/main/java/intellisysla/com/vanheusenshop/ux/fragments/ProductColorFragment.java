@@ -47,6 +47,10 @@ public class ProductColorFragment extends Fragment {
     public ProductColorFragment() {
     }
 
+    public ArrayList<ProductVariant> getVariants() {
+        return variants;
+    }
+
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static ProductColorFragment newInstance(int columnCount) {

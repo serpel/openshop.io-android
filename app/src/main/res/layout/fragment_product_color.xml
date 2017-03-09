@@ -95,12 +95,14 @@
 
                     <ImageView
                         android:id="@+id/product_color_minus_image"
+                        android:layout_gravity="right"
                         android:layout_width="@dimen/round_minus_plus_size"
                         android:layout_height="@dimen/round_minus_plus_size"
                         android:src="@drawable/minus" />
 
                     <EditText
                         android:id="@+id/product_color_new_quantity"
+                        android:layout_gravity="right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/round_minus_plus_size"
@@ -114,6 +116,7 @@
 
                     <ImageView
                         android:id="@+id/product_color_plus_image"
+                        android:layout_gravity="right"
                         android:layout_width="@dimen/round_minus_plus_size"
                         android:layout_height="@dimen/round_minus_plus_size"
                         android:layout_marginLeft="@dimen/round_minus_plus_size"

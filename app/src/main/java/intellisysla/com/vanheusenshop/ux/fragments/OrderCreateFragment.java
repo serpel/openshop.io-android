@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +106,7 @@ public class OrderCreateFragment extends Fragment {
     private TextView selectedShippingPriceTv;
     private TextView selectedPaymentNameTv;
     private TextView selectedPaymentPriceTv;
+    private TextView summaryText;
     private GsonRequest<Order> postOrderRequest;
 
     private TextView subtotalTextView, totalTextView, discountTextView, isvTexView;
@@ -128,10 +131,15 @@ public class OrderCreateFragment extends Fragment {
         totalTextView = (TextView) view.findViewById(R.id.order_create_total_price);
         discountTextView = (TextView) view.findViewById(R.id.order_create_discount);
         isvTexView = (TextView) view.findViewById(R.id.order_create_isv);
+        summaryText = (TextView) view.findViewById(R.id.order_create_summary_text);
+
+        SharedPreferences prefs = getSettings();
+        String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "C0001");
+        summaryText.setText(getString(R.string.Summary) + " - " + getString(R.string.Customer) + ": " + card_code);
 
         orderTotalPriceTv = (TextView) view.findViewById(R.id.order_create_summary_total_price);
         TextView termsAndConditionsTv = (TextView) view.findViewById(R.id.order_create_summary_terms_and_condition);
-        termsAndConditionsTv.setText(Html.fromHtml(getString(R.string.Click_on_Order_to_allow_our_Terms_and_Conditions)));
+        termsAndConditionsTv.setText(this.fromHtml(getString(R.string.Click_on_Order_to_allow_our_Terms_and_Conditions)));
         termsAndConditionsTv.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -156,28 +164,23 @@ public class OrderCreateFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 postOrder(order);
-
-               /*if (isRequiredFieldsOk()) {
-                    // Prepare data
-                    Order order = new Order();
-                    //order.setPhone(Utils.getTextFromInputLayout(phoneInputWrapper));
-                    //order.setNote(Utils.getTextFromInputLayout(noteInputWrapper));
-
-                    // Hide keyboard
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-                    postOrder(order);
-                }*/
             }
         });
 
-        //showSelectedShipping(selectedShipping);
-        //showSelectedPayment(selectedPayment);
         getSellers();
         getUserCart();
         return view;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 
     //TODO: ARREGLAR CHANCHADA

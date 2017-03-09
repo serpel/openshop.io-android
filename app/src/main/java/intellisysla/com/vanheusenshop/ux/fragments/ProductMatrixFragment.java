@@ -130,35 +130,11 @@ public class ProductMatrixFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
-                    for(int i = 0; i < fragments.size(); i++){
-                        ProductColorFragment fragment = (ProductColorFragment) fragments.get(i);
-                        MyProductRecyclerViewAdapter adapter = fragment.GetProductAdapter();
-
-                        for (int j = 0; j < adapter.getItemCount(); j++){
-                            new PostToCartTask().execute(adapter.getItemAt(j));
-                        }
-                    }
-
-                    MainActivity.updateCartCountNotification();
-
-                    String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
-                    Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
-                            .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-                            .setAction(R.string.Go_to_cart, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (getActivity() instanceof MainActivity)
-                                        ((MainActivity) getActivity()).onCartSelected();
-                                }
-                            });
-                    TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                    textView.setTextColor(Color.WHITE);
-                    snackbar.show();
-
+                    new FragmentPostToCartAsyncTask().execute();
                 } catch (Exception e ){
                     Timber.e("Error on AddtoCard: %s", e.getMessage());
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, e.getMessage(), MsgUtils.ToastLength.SHORT);
                 }
             }
         });
@@ -188,7 +164,7 @@ public class ProductMatrixFragment extends Fragment {
             }, getFragmentManager(), user.getAccessToken());
             addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
             addToCart.setShouldCache(false);
-            MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_REQUESTS_TAG);
+            MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
         }
     }
 
@@ -310,7 +286,6 @@ public class ProductMatrixFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        //MainActivity.setActionBarVisible(true);
         MyApplication.getInstance().cancelPendingRequests(CONST.PRODUCT_REQUESTS_TAG);
         setContentVisible(CONST.VISIBLE.CONTENT);
         Timber.d("onStop - ProductMatrixFragment");
@@ -318,9 +293,8 @@ public class ProductMatrixFragment extends Fragment {
 
     @Override
     public void onResume() {
-        //MainActivity.setActionBarVisible(false);
-        Timber.d("onResume - ProductMatrixFragment");
         super.onResume();
+        Timber.d("onResume - ProductMatrixFragment");
     }
 
     @Override
@@ -387,20 +361,43 @@ public class ProductMatrixFragment extends Fragment {
     }
 
 
-    private class PostToCartTask extends AsyncTask<ProductVariant, Integer, Integer> {
+    private class FragmentPostToCartAsyncTask extends AsyncTask<Void, Void, Void>{
         @Override
-        protected Integer doInBackground(ProductVariant... productVariants) {
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
 
-            int count = productVariants.length;
-            for (int i = 0; i < count; i++) {
-                postProductToCart(productVariants[i]);
-            }
-            return count;
+            Timber.d("Finished FragmentPostToCartTask");
+
+            String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
+            Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
+                    .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
+                    .setAction(R.string.Go_to_cart, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (getActivity() instanceof MainActivity)
+                                ((MainActivity) getActivity()).onCartSelected();
+                        }
+                    });
+            TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.WHITE);
+            snackbar.show();
+
+            MainActivity.updateCartCountNotification();
         }
 
         @Override
-        protected void onPostExecute(Integer count) {
-            Timber.d("Total postToProductCart: %d", count);
+        protected Void doInBackground(Void... voids) {
+
+            for(Fragment fragment:fragments){
+                ProductColorFragment productColorFragment = (ProductColorFragment) fragment;
+                ArrayList<ProductVariant> variants = productColorFragment.getVariants();
+
+                for(ProductVariant productVariant:variants){
+                    postProductToCart(productVariant);
+                }
+            }
+
+            return null;
         }
     }
 }

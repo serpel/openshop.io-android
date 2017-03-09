@@ -49,7 +49,7 @@ public class UpdateCartItemDialogFragment extends DialogFragment {
     /**
      * Defined max product quantity.
      */
-    private static final int QUANTITY_MAX = 15;
+    private static final int QUANTITY_MAX = 100;
 
     private CartProductItem cartProductItem;
 

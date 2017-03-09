@@ -21,6 +21,7 @@ public class CONST {
     public static final String CLIENT_REQUESTS_TAG = "client_requests";
     public static final String DOCUMENT_REQUESTS_TAG = "document_requests";
     public static final String PRODUCT_REQUESTS_TAG = "product_requests";
+    public static final String PRODUCT_ADD_TO_CART_TAG = "product_add_cart_requests";
     public static final String MAIN_MENU_REQUESTS_TAG = "main_menu_requests";
     public static final String LOGIN_DIALOG_REQUESTS_TAG = "login_dialog_requests";
     public static final String ACCOUNT_REQUESTS_TAG = "account_requests";
