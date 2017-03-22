@@ -169,7 +169,7 @@ public class DocumentsFragment extends Fragment {
         documentsRecycler.addItemDecoration(new RecyclerMarginDecorator(getActivity(), RecyclerMarginDecorator.ORIENTATION.BOTH));
         documentsRecycler.setItemAnimator(new DefaultItemAnimator());
         documentsRecycler.setHasFixedSize(true);
-/*        switchLayoutManager.setFactory(new ViewSwitcher.ViewFactory() {
+        /*switchLayoutManager.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
                 return new ImageView(getContext());

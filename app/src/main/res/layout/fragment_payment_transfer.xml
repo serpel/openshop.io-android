@@ -17,42 +17,31 @@
             android:paddingLeft="10dp"
             android:paddingStart="10dp">
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/document_client_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
+            <TextView
+                android:id="@+id/document_document_credit_limit_2"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="C0261" />
-
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/document_client_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:textColor="@color/colorAccentDark"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="ABARROTERIA POPULAR" />
+                android:textSize="12sp"
+                android:text="TRANSFERENCIA" />
 
             <TextView
-                android:id="@+id/document_document_credit_limit"
-                android:layout_marginTop="20dp"
+                android:id="@+id/document_document_credit_limit_3"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="FOLIO" />
+                android:text="Fecha" />
 
             <EditText
-                android:id="@+id/document_document_pay_condition"
+                android:id="@+id/document_document_pay_condition_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="F01100" />
+                android:text="07/03/2017" />
 
             <TextView
                 android:id="@+id/document_balance_text"
@@ -82,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="CONTACTO" />
+                android:text="MONTO" />
 
             <EditText
                 android:id="@+id/document_orders"
@@ -90,24 +79,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="Sergio Peralta" />
-
-            <TextView
-                android:id="@+id/document_balance_2"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="COMENTARIOS" />
-
-            <EditText
-                android:id="@+id/document_orders_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="Esto es una prueba" />
-    </LinearLayout>
+                android:text="5,000.00" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -4,11 +4,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionInflater;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -16,6 +21,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,6 +43,7 @@ import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.adapters.ClientsRecyclerAdapter;
+import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
 import timber.log.Timber;
 
 /**
@@ -85,14 +92,48 @@ public class ClientsFragment extends Fragment {
             prepareRecyclerAdapter();
             prepareClientRecycler(view);
             getClients();
-
             //Analytics.logCategoryView(categoryId, categoryName, isSearch);
         } else {
             prepareClientRecycler(view);
             //prepareSortSpinner();
             Timber.d("Restore previous client state. (Clients already loaded) ");
         }
+        registerForContextMenu(clientsRecycler);
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_contextual, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.menu_contextual_account_status:
+                Toast.makeText(getContext(), "le diste a 1", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.menu_contextual_account_payment:
+                //Toast.makeText(getContext(), "le diste a 2", Toast.LENGTH_LONG).show();
+                addPaymentFragment();
+                break;
+            default:
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void addPaymentFragment() {
+        Fragment fragment = new PaymentMainFragment();
+        FragmentManager frgManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_content_frame, fragment).commit();
+        frgManager.executePendingTransactions();
     }
 
     private void prepareClientRecycler(View view) {

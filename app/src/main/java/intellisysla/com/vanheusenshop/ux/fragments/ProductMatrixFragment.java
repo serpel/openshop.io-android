@@ -319,15 +319,6 @@ public class ProductMatrixFragment extends Fragment {
             fragments = new ArrayList<>();
         }
 
-        public SectionsPagerAdapter(FragmentManager fm, List<ProductMatrixView> pages) {
-            super(fm);
-            this.fragments = new ArrayList<>();
-            this.pages = pages;
-            for(ProductMatrixView item: pages){
-                fragments.add(ProductColorFragment.newInstance(item.getSize(), item.getVariants()));
-            }
-        }
-
         public void setFragments(List<Fragment> fragments) {
             this.fragments = fragments;
         }

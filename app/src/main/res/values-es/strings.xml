@@ -200,30 +200,8 @@
     <string name="Price">Precio</string>
     <string name="Seller">Vendedor</string>
     <string name="Choose_seller">Escoger Vendedor</string>
-
-    <string name="created_date">Fecha</string>
-    <string name="due_date">Fecha Expiracion</string>
-    <string name="total_amount">Total</string>
-    <string name="payed_amount">Total pagado</string>
-    <string name="Balance">Balance</string>
-    <string name="InOrder">En Pedidos</string>
-    <string name="CreditLimit">Limite de Credito</string>
-    <string name="PayCondition">Condicion de Pago</string>
-    <string name="BeginOrder">Iniciar Orden</string>
-    <string name="SubTotal">Subtotal:</string>
-    <string name="ISV">ISV:</string>
-    <string name="Discount">Descuento:</string>
-    <string name="Zero">0</string>
-    <string name="Back">Atras</string>
-    <string name="MainMenu">Menu Principal</string>
-    <string name="Status">Estado</string>
-    <string name="Available">Disponible</string>
-    <string name="Count">Cantidad</string>
-    <string name="Resend">Reenviar</string>
-    <string name="Id">ID</string>
-    <string name="SAP">SAP</string>
-    <string name="Begin">Inicio</string>
-    <string name="End">Final</string>
+    <string name="AccountStatus">Estado de Cuenta</string>
+    <string name="AccountPayment">Efectuar Pago</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola!</string>
 </resources>

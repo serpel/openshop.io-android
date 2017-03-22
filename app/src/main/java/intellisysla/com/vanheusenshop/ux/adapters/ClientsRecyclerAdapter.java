@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
             layoutInflater = LayoutInflater.from(parent.getContext());
 
         View view = layoutInflater.inflate(R.layout.list_item_clients, parent, false);
-        return new ClientsRecyclerAdapter.ViewHolder(view, clientRecyclerInterface);
+        return new ClientsRecyclerAdapter.ViewHolder(context, view, clientRecyclerInterface);
     }
 
     @Override
@@ -68,13 +69,13 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
         //holder.clientPhone.setText(holder.client.getPhone());
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView clientCardCode;
         public TextView clientName;
         public TextView clientPhone;
         private Client client;
 
-        public ViewHolder(View v, final ClientRecyclerInterface clientRecyclerInterface) {
+        public ViewHolder(final Context context, View v, final ClientRecyclerInterface clientRecyclerInterface) {
             super(v);
             clientCardCode = (TextView) v.findViewById(R.id.client_item_card_code);
             clientName = (TextView) v.findViewById(R.id.client_item_name);
@@ -83,6 +84,14 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
                 @Override
                 public void onClick(View v) {
                     clientRecyclerInterface.onClientSelected(v, client);
+                }
+            });
+
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    //Toast.makeText(context, "Menu alterno", Toast.LENGTH_LONG).show();
+                    return false;
                 }
             });
         }

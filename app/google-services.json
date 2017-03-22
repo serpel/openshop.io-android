@@ -1,38 +1,32 @@
 {
   "project_info": {
-    "project_id": "openshop-bf-1216",
-    "project_number": "325761325996",
-    "name": "VanHeusenShop"
+    "project_number": "416826401893",
+    "project_id": "vanapp-10676"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:325761325996:android:88c2d391918f6b36",
-        "client_id": "android:intellisysla.com.vanheusenshop",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:416826401893:android:5dc06680f0b0accb",
         "android_client_info": {
           "package_name": "intellisysla.com.vanheusenshop"
         }
       },
       "oauth_client": [],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnuN5eV4GoRuyBfXQj9Tz8QyqY6ZnwCkI"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 2,
-          "analytics_property":{
-            "tracking_id":"UA-73690730-2"
+          "analytics_property": {
+            "tracking_id": "UA-90182106-1"
           }
-        },
-        "cloud_messaging_service": {
-          "status": 2,
-          "apns_config": []
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 1
         },
         "ads_service": {
           "status": 1
@@ -40,6 +34,5 @@
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

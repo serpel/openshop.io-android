@@ -17,26 +17,6 @@
             android:paddingLeft="10dp"
             android:paddingStart="10dp">
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/document_client_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="C0261" />
-
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/document_client_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:textColor="@color/colorAccentDark"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="ABARROTERIA POPULAR" />
-
             <TextView
                 android:id="@+id/document_document_credit_limit"
                 android:layout_marginTop="20dp"

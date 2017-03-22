@@ -25,7 +25,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                tools:text="C0261" />
+                android:text="C0261" />
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/document_client_name"
@@ -35,24 +35,16 @@
                 android:textColor="@color/colorAccentDark"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                tools:text="ABARROTERIA POPULAR" />
+                android:text="ABARROTERIA POPULAR" />
 
             <TextView
                 android:id="@+id/document_document_credit_limit"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="EFECTIVO" />
-
-            <TextView
-                android:id="@+id/document_document_credit_limit_32"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                tools:text="Monto Efectivo" />
+                android:text="FOLIO" />
 
             <EditText
                 android:id="@+id/document_document_pay_condition"
@@ -60,33 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="1,500.00" />
-
-            <TextView
-                android:id="@+id/document_document_credit_limit_2"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                tools:text="TRANSFERENCIA" />
-
-            <TextView
-                android:id="@+id/document_document_credit_limit_3"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="Fecha" />
-
-            <EditText
-                android:id="@+id/document_document_pay_condition_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="07/03/2017" />
+                android:text="F01100" />
 
             <TextView
                 android:id="@+id/document_balance_text"
@@ -103,7 +69,7 @@
                 android:id="@+id/document_orders_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/InOrder"
+                android:text="50,000.00"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
@@ -116,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="MONTO" />
+                android:text="CONTACTO" />
 
             <EditText
                 android:id="@+id/document_orders"
@@ -124,9 +90,24 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="5,000.00" />
+                android:text="Sergio Peralta" />
+
+            <TextView
+                android:id="@+id/document_balance_2"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="COMENTARIOS" />
+
+            <EditText
+                android:id="@+id/document_orders_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="Esto es una prueba" />
         </LinearLayout>
     </LinearLayout>
-
-
 </FrameLayout>

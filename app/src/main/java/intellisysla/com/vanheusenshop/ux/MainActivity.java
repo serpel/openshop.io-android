@@ -90,6 +90,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.ProductFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.SettingsFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.WishlistFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
 import timber.log.Timber;
 
 /**
@@ -631,6 +632,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         Timber.d("Called onSearchSubmitted with text: %s", searchQuery);
         Fragment fragment = ClientsFragment.newInstance(searchQuery);
         replaceFragment(fragment, CategoryFragment.class.getSimpleName());
+    }
+
+    private void onPaymentSelected(){
+        clearBackStack();
+        Timber.d("Called onPaymentSelected");
+        Fragment fragment = PaymentMainFragment.newInstance("","");
+        replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
     }
 
     @Override
