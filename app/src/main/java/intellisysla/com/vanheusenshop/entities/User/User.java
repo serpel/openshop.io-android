@@ -23,12 +23,16 @@ public class User {
     private String phone;
     private String gender;
     private String country;
+    @SerializedName("print_bluetooth_address")
+    private String printBluetoothAddress;
 
     @SerializedName("sales_person_id")
     private int SalesPersonId;
 
     public User() {
     }
+
+
 
     public long getId() {
         return id;
@@ -132,6 +136,14 @@ public class User {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getPrintBluetoothAddress() {
+        return printBluetoothAddress;
+    }
+
+    public void setPrintBluetoothAddress(String printBluetoothAddress) {
+        this.printBluetoothAddress = printBluetoothAddress;
     }
 
     @Override

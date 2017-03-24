@@ -144,7 +144,7 @@ public class DrawerFragment extends Fragment {
                         ((MainActivity) getActivity()).onOpenClientFragment();
                     closeDrawerMenu();
                 }else {
-                    if (drawerItemCategory.getChildren() == null || drawerItemCategory.getChildren().isEmpty()) {
+                    if (!drawerItemCategory.hasChildren()) {
                         if (drawerListener != null) {
                             if (drawerItemCategory.getId() == BANNERS_ID)
                                 drawerListener.onDrawerBannersSelected();
@@ -188,8 +188,13 @@ public class DrawerFragment extends Fragment {
             @Override
             public void onSubCategorySelected(View v, DrawerItemCategory drawerItemCategory) {
                 if (drawerListener != null) {
-                    drawerListener.onDrawerItemCategorySelected(drawerItemCategory);
-                    closeDrawerMenu();
+                    if(!drawerItemCategory.hasChildren()) {
+                        drawerListener.onDrawerItemCategorySelected(drawerItemCategory);
+                        closeDrawerMenu();
+                    } else {
+                        //TODO: Test manejo de childrens
+                        animateSubListShow(drawerItemCategory);
+                    }
                 }
             }
         });

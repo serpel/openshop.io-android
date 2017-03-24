@@ -32,6 +32,7 @@ public class JsonUtils {
     public static final String TAG_ZIP = "zip";
     public static final String TAG_PHONE = "phone";
     public static final String TAG_GENDER = "gender";
+    public static final String TAG_BLUETOOTH = "bluetooth";
 
     // ORDERS
     public static final String TAG_DATE_CREATED = "date_created";

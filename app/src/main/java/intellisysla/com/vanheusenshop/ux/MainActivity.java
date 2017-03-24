@@ -77,6 +77,7 @@ import intellisysla.com.vanheusenshop.ux.dialogs.LoginDialogFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.AccountEditFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.AccountFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.BannersFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.BluetoothFinderFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.CartFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.CategoryFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ClientsFragment;
@@ -787,6 +788,11 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     public void startSettingsFragment() {
         Fragment fragment = new SettingsFragment();
         replaceFragment(fragment, SettingsFragment.class.getSimpleName());
+    }
+
+    public void startBluetoothFragment() {
+        Fragment fragment = new BluetoothFinderFragment();
+        replaceFragment(fragment, BluetoothFinderFragment.class.getSimpleName());
     }
 
     /**

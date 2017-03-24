@@ -46,6 +46,7 @@ public class AccountFragment extends Fragment {
     private TextView tvUserName;
     private TextView tvEmail;
     private Button backButton;
+    private Button myPayments;
 
     // Actions
     private Button myOrdersBtn;
@@ -64,6 +65,8 @@ public class AccountFragment extends Fragment {
         tvEmail = (TextView) view.findViewById(R.id.account_email);
         backButton = (Button) view.findViewById(R.id.account_back);
 
+        myPayments = (Button) view.findViewById(R.id.account_payment);
+
         myOrdersBtn = (Button) view.findViewById(R.id.account_my_orders);
         myOrdersBtn.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -81,6 +84,16 @@ public class AccountFragment extends Fragment {
                 Activity activity = getActivity();
                 if (activity != null && activity instanceof MainActivity)
                     ((MainActivity) getActivity()).startSettingsFragment();
+            }
+        });
+
+        Button bluetoothBtn = (Button) view.findViewById(R.id.account_printer_setting);
+        bluetoothBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                if (activity != null && activity instanceof MainActivity)
+                    ((MainActivity) getActivity()).startBluetoothFragment();
             }
         });
 
