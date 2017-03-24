@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.client.Document;
@@ -65,8 +67,8 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
         holder.documentCode.setText(holder.document.getDocumentCode());
         holder.createdDate.setText(holder.document.getCreatedDate());
         holder.dueDate.setText(holder.document.getDueDate());
-        holder.totalAmount.setText(holder.document.getTotalAmount().toString());
-        holder.payedAmount.setText(holder.document.getPayedAmount().toString());
+        holder.totalAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getTotalAmount()));
+        holder.payedAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getPayedAmount()));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

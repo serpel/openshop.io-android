@@ -35,7 +35,6 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
         mContext = context;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -47,7 +46,7 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         holder.mItem = mValues.get(position);
-
+        holder.warehouse.setText(mContext.getString(R.string.Warehouse) + ": " + holder.mItem.getWarehouse());
         holder.colorCode.setText(holder.mItem .getColor().getValue());
         holder.new_quantity.setText(String.valueOf(holder.mItem.getNew_quantity()));
         holder.price.setText(mContext.getString(R.string.Price) + ": "
@@ -103,6 +102,7 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
         public final TextView colorCode;
         public final TextView price;
         public final TextView stock;
+        public final TextView warehouse;
         public final TextView is_committed;
         public final EditText new_quantity;
         public final RoundedImageView roundImage;
@@ -116,6 +116,7 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
             price = (TextView) view.findViewById(R.id.product_color_price);
             is_committed = (TextView) view.findViewById(R.id.product_color_quantity_avalible);
             stock = (TextView) view.findViewById(R.id.product_color_stock);
+            warehouse = (TextView) view.findViewById(R.id.product_warehouse);
             new_quantity = (EditText) view.findViewById(R.id.product_color_new_quantity);
             roundImage = (RoundedImageView) view.findViewById(R.id.product_color_picker_image_view);
             plusImage = (ImageView) view.findViewById(R.id.product_color_plus_image) ;

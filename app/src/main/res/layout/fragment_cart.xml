@@ -80,18 +80,6 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:id="@+id/cart_footer_action"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="?attr/selectableItemBackground"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/Do_you_have_a_discount_code"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="16sp"/>
-
-                <TextView
                     android:id="@+id/cart_footer_quantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/including_VAT"
+                    android:text="@string/SubTotal"
                     android:textColor="@color/textSecondary"
                     android:textSize="13sp"/>
             </LinearLayout>

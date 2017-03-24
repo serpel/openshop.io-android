@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -888,9 +889,14 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         // If back button pressed, try close drawer if exist and is open. If drawer is already closed continue.
         if (drawerFragment == null || !drawerFragment.onBackHide()) {
             // If app should be finished or some fragment transaction still remains on backStack, let the system do the job.
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0 || isAppReadyToFinish)
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0 || isAppReadyToFinish) {
+
+                int count = getSupportFragmentManager().getBackStackEntryCount() - 1;
+                if(getSupportFragmentManager().getBackStackEntryAt(count) instanceof ProductMatrixFragment){
+                    Toast.makeText(this, "le dio back", Toast.LENGTH_LONG).show();
+                }
                 super.onBackPressed();
-            else {
+            }else {
                 // BackStack is empty. For closing the app user have to tap the back button two times in two seconds.
                 MsgUtils.showToast(this, MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Another_click_for_leaving_app), MsgUtils.ToastLength.SHORT);
                 isAppReadyToFinish = true;

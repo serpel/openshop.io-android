@@ -34,6 +34,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import intellisysla.com.vanheusenshop.BuildConfig;
@@ -71,12 +73,12 @@ public class ProductMatrixFragment extends Fragment {
     private List<Fragment> fragments;
 
     private TextView SKUDescriptionText;
-    private Spinner mWarehouseSpinner;
+    private TextView ProductBrand;
+    //private Spinner mWarehouseSpinner;
     public ImageView productImage;
     private RelativeLayout productContainer;
 
     private boolean loadHighRes = false;
-
 
     public ProductMatrixFragment() {
     }
@@ -109,11 +111,12 @@ public class ProductMatrixFragment extends Fragment {
 
         progressView = (ProgressBar) view.findViewById(R.id.product_matrix_progress);
         SKUDescriptionText = (TextView) view.findViewById(R.id.product_matrix_sku);
+        ProductBrand = (TextView) view.findViewById(R.id.product_brand);
         productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
         productContainer = (RelativeLayout) view.findViewById(R.id.product_matrix_main_layout);
 
         mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
-        mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
+        //mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
 
         //This show the scrollview correctly
        /* NestedScrollView scrollView = (NestedScrollView) view.findViewById (R.id.product_matrix_nested_scroll);
@@ -168,6 +171,26 @@ public class ProductMatrixFragment extends Fragment {
         }
     }
 
+    private void addProductToCart(ProductVariant variant, User user) {
+            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity());
+            JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
+                    //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
+                    Analytics.logAddProductToCart(product.getRemoteId(), product.getCode(), 0.0);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            }, getFragmentManager(), user.getAccessToken());
+            addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            addToCart.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
+    }
+
 
     private void getProduct(final long productId) {
         // Load product info
@@ -216,6 +239,7 @@ public class ProductMatrixFragment extends Fragment {
 
             this.product = product;
             SKUDescriptionText.setText(product.getCode() + " - " + product.getName() + " - " + product.getSeason());
+            ProductBrand.setText(product.getBrand());
 
             if (loadHighRes && product.getMainImageHighRes() != null) {
                 Picasso.with(getContext()).load(product.getMainImageHighRes())
@@ -242,20 +266,15 @@ public class ProductMatrixFragment extends Fragment {
         if (product != null && product.getVariants() != null && product.getVariants().size() > 0) {
             this.product = product;
             List<ProductSize> productSizes = new ArrayList<>();
-            List<String> warehouses = new ArrayList<>();
 
             for (ProductVariant pv : product.getVariants()) {
                 ProductSize size = pv.getSize();
-                String warehouse = pv.getWarehouse();
-
                 if(!productSizes.contains(size)){
                     productSizes.add(size);
                 }
-
-                if(!warehouses.contains(warehouse)){
-                    warehouses.add(warehouse);
-                }
             }
+
+            orderSizesAscending(productSizes);
 
             List<ProductMatrixView> items = new ArrayList<>();
             fragments = new ArrayList<>();
@@ -265,17 +284,19 @@ public class ProductMatrixFragment extends Fragment {
                 fragments.add(ProductColorFragment.newInstance(size, variants));
             }
 
-            //Create Warehouse Spinner
-            if(warehouses.size() > 0){
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, warehouses);
-                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mWarehouseSpinner.setAdapter(spinnerArrayAdapter);
-            }
-
             mSectionsPagerAdapter.setPages(items);
             mSectionsPagerAdapter.setFragments(fragments);
             mSectionsPagerAdapter.updateView();
         }
+    }
+
+    private void orderSizesAscending(List<ProductSize> productSizes){
+       Collections.sort(productSizes, new Comparator<ProductSize>() {
+           @Override
+           public int compare(ProductSize productSize, ProductSize t1) {
+               return productSize.getValue().compareTo(t1.getValue());
+           }
+       });
     }
 
     @Override
@@ -379,12 +400,16 @@ public class ProductMatrixFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            for(Fragment fragment:fragments){
-                ProductColorFragment productColorFragment = (ProductColorFragment) fragment;
-                ArrayList<ProductVariant> variants = productColorFragment.getVariants();
+            User user = SettingsMy.getActiveUser();
+            if(user != null) {
+                for (Fragment fragment : fragments) {
+                    ProductColorFragment productColorFragment = (ProductColorFragment) fragment;
+                    ArrayList<ProductVariant> variants = productColorFragment.getVariants();
 
-                for(ProductVariant productVariant:variants){
-                    postProductToCart(productVariant);
+                    for (ProductVariant productVariant : variants) {
+                        if (productVariant.getNew_quantity() > 0)
+                            addProductToCart(productVariant, user);
+                    }
                 }
             }
 

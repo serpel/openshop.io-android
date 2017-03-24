@@ -27,6 +27,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
@@ -262,9 +265,9 @@ public class DocumentsFragment extends Fragment {
 
                         clientCode.setText(response.getClientCardCode());
                         clientName.setText(response.getClientName());
-                        clientCreditLimit.setText(String.valueOf(response.getCreaditLimit()));
-                        clientBalance.setText(String.valueOf(response.getBalance()));
-                        clientInOrders.setText(String.valueOf(response.getInOrders()));
+                        clientCreditLimit.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getCreaditLimit()));
+                        clientBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getBalance()));
+                        clientInOrders.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getInOrders()));
                         clientPayCondition.setText(response.getPayCondition());
 
                         loadMoreProgress.setVisibility(View.GONE);

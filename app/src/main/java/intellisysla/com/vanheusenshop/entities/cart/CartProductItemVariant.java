@@ -31,12 +31,23 @@ public class CartProductItemVariant {
     private String code;
     private String description;
 
+    @SerializedName("warehouse_code")
+    private String warehouseCode;
+
     @SerializedName("main_image")
     private String mainImage;
     private ProductColor color;
     private ProductSize size;
 
     public CartProductItemVariant() {
+    }
+
+    public String getWarehouseCode() {
+        return warehouseCode;
+    }
+
+    public void setWarehouseCode(String warehouseCode) {
+        this.warehouseCode = warehouseCode;
     }
 
     public long getId() {
@@ -195,7 +206,6 @@ public class CartProductItemVariant {
             return false;
         if (color != null ? !color.equals(that.color) : that.color != null) return false;
         return !(size != null ? !size.equals(that.size) : that.size != null);
-
     }
 
     @Override

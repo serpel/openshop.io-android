@@ -376,9 +376,6 @@ public class OrderCreateFragment extends Fragment {
                 tvItemPrice.setText(cartProductItems.get(i).getTotalItemPriceFormatted());
                 TextView tvItemQuantity = (TextView) llRow.findViewById(R.id.order_create_cart_item_quantity);
                 tvItemQuantity.setText(getString(R.string.format_quantity, cartProductItems.get(i).getQuantity()));
-                TextView tvItemDetails = (TextView) llRow.findViewById(R.id.order_create_cart_item_details);
-                tvItemDetails.setText(getString(R.string.format_string_division, cartProductItems.get(i).getVariant().getColor().getValue(),
-                        cartProductItems.get(i).getVariant().getSize().getValue()));
                 cartItemsLayout.addView(llRow);
             }
             if (cart.getDiscounts() != null) {

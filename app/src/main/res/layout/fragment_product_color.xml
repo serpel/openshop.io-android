@@ -21,9 +21,11 @@
                     android:id="@+id/color_picker_image_stroke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/oval_stroke">
 
                     <intellisysla.com.vanheusenshop.views.RoundedImageView
@@ -40,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="30dp"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:text="AMA"
                     android:layout_weight="0.21" />
@@ -49,10 +51,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="0dp"
                     android:layout_marginLeft="@dimen/base_margin_half"
                     android:layout_marginRight="@dimen/base_margin_half"
-                    android:layout_weight="1"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/product_warehouse"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:maxLines="1"
+                        android:paddingBottom="4dp"
+                        android:textSize="13sp"
+                        android:text="bodega: 01"/>
 
                     <TextView
                         android:id="@+id/product_color_stock"
@@ -61,7 +74,7 @@
                         android:fontFamily="sans-serif-light"
                         android:maxLines="1"
                         android:paddingBottom="4dp"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:text="stock: 10"/>
 
                     <TextView
@@ -71,7 +84,7 @@
                         android:fontFamily="sans-serif-light"
                         android:maxLines="1"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:text="disponible: 10"/>
 
                     <TextView
@@ -81,15 +94,16 @@
                         android:fontFamily="sans-serif-light"
                         android:maxLines="1"
                         android:paddingTop="4dp"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:text="precio: 1230 LPS"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_margin"
-                    android:layout_marginTop="@dimen/base_margin_vertical"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="25dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -112,7 +126,7 @@
                         android:text="0"
                         android:maxLength="4"
                         android:textColor="@color/colorAccent"
-                        android:textSize="16sp" />
+                        android:textSize="22sp" />
 
                     <ImageView
                         android:id="@+id/product_color_plus_image"

@@ -20,6 +20,9 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
@@ -143,8 +146,8 @@ public class CartFragment extends Fragment {
                                 setCartVisibility(true);
                                 cartRecyclerAdapter.refreshItems(cart);
 
-                                cartItemCountTv.setText(getString(R.string.format_quantity, cart.getProductCount()));
-                                cartTotalPriceTv.setText(cart.getTotalPriceFormatted());
+                                cartItemCountTv.setText(getString(R.string.format_quantity_lines, cart.getProductCount()));
+                                cartTotalPriceTv.setText(NumberFormat.getNumberInstance(Locale.US).format(cart.getTotalPrice()));
                             }
                         }
                     }, new Response.ErrorListener() {
