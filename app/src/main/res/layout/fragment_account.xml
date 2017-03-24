@@ -75,6 +75,22 @@
                     android:layout_height="match_parent"/>
 
                 <Button
+                    android:id="@+id/account_printer_setting"
+                    style="@style/buttonSecondaryStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/Printer"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin_vertical"
+                android:orientation="horizontal">
+
+                <Button
                     android:id="@+id/account_my_orders"
                     style="@style/buttonSecondaryStyle"
                     android:layout_width="0dp"
@@ -83,6 +99,23 @@
                     android:text="@string/My_orders"
                     android:visibility="gone"
                     tools:visibility="visible"/>
+
+                <View
+                    android:layout_width="@dimen/base_margin"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:id="@+id/account_payment"
+                    style="@style/buttonSecondaryStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/Payments"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+
+
             </LinearLayout>
 
             <LinearLayout

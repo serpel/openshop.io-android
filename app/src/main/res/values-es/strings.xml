@@ -205,6 +205,8 @@
     <string name="AccountPayment">Efectuar Pago</string>
     <string name="Warehouse">Bodega</string>
     <string name="Discount">Descuento:</string>
+    <string name="Printer">Impresora</string>
+    <string name="Payments">Mis Cobros</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola!</string>
 </resources>
