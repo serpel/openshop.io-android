@@ -19,6 +19,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ import com.android.volley.VolleyError;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.applinks.AppLinkData;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,6 +54,7 @@ import intellisysla.com.vanheusenshop.entities.Shop;
 import intellisysla.com.vanheusenshop.entities.ShopResponse;
 import intellisysla.com.vanheusenshop.testing.EspressoIdlingResource;
 import intellisysla.com.vanheusenshop.utils.Analytics;
+import intellisysla.com.vanheusenshop.utils.BluetoothPrinter;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.Utils;
 import intellisysla.com.vanheusenshop.ux.adapters.ShopSpinnerAdapter;
@@ -68,6 +72,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private Activity activity;
     private ProgressDialog progressDialog;
+
+    public static Resources resources;
 
     /**
      * Indicates if layout has been already created.
@@ -105,6 +111,22 @@ public class SplashActivity extends AppCompatActivity {
         progressDialog = Utils.generateProgressDialog(this, false);
 
         init();
+
+        resources = getResources();
+
+        /*
+        ArrayList<String> productos = new ArrayList<>(Arrays.asList("BF6CACR02-560-015", "CC0001-CLL-165", "BF6CACR02-560-015"));
+        ArrayList<Integer> cantidades = new ArrayList<>(Arrays.asList(1,1,1));
+        ArrayList<Double> precios_unitarios = new ArrayList<>(Arrays.asList(365.0,145.0,365.0));
+        ArrayList<Double> totales = new ArrayList<>(Arrays.asList(419.750,166.75,419.750));
+
+        BluetoothPrinter.print("00:12:F3:19:2D:C1",
+                "15/02/2017", "KAM200025", "C1389", "AGROCOMERCIAL TOCOA",
+                "BARRIO LOURDES. CARRETERA PANAMERICANA CONTIGUO A GAS. PUMA FRENTE AL AVION, BARRIO L",
+                "2424-7077", "18021972000654", "Jose Almendarez",
+                productos, cantidades, precios_unitarios, totales,
+                510, 0, 586.5, 76.5, 586.5);
+        */
     }
 
     /**

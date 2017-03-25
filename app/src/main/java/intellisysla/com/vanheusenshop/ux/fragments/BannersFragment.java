@@ -29,6 +29,7 @@ import intellisysla.com.vanheusenshop.entities.BannersResponse;
 import intellisysla.com.vanheusenshop.entities.Metadata;
 import intellisysla.com.vanheusenshop.interfaces.BannersRecyclerInterface;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
+import intellisysla.com.vanheusenshop.utils.BluetoothPrinter;
 import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.Utils;
@@ -135,12 +136,14 @@ public class BannersFragment extends Fragment {
             @Override
             public void onSingleClick(View v) {
                 // Just open drawer menu.
+
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) activity;
                     if (mainActivity.drawerFragment != null)
                         mainActivity.drawerFragment.toggleDrawerMenu();
                 }
+
             }
         });
     }

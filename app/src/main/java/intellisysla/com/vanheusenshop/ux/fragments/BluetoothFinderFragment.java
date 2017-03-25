@@ -36,6 +36,7 @@ import intellisysla.com.vanheusenshop.SettingsMy;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.User.User;
+import intellisysla.com.vanheusenshop.utils.BluetoothPrinter;
 import intellisysla.com.vanheusenshop.utils.JsonUtils;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.dialogs.LoginExpiredDialogFragment;
@@ -185,6 +186,7 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
         String printer_mac_address = mDeviceAddressList.get(position);
 
         putUser(printer_mac_address);
+
     }
 
     /**

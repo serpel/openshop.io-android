@@ -79,10 +79,15 @@ task clearData(type: Exec) {
 repositories { mavenCentral() }
 
 dependencies {
+
     //  if needed jar libraries, add them to libs folder and load them here:
+
     //  compile fileTree(include: ['*.jar'], dir: 'libs')
+
     //// Unit testing dependencies
+
     // Set this dependency if you want to use the Hamcrest matcher library
+
     //// Instrumentation test dependencies
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
@@ -109,6 +114,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    compile files('libs/do_androidsdk.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'

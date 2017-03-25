@@ -242,4 +242,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <!-- Invoice Data -->
+    <string name="CompanyName">VAN HEUSEN DE C.A.</string>
+    <string name="CompanyAddress">Col San Fernando, Ave. Juan Pablo II frente a la Leyde. SPS Cortes</string>
+    <string name="CompanyPhone">25160100</string>
+    <string name="CompanyFax">25164080</string>
+    <string name="CompanyRTN">05019995143200</string>
+
 </resources>
