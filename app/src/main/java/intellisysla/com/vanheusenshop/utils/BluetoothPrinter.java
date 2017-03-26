@@ -47,11 +47,6 @@ public class BluetoothPrinter {
                              List<OrderItem> products,
                              double sub_total, double discount, double total_after_discount, double IVA, double total)
     {
-        if(client==null || products==null)
-        {
-            return;
-        }
-
         byte[] printData = {0};
 
         DocumentExPCL_LP docExPCL_LP = new DocumentExPCL_LP(3);

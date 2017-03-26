@@ -17,6 +17,7 @@
     <string name="Required_field">Required field</string>
     <string name="The_entries_must_match">The entries must match</string>
     <string name="Content_is_empty">Content is empty.</string>
+    <string name="You_must_select_a_client_before_creating_and_order">You must select a client before creating and order.</string>
 
     <!-- Strings related to splash screen -->
     <string name="Select_shop">Select shop</string>

@@ -42,6 +42,7 @@ import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.cart.CartProductItem;
+import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.order.Order;
 import intellisysla.com.vanheusenshop.entities.order.OrderItem;
 import intellisysla.com.vanheusenshop.utils.BluetoothPrinter;
@@ -56,6 +57,7 @@ import intellisysla.com.vanheusenshop.views.ResizableImageView;
 import timber.log.Timber;
 
 import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
+import static intellisysla.com.vanheusenshop.SettingsMy.getActiveUser;
 import static intellisysla.com.vanheusenshop.SettingsMy.getSettings;
 
 /**
@@ -271,11 +273,20 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             orderPrint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BluetoothPrinter.print(context,
-                            "00:12:F3:19:2D:C1",
-                            order.getDateCreated(), order.getClient(), order.getSeller(),
-                            order.getProducts(),
-                            order.getSubtotal(), order.getDiscount(), order.getSubtotal() - order.getDiscount(), order.getIVA(), order.getTotal());
+                    User user = getActiveUser();
+                    Client client = order.getClient();
+                    List<OrderItem> products = order.getProducts();
+
+                    if(user!=null && client!=null && products!=null) {
+                        BluetoothPrinter.print(context,
+                                user.getPrintBluetoothAddress(),
+                                order.getDateCreated(), client, order.getSeller(),
+                                products,
+                                order.getSubtotal(), order.getDiscount(), order.getSubtotal() - order.getDiscount(), order.getIVA(), order.getTotal());
+                    }else
+                    {
+                        MsgUtils.showToast((Activity)context, MsgUtils.TOAST_TYPE_INTERNAL_ERROR, context.getString(R.string.Internal_error), MsgUtils.ToastLength.SHORT);
+                    }
 
                 }
             });

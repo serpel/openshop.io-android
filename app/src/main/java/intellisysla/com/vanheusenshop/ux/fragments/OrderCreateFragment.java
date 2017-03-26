@@ -1,7 +1,10 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaRouter;
 import android.os.Bundle;
@@ -134,7 +137,7 @@ public class OrderCreateFragment extends Fragment {
         summaryText = (TextView) view.findViewById(R.id.order_create_summary_text);
 
         SharedPreferences prefs = getSettings();
-        String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "C0001");
+        String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "" );
         summaryText.setText(getString(R.string.Summary) + " - " + getString(R.string.Customer) + ": " + card_code);
 
         orderTotalPriceTv = (TextView) view.findViewById(R.id.order_create_summary_total_price);
@@ -431,11 +434,31 @@ public class OrderCreateFragment extends Fragment {
 
     private void postOrder(final Order order) {
         final User user = SettingsMy.getActiveUser();
-        if (user != null) {
 
-            SharedPreferences prefs = getSettings();
-            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "C0001");
+        SharedPreferences prefs = getSettings();
+        String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, null);
 
+        if(card_code==null)
+        {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+            builder1.setMessage(getString(R.string.You_must_select_a_client_before_creating_and_order));
+                    builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    getString(R.string.Ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+            return;
+        }
+
+        if (user != null)
+        {
             if(selectedSeller != null){
                 order.setSalesPersonCode(selectedSeller.getSalesPersonId());
             }else{

@@ -12,6 +12,7 @@
     <string name="Required_field">Campo requerido</string>
     <string name="The_entries_must_match">Estas entrada debe ser igual</string>
     <string name="Content_is_empty">Contenido esta vacio.</string>
+    <string name="You_must_select_a_client_before_creating_and_order">Debes seleccionar un cliente antes de crear una una orden.</string>
 
     <!-- Strings related to splash screen -->
     <string name="Select_shop">Seleccionar Tienda</string>
