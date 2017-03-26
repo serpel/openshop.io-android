@@ -66,7 +66,7 @@ public class BluetoothPrinter {
         paramExPCL_LP.setFontIndex(5);
         paramExPCL_LP.setIsBold(false);
         docExPCL_LP.writeText(context.getString(R.string.CompanyAddress), paramExPCL_LP);
-        docExPCL_LP.writeText(context.getString(R.string.Phone) + ": " + context.getString(R.string.CompanyPhone) + context.getString(R.string.Fax)   + ": " + context.getString(R.string.CompanyFax), paramExPCL_LP);
+        docExPCL_LP.writeText(context.getString(R.string.Phone) + ": " + context.getString(R.string.CompanyPhone) + " " + context.getString(R.string.Fax)   + ": " + context.getString(R.string.CompanyFax), paramExPCL_LP);
 
         paramExPCL_LP.setFontIndex(3);
         docExPCL_LP.writeText(context.getString(R.string.RTN) + ": " + context.getString(R.string.CompanyRTN), paramExPCL_LP);

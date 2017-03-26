@@ -22,7 +22,9 @@ public class Client {
     public Client(){}
 
     public String getAddress() {
-        return address;
+        if(address!=null)
+            return address;
+        return "";
     }
 
     public void setAddress(String address) {
@@ -30,7 +32,9 @@ public class Client {
     }
 
     public String getRTN() {
-        return RTN;
+        if(RTN!=null)
+            return RTN;
+        return "";
     }
 
     public void setRTN(String RTN) {
@@ -38,7 +42,9 @@ public class Client {
     }
 
     public String getName() {
-        return name;
+        if(name!=null)
+            return name;
+        return "";
     }
 
     public void setName(String name) {
@@ -46,7 +52,9 @@ public class Client {
     }
 
     public String getCardCode() {
-        return cardCode;
+        if(cardCode!=null)
+            return cardCode;
+        return "";
     }
 
     public void setCardCode(String cardCode) {
@@ -54,7 +62,9 @@ public class Client {
     }
 
     public String getPhone() {
-        return phone;
+        if(phone!=null)
+            return phone;
+        return "";
     }
 
     public void setPhone(String phone) {
@@ -62,7 +72,9 @@ public class Client {
     }
 
     public String getEmail() {
-        return email;
+        if(email!=null)
+            return email;
+        return "";
     }
 
     public void setEmail(String email) {

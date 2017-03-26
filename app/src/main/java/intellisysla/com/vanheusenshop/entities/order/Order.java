@@ -32,8 +32,6 @@ public class Order {
     private List<OrderItem> products;
     private Client client;
     private String seller;
-    private String email;
-    private String phone;
     private String comment;
 
     @SerializedName("sales_person_code")
@@ -108,22 +106,6 @@ public class Order {
 
     public void setTotalFormatted(String totalFormatted) {
         this.totalFormatted = totalFormatted;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getComment() {
@@ -212,8 +194,6 @@ public class Order {
         if (status != null ? !status.equals(order.status) : order.status != null) return false;
         if (totalFormatted != null ? !totalFormatted.equals(order.totalFormatted) : order.totalFormatted != null) return false;
         if (products != null ? !products.equals(order.products) : order.products != null) return false;
-        if (email != null ? !email.equals(order.email) : order.email != null) return false;
-        if (phone != null ? !phone.equals(order.phone) : order.phone != null) return false;
         return !(comment != null ? !comment.equals(order.comment) : order.comment != null);
     }
 
@@ -225,8 +205,6 @@ public class Order {
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (totalFormatted != null ? totalFormatted.hashCode() : 0);
         result = 31 * result + (products != null ? products.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
     }
@@ -241,8 +219,6 @@ public class Order {
                 ", total=" + total +
                 ", totalFormatted='" + totalFormatted + '\'' +
                 ", products=" + products +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
                 ", note='" + comment + '\'' +
                 '}';
     }

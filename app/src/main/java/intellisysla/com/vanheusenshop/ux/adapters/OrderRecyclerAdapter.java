@@ -97,7 +97,6 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolderOrderProduct) {
             ViewHolderOrderProduct viewHolderOrderProduct = (ViewHolderOrderProduct) holder;
-
             /*
             Picasso.with(context).load(order.getProducts().get(position - 1).getVariant().getMainImage())
                     .fit().centerInside()
@@ -121,7 +120,9 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             viewHolderHeader.context = context;
 
             if(order.getClient()!=null)
-                viewHolderHeader.order_create_summary_text.setText(context.getString(R.string.Summary) + " - " + context.getString(R.string.Customer) + ": " + order.getClient().getCardCode());
+                viewHolderHeader.order_create_summary_text.setText(context.getString(R.string.Summary) +
+                        " - " + context.getString(R.string.Customer) + ": "
+                        + order.getClient().getCardCode());
             DecimalFormat df = new DecimalFormat("0.00");
             viewHolderHeader.order_create_subtotal.setText("Subtotal: " + df.format(order.getSubtotal()));
             viewHolderHeader.order_create_discount.setText("Discount: " + df.format(order.getDiscount()));
@@ -129,7 +130,6 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             viewHolderHeader.order_create_total_price.setText("Total: " + df.format(order.getTotal()));
             viewHolderHeader.order_create_seller.setText(order.getSeller());
             viewHolderHeader.order_comment.setText(order.getComment());
-            viewHolderHeader.order_create_summary_total_price.setText(df.format(order.getTotal()));
 
             if(order.getProducts()!=null) {
                 for (int i = 0; i < order.getProducts().size(); i++) {
@@ -224,7 +224,6 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TextView order_create_total_price;
         public TextView order_create_seller;
         public TextView order_comment;
-        public TextView order_create_summary_total_price;
 
         LinearLayout order_create_cart_items_layout;
 
@@ -244,7 +243,8 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             order_create_total_price = (TextView) headerView.findViewById(R.id.order_create_total_price);
             order_create_seller = (TextView) headerView.findViewById(R.id.order_create_seller);
             order_comment = (TextView) headerView.findViewById(R.id.order_comment);
-            order_create_summary_total_price = (TextView) headerView.findViewById(R.id.order_create_summary_total_price);
+
+            order_create_summary_text = (TextView) headerView.findViewById(R.id.order_create_summary_text);
 
             order_create_cart_items_layout = (LinearLayout) headerView.findViewById(R.id.order_create_cart_items_layout);
 
@@ -275,7 +275,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                             "00:12:F3:19:2D:C1",
                             order.getDateCreated(), order.getClient(), order.getSeller(),
                             order.getProducts(),
-                            order.getSubtotal(), order.getDiscount(), order.getTotal() - order.getDiscount(), order.getIVA(), order.getTotal());
+                            order.getSubtotal(), order.getDiscount(), order.getSubtotal() - order.getDiscount(), order.getIVA(), order.getTotal());
 
                 }
             });
