@@ -18,6 +18,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -60,6 +61,8 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
     private ArrayList<String> mDeviceList = new ArrayList<String>();
     private ArrayList<String> mDeviceAddressList = new ArrayList<String>();
     private BluetoothAdapter mBluetoothAdapter;
+
+    ProgressBar deliveryProgressBar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -120,6 +123,8 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         getActivity().registerReceiver(mReceiver, filter);
 
+        deliveryProgressBar = (ProgressBar) view.findViewById(R.id.delivery_progress);
+
         return view;
     }
 
@@ -135,6 +140,8 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
                 mListView.setAdapter(new ArrayAdapter<String>(context,
                         android.R.layout.simple_list_item_1, mDeviceList));
             }
+
+            deliveryProgressBar.setVisibility(View.GONE);
         }
     };
 

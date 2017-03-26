@@ -62,6 +62,7 @@
     <string name="Account">Cuenta</string>
     <string name="Email">Correo</string>
     <string name="Phone">Tel</string>
+    <string name="Fax">Fax</string>
     <string name="Street">Calle</string>
     <string name="House_code">No Casa</string>
     <string name="City">Ciudad</string>
@@ -89,6 +90,8 @@
     <string name="Forgot_your_password">Olvidaste Contrasena?</string>
     <string name="Email_for_recovery">Correo alterno</string>
     <string name="Reset">Resetear</string>
+    <string name="Resend">Reenviar</string>
+    <string name="Print">Imprimir</string>
     <string name="Log_me_in">Log me in</string>
     <string name="E_MAIL">E-MAIL</string>
     <string name="FACEBOOK">FACEBOOK</string>
@@ -210,10 +213,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola!</string>
 
-    <!-- Invoice Data -->
+    <!-- Invoice Related Data -->
     <string name="CompanyName">VAN HEUSEN DE C.A.</string>
     <string name="CompanyAddress">Col San Fernando, Ave. Juan Pablo II frente a la Leyde. SPS Cortes</string>
     <string name="CompanyPhone">25160100</string>
     <string name="CompanyFax">25164080</string>
     <string name="CompanyRTN">05019995143200</string>
+    <string name="RTN">RTN</string>
+    <string name="SalesOrder">Sales Order</string>
+
+    <string name="Date">Fecha</string>
+    <string name="ClientCode">Codigo de Cliente</string>
+    <string name="Address">Direccion</string>
+    <string name="Amount">Cantidad</string>
+    <string name="Total">Total</string>
+    <string name="TotalAfterDiscount">Total despues del descuento</string>
+    <string name="IVA">ISV</string>
+    <string name="NameAndSignature">Nombre y Firma</string>
 </resources>
