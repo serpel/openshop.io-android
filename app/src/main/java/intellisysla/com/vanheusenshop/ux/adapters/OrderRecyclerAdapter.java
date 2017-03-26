@@ -78,11 +78,12 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (holder instanceof ViewHolderOrderProduct) {
             ViewHolderOrderProduct viewHolderOrderProduct = (ViewHolderOrderProduct) holder;
 
-            Picasso.with(context).load(order.getProducts().get(position - 1).getVariant().getMainImage())
+            //TODO: fix image on order item
+            /*Picasso.with(context).load(order.getProducts().get(position - 1).ge().getMainImage())
                     .fit().centerInside()
                     .placeholder(R.drawable.placeholder_loading)
                     .error(R.drawable.placeholder_error)
-                    .into(viewHolderOrderProduct.productImage);
+                    .into(viewHolderOrderProduct.productImage);*/
 
         } else if (holder instanceof ViewHolderHeader) {
             ViewHolderHeader viewHolderHeader = (ViewHolderHeader) holder;

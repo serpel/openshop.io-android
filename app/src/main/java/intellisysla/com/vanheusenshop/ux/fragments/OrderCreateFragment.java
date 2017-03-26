@@ -489,22 +489,6 @@ public class OrderCreateFragment extends Fragment {
         }
     }
 
-    /**
-     * Update user information after successful order.
-     *
-     * @param user  actual user which will be updated
-     * @param order order response for obtain user information
-     */
-    private void updateUserData(User user, Order order) {
-        if (user != null) {
-            user.setEmail(order.getEmail());
-            user.setPhone(order.getPhone());
-            SettingsMy.setActiveUser(user);
-        } else {
-            Timber.e(new NullPointerException(), "Null user after successful order.");
-        }
-    }
-
     @Override
     public void onStop() {
         super.onStop();
