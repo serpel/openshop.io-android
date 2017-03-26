@@ -14,10 +14,28 @@ public class Client {
     private String cardCode;
     private String phone;
     private String email;
+    private String address;
+    private String RTN;
     @SerializedName("documents")
     private List<Document> invoiceList;
 
     public Client(){}
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getRTN() {
+        return RTN;
+    }
+
+    public void setRTN(String RTN) {
+        this.RTN = RTN;
+    }
 
     public String getName() {
         return name;

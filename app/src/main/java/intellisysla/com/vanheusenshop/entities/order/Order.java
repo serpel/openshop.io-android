@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 import intellisysla.com.vanheusenshop.entities.cart.CartProductItem;
+import intellisysla.com.vanheusenshop.entities.client.Client;
 
 public class Order {
 
@@ -16,15 +17,21 @@ public class Order {
     @SerializedName("date_created")
     private String dateCreated;
     private String status;
-    private int total;
-    @SerializedName("total_order")
-    private double totalOrder;
+
+    @SerializedName("item_count")
+    private int itemCount;
+    private double subtotal;
+    private double discount;
+    private double IVA;
+    private double total;
 
     @SerializedName("total_formatted")
     private String totalFormatted;
 
     @SerializedName("items")
-    private List<CartProductItem> products;
+    private List<OrderItem> products;
+    private Client client;
+    private String seller;
     private String email;
     private String phone;
     private String comment;
@@ -37,14 +44,6 @@ public class Order {
     private String cardCode;
 
     public Order() {
-    }
-
-    public double getTotalOrder() {
-        return totalOrder;
-    }
-
-    public void setTotalOrder(double totalOrder) {
-        this.totalOrder = totalOrder;
     }
 
     public long getId() {
@@ -103,28 +102,12 @@ public class Order {
         this.status = status;
     }
 
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
     public String getTotalFormatted() {
         return totalFormatted;
     }
 
     public void setTotalFormatted(String totalFormatted) {
         this.totalFormatted = totalFormatted;
-    }
-
-    public List<CartProductItem> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<CartProductItem> products) {
-        this.products = products;
     }
 
     public String getEmail() {
@@ -149,6 +132,70 @@ public class Order {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getIVA() {
+        return IVA;
+    }
+
+    public void setIVA(double IVA) {
+        this.IVA = IVA;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public List<OrderItem> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<OrderItem> products) {
+        this.products = products;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     @Override
@@ -176,7 +223,6 @@ public class Order {
         result = 31 * result + (remoteId != null ? remoteId.hashCode() : 0);
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + total;
         result = 31 * result + (totalFormatted != null ? totalFormatted.hashCode() : 0);
         result = 31 * result + (products != null ? products.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
