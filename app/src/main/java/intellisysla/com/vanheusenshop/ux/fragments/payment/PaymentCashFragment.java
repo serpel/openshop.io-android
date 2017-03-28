@@ -4,11 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +33,11 @@ public class PaymentCashFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EditText amountEdit;
+    private TextView mainAmountEdit;
+
+    public double cashValue = 0;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,8 +75,20 @@ public class PaymentCashFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payment_cash, container, false);
+        View view = inflater.inflate(R.layout.fragment_payment_cash, container, false);
+
+        //mainAmountEdit = (TextView) view.findViewById(R.id.payment_main_cash);
+        amountEdit = (EditText)view.findViewById(R.id.payment_cash_amount);
+
+        /*amountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                cashValue = Double.valueOf(amountEdit.getText().toString());
+                ((MainActivity)getActivity()).UpdateCash(cashValue);
+            }
+        });*/
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,5 +1,6 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -68,6 +69,9 @@ import intellisysla.com.vanheusenshop.ux.dialogs.LoginExpiredDialogFragment;
 import intellisysla.com.vanheusenshop.ux.dialogs.ProductImagesDialogFragment;
 import mbanje.kurt.fabbutton.FabButton;
 import timber.log.Timber;
+
+import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
+import static intellisysla.com.vanheusenshop.SettingsMy.getSettings;
 
 /**
  * Fragment shows a detail of the product.
@@ -755,18 +759,10 @@ public class ProductFragment extends Fragment {
             if (addToCartImage != null) addToCartImage.setVisibility(View.INVISIBLE);
             if (addToCartProgress != null) addToCartProgress.setVisibility(View.VISIBLE);
 
-            // get selected radio button from radioGroup
-            /*JSONObject jo = new JSONObject();
-            try {
-                jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, selectedProductVariant.getId());
-            } catch (JSONException e) {
-                Timber.e(e, "Create json add product to cart exception");
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
-                return;
-            }*/
+            SharedPreferences prefs = getSettings();
+            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "");
 
-            //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
-            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), selectedProductVariant.getId(), quantity);
+            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), selectedProductVariant.getId(), quantity, card_code);
             JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {

@@ -231,4 +231,7 @@
     <string name="TotalAfterDiscount">Total despues del descuento</string>
     <string name="IVA">ISV</string>
     <string name="NameAndSignature">Nombre y Firma</string>
+    <string name="Cash">Efectivo</string>
+    <string name="Check">Transferencia</string>
+    <string name="Transfer">Cheque</string>
 </resources>

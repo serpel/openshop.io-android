@@ -262,6 +262,8 @@
     <string name="Total">Total</string>
     <string name="TotalAfterDiscount">Total after Discount</string>
     <string name="IVA">IVA</string>
-    <string name="NameAndSignature">Name and Signature</string>
+    <string name="Cash">Cash</string>
+    <string name="Check">Check</string>
+    <string name="Transfer">Transfer</string>
 
 </resources>

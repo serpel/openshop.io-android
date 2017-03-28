@@ -3,8 +3,10 @@ package intellisysla.com.vanheusenshop.ux.fragments.payment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -14,15 +16,29 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import intellisysla.com.vanheusenshop.CONST;
+import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.api.EndPoints;
+import intellisysla.com.vanheusenshop.api.GsonRequest;
+import intellisysla.com.vanheusenshop.entities.client.Client;
+import intellisysla.com.vanheusenshop.entities.client.DocumentListResponse;
 import intellisysla.com.vanheusenshop.entities.delivery.Transport;
 import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
 import intellisysla.com.vanheusenshop.entities.product.ProductSize;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
+import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.fragments.BannersFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductColorFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
@@ -38,17 +54,18 @@ import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 public class PaymentMainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_CARDCODE = "cardcode";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String mCardCode;
 
     private PaymentMainFragment.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private ProgressBar progressView;
     private List<Fragment> fragments;
+    protected TextView CashText, TransferText, CheckText, TotalText;
+    private double cash = 0, transfer = 0, check = 0, total = 0;
+    private Client client;
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,31 +73,54 @@ public class PaymentMainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PaymentMainFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static PaymentMainFragment newInstance(String param1, String param2) {
+    public static PaymentMainFragment newInstance(String cardCode) {
         PaymentMainFragment fragment = new PaymentMainFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_CARDCODE, cardCode);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void UpdateCash(Double cash)
+    {
+        this.cash = cash;
+        this.total += cash;
+        this.CashText.setText(String.valueOf(cash));
+
+        UpdateTotal();
+    }
+
+    public void UpdateTotal()
+    {
+        this.TotalText.setText(String.valueOf(total));
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mCardCode = getArguments().getString(ARG_CARDCODE);
         }
+    }
+
+    private void getClient(String card_code) {
+        String url = String.format(EndPoints.CLIENTS_SINGLE, card_code);
+        GsonRequest<Client> getDocumentRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
+                new Response.Listener<Client>() {
+                    @Override
+                    public void onResponse(@NonNull Client response) {
+                        client = response;
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        });
+        getDocumentRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+        getDocumentRequest.setShouldCache(false);
+        MyApplication.getInstance().addToRequestQueue(getDocumentRequest, CONST.CLIENT_REQUESTS_TAG);
     }
 
     @Override
@@ -88,11 +128,22 @@ public class PaymentMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_main, container, false);
 
+        CashText = (TextView) view.findViewById(R.id.payment_main_cash);
+        TransferText = (TextView) view.findViewById(R.id.payment_main_transfer);
+        CheckText = (TextView) view.findViewById(R.id.payment_main_check);
+        TotalText = (TextView) view.findViewById(R.id.payment_main_total);
+
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
 
         mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         setFragments();
+
+        Bundle startBundle = getArguments();
+        if( startBundle != null){
+            String card_code = startBundle.getString(ARG_CARDCODE, "");
+            //getClient(card_code);
+        }
 
         return view;
     }
@@ -142,7 +193,7 @@ public class PaymentMainFragment extends Fragment {
     }
 
 
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragments;
 
@@ -183,6 +234,8 @@ public class PaymentMainFragment extends Fragment {
             }
             else if(fragment instanceof PaymentCashFragment){
                 title = "Efectivo";
+                double cash = ((PaymentCashFragment) fragment).cashValue;
+
             }
             else if(fragment instanceof PaymentTransferFragment){
                 title = "Transferencia";

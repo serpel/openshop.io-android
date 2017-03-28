@@ -96,6 +96,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     cartProductItem.getVariant().getWarehouseCode()));
             viewHolderProduct.cartProductQuantity.setText(context.getString(R.string.format_quantity,
                     cartProductItem.getQuantity()));
+            viewHolderProduct.cartProductDiscount.setText(String.valueOf(cartProductItem.getVariant().getDiscountPrice()));
 
             Picasso.with(context).load(cartProductItem.getVariant().getMainImage())
                     .fit().centerInside()
@@ -167,6 +168,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView cartProductName;
         TextView cartProductPrice;
         TextView cartProductDetails;
+        TextView cartProductDiscount;
         CartProductItem cartProductItem;
 
         public ViewHolderProduct(View itemView, final CartRecyclerInterface cartRecyclerInterface) {
@@ -175,6 +177,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             cartProductQuantity = (TextView) itemView.findViewById(R.id.cart_product_quantity);
             cartProductName = (TextView) itemView.findViewById(R.id.cart_product_name);
             cartProductPrice = (TextView) itemView.findViewById(R.id.cart_product_price);
+            cartProductDiscount = (TextView) itemView.findViewById(R.id.cart_product_discount);
             cartProductDetails = (TextView) itemView.findViewById(R.id.cart_product_details);
 
             View deleteProduct = itemView.findViewById(R.id.cart_product_delete);

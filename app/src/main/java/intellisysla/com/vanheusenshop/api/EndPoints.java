@@ -21,7 +21,7 @@ public class EndPoints {
     public static final String CLIENTS                  = API_URL2.concat("/GetClients");
     public static final String DOCUMENTS                = API_URL2.concat("/GetDocuments");
     public static final String DOCUMENTS_SINGLE         = API_URL2.concat("/GetDocuments?card_code=%s");
-    public static final String CLIENTS_SINGLE           = API_URL2.concat("/GetClient/%d");
+    public static final String CLIENTS_SINGLE           = API_URL2.concat("/GetClient?card_code=%s");
     public static final String PRODUCTS                 = API_URL2.concat("/GetProducts");
     public static final String PRODUCTS_SINGLE          = API_URL2.concat("/GetProduct/%d");
     public static final String PRODUCTS_SINGLE_RELATED  = API_URL2.concat("/GetProduct/%d?include=related");
@@ -34,7 +34,7 @@ public class EndPoints {
     public static final String USER_CHANGE_PASSWORD     = API_URL.concat("%d/users/%d/password");
     public static final String USER_UPDATE              = API_URL2.concat("/UpdateUser?userId=%d&bluetooth=%s");
     public static final String CART                     = API_URL2.concat("/Cart?userId=%d");
-    public static final String CART_ADD_ITEM            = API_URL2.concat("/AddToCart?userId=%d&product_variant_id=%d&quantity=%d");
+    public static final String CART_ADD_ITEM            = API_URL2.concat("/AddToCart?userId=%d&product_variant_id=%d&quantity=%d&cardcode=%s");
     public static final String CART_INFO                = API_URL2.concat("/CartInfo?userId=%d");
     public static final String CART_ITEM                = API_URL2.concat("/Cart/%d");
     public static final String CART_ITEM_UPDATE         = API_URL2.concat("/UpdateToCart?userId=%d&productCartItemId=%d&newQuantity=%d&newProductVariantId=%d");

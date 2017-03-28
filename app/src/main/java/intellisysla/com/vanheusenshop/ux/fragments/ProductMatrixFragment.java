@@ -1,6 +1,8 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -56,6 +59,9 @@ import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.adapters.MyProductRecyclerViewAdapter;
 import timber.log.Timber;
+
+import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
+import static intellisysla.com.vanheusenshop.SettingsMy.getSettings;
 
 /**
  * Created by alienware on 2/10/2017.
@@ -171,8 +177,8 @@ public class ProductMatrixFragment extends Fragment {
         }
     }
 
-    private void addProductToCart(ProductVariant variant, User user) {
-            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity());
+    private void addProductToCart(ProductVariant variant, User user, String cardcode) {
+            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity(), cardcode);
             JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -397,18 +403,44 @@ public class ProductMatrixFragment extends Fragment {
             MainActivity.updateCartCountNotification();
         }
 
+        private void messageDialog(String message){
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setMessage(message);
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    getString(R.string.Ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
 
-            User user = SettingsMy.getActiveUser();
-            if(user != null) {
-                for (Fragment fragment : fragments) {
-                    ProductColorFragment productColorFragment = (ProductColorFragment) fragment;
-                    ArrayList<ProductVariant> variants = productColorFragment.getVariants();
+            SharedPreferences prefs = getSettings();
+            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "");
 
-                    for (ProductVariant productVariant : variants) {
-                        if (productVariant.getNew_quantity() > 0)
-                            addProductToCart(productVariant, user);
+            if(card_code.isEmpty()){
+                messageDialog("Debes seleccionar cliente antes de usar el carrito");
+            }else {
+
+                User user = SettingsMy.getActiveUser();
+                if (user != null) {
+                    for (Fragment fragment : fragments) {
+                        ProductColorFragment productColorFragment = (ProductColorFragment) fragment;
+                        ArrayList<ProductVariant> variants = productColorFragment.getVariants();
+
+                        for (ProductVariant productVariant : variants) {
+                            if (productVariant.getNew_quantity() > 0)
+                                addProductToCart(productVariant, user, card_code);
+                        }
                     }
                 }
             }

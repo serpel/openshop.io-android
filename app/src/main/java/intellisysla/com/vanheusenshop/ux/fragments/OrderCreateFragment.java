@@ -503,7 +503,7 @@ public class OrderCreateFragment extends Fragment {
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), user.getAccessToken());
-            postOrderRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            postOrderRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             postOrderRequest.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(postOrderRequest, CONST.ORDER_CREATE_REQUESTS_TAG);
         } else {

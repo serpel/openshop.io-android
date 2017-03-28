@@ -10,7 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.client.Document;
+import intellisysla.com.vanheusenshop.ux.adapters.DocumentsRecyclerAdapter;
+import intellisysla.com.vanheusenshop.ux.adapters.InvoiceRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent;
 import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent.DummyItem;
 
@@ -23,10 +28,11 @@ import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent.DummyItem;
 public class PaymentInvoiceFragment extends Fragment {
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_INVOICE_LIST = "invoice-list";
     // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private ArrayList<Document> documents;
     private OnListFragmentInteractionListener mListener;
+    private InvoiceRecyclerAdapter documentsRecyclerAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -37,10 +43,10 @@ public class PaymentInvoiceFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PaymentInvoiceFragment newInstance(int columnCount) {
+    public static PaymentInvoiceFragment newInstance(ArrayList<Document> documents) {
         PaymentInvoiceFragment fragment = new PaymentInvoiceFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putSerializable(ARG_INVOICE_LIST, documents);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +56,7 @@ public class PaymentInvoiceFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            documents = (ArrayList<Document>) getArguments().getSerializable(ARG_INVOICE_LIST);
         }
     }
 
@@ -59,17 +65,11 @@ public class PaymentInvoiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_invoice_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyPaymentInvoiceRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+        Bundle startBundle = getArguments();
+        if (startBundle != null) {
+            documents = (ArrayList<Document>) getArguments().getSerializable(ARG_INVOICE_LIST);
         }
+
         return view;
     }
 
@@ -77,12 +77,6 @@ public class PaymentInvoiceFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override

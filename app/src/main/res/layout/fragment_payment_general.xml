@@ -11,11 +11,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp">
+            android:layout_marginTop="10dp"
+            android:padding="10dp">
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/document_client_code"
@@ -38,7 +38,6 @@
                 android:text="ABARROTERIA POPULAR" />
 
             <TextView
-                android:id="@+id/document_document_credit_limit"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,67 +46,63 @@
                 android:text="FOLIO" />
 
             <EditText
-                android:id="@+id/document_document_pay_condition"
+                android:id="@+id/payment_general_folio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="F01100" />
+                android:text="" />
 
             <TextView
-                android:id="@+id/document_balance_text"
-                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Balance"
+                android:layout_marginTop="10dp"
+                android:text="Referencia"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/payment_general_reference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
-                tools:text="REFERENCIA" />
-
-            <EditText
-                android:id="@+id/document_orders_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="50,000.00"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:visibility="visible"
-                tools:text="112302329" />
+                tools:text="" />
 
             <TextView
-                android:id="@+id/document_balance"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:text="CONTACTO" />
+                android:text="Contacto" />
 
             <EditText
-                android:id="@+id/document_orders"
+                android:id="@+id/payment_general_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="Sergio Peralta" />
+                android:text="" />
 
             <TextView
-                android:id="@+id/document_balance_2"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:text="COMENTARIOS" />
+                android:text="Comentario" />
 
             <EditText
-                android:id="@+id/document_orders_2"
+                android:id="@+id/payment_general_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="Esto es una prueba" />
+                android:text="" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

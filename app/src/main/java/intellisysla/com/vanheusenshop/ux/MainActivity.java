@@ -158,41 +158,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             Timber.e(MSG_MAIN_ACTIVITY_INSTANCE_IS_NULL);
         }
     }
-
-    public static void setActionBarVisible(boolean visible){
-        MainActivity instance = MainActivity.getInstance();
-        if (instance != null) {
-            ActionBar actionBar = instance.getSupportActionBar();
-            if(visible) {
-                actionBar.hide();
-            }else{
-                actionBar.show();
-            }
-        } else {
-            Timber.e(MSG_MAIN_ACTIVITY_INSTANCE_IS_NULL);
-        }
-    }
-
-    //TODO: fix a lot of time rechargin this
-    public static void restoreActionBar(){
-
-        MainActivity instance = MainActivity.getInstance();
-
-        if (instance != null) {
-            Toolbar toolbar = (Toolbar) instance.findViewById(R.id.main_toolbar);
-            instance.setSupportActionBar(toolbar);
-            ActionBar actionBar = instance.getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayShowHomeEnabled(true);
-            } else {
-                Timber.e(new RuntimeException(), "GetSupportActionBar returned null.");
-            }
-
-            instance.drawerFragment = (DrawerFragment) instance.getSupportFragmentManager().findFragmentById(R.id.main_navigation_drawer_fragment);
-            instance.drawerFragment.setUp((DrawerLayout) instance.findViewById(R.id.main_drawer_layout), toolbar, instance);
-        }
-    }
-
     /**
      * Method checks if MainActivity instance exist. If so, then drawer menu header will be invalidated.
      */
@@ -579,6 +544,33 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         loginDialogFragment.show(getSupportFragmentManager(), LoginDialogFragment.class.getSimpleName());
     }
 
+    public void UpdateCash(double cash){
+        UpdateFragment(cash);
+    }
+
+    private void UpdateFragment(Double cash){
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm != null) {
+            List<Fragment> fragments = fm.getFragments();
+            for(int i = fragments.size() - 1; i >= 0; i--){
+                Fragment fragment = fragments.get(i);
+                if(fragment != null) {
+                    // found the current fragment
+
+                    // if you want to check for specific fragment class
+                    if(fragment instanceof PaymentMainFragment) {
+                        // do something
+                        ((PaymentMainFragment)fragment).UpdateCash(cash);
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+
     /**
      * Method creates fragment transaction and replace current fragment with new one.
      *
@@ -639,7 +631,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private void onPaymentSelected(){
         clearBackStack();
         Timber.d("Called onPaymentSelected");
-        Fragment fragment = PaymentMainFragment.newInstance("","");
+        Fragment fragment = PaymentMainFragment.newInstance("");
         replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
     }
 

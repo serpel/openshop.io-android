@@ -2,11 +2,13 @@ package intellisysla.com.vanheusenshop.entities.client;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by alienware on 2/1/2017.
  */
 
-public class Document {
+public class Document implements Serializable {
     @SerializedName("document_code")
     private String documentCode;
     @SerializedName("created_date")

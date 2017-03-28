@@ -114,9 +114,9 @@ public class ClientsFragment extends Fragment {
 
         switch (item.getItemId())
         {
-            case R.id.menu_contextual_account_status:
+            /*case R.id.menu_contextual_account_status:
                 Toast.makeText(getContext(), "le diste a 1", Toast.LENGTH_LONG).show();
-                break;
+                break;*/
             case R.id.menu_contextual_account_payment:
                 //Toast.makeText(getContext(), "le diste a 2", Toast.LENGTH_LONG).show();
                 addPaymentFragment();

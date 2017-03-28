@@ -81,6 +81,17 @@
                 android:textColor="@color/textSecondary"
                 android:textSize="14sp"
                 tools:text="Some product info"/>
+
+            <TextView
+                android:id="@+id/cart_product_discount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="2"
+                android:paddingTop="4dp"
+                android:textColor="@color/colorOrange"
+                android:textSize="14sp"
+                tools:text="Descuento"/>
         </LinearLayout>
 
 
