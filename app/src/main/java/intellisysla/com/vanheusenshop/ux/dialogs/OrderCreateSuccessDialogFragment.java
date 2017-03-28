@@ -52,13 +52,14 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
         return orderCreateSuccessDialogFragment;
 
 
-
+/*
         Bundle args = new Bundle();
         args.putString(CLIENT_PARAM, searchQuery);
 
         ClientsFragment fragment = new ClientsFragment();
         fragment.setArguments(args);
         return fragment;
+        */
     }
 
     @Override
@@ -81,7 +82,7 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
         Timber.d("%s - OnCreateView", this.getClass().getSimpleName());
         View view = inflater.inflate(R.layout.dialog_order_create_success, container, false);
 
-        Button okBtn = (Button) view.findViewById(R.id.order_create_success_ok);
+        Button okBtn = (Button) view.findViewById(R.id.order_create_success_continue);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +96,8 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
         printBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*
                 //String url = String.format(EndPoints.ORDERS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), orderId);
                 String url = String.format(EndPoints.ORDERS_SINGLE, orderId);
 
@@ -109,6 +112,7 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
                         MsgUtils.logAndShowErrorMessage(getActivity(), error);
                     }
                 }, getFragmentManager(), null);
+                */
             }
         });
 
