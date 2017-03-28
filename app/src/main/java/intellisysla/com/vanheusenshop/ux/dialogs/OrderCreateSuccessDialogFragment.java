@@ -13,7 +13,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import intellisysla.com.vanheusenshop.CONST;
+import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.SettingsMy;
+import intellisysla.com.vanheusenshop.api.EndPoints;
+import intellisysla.com.vanheusenshop.api.GsonRequest;
+import intellisysla.com.vanheusenshop.entities.User.User;
+import intellisysla.com.vanheusenshop.entities.order.Order;
+import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 import timber.log.Timber;
 
@@ -32,6 +44,21 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
         OrderCreateSuccessDialogFragment orderCreateSuccessDialogFragment = new OrderCreateSuccessDialogFragment();
         orderCreateSuccessDialogFragment.sampleApplication = sampleApplication;
         return orderCreateSuccessDialogFragment;
+    }
+
+    public static OrderCreateSuccessDialogFragment newInstance(boolean sampleApplication, int orderId) {
+        OrderCreateSuccessDialogFragment orderCreateSuccessDialogFragment = new OrderCreateSuccessDialogFragment();
+        orderCreateSuccessDialogFragment.sampleApplication = sampleApplication;
+        return orderCreateSuccessDialogFragment;
+
+
+
+        Bundle args = new Bundle();
+        args.putString(CLIENT_PARAM, searchQuery);
+
+        ClientsFragment fragment = new ClientsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -61,6 +88,27 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
                 if (getActivity() instanceof MainActivity)
                     ((MainActivity) getActivity()).onDrawerBannersSelected();
                 dismiss();
+            }
+        });
+
+        Button printBtn = (Button) view.findViewById(R.id.order_create_success_print);
+        printBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String url = String.format(EndPoints.ORDERS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), orderId);
+                String url = String.format(EndPoints.ORDERS_SINGLE, orderId);
+
+                GsonRequest<Order> req = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {
+                    @Override
+                    public void onResponse(Order response) {
+                        //
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                    }
+                }, getFragmentManager(), null);
             }
         });
 

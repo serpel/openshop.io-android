@@ -36,13 +36,24 @@
         tools:text="@string/Wait_for_sms_or_email_order_confirmation"/>
 
     <Button
-        android:id="@+id/order_create_success_ok"
+        android:id="@+id/order_create_success_print"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:background="@drawable/button_primary_action_ripple"
-        android:text="@android:string/ok"
+        android:text="@string/Print"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+    <Button
+        android:id="@+id/order_create_success_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_primary_action_ripple"
+        android:text="@string/Continue"
         android:textColor="@color/white"
         android:textSize="16sp"/>
 </LinearLayout>
