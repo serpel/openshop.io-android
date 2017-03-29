@@ -132,6 +132,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             viewHolderHeader.order_create_total_price.setText("Total: " + df.format(order.getTotal()));
             viewHolderHeader.order_create_seller.setText(order.getSeller());
             viewHolderHeader.order_comment.setText(order.getComment());
+            viewHolderHeader.order_status.setText(order.getStatus());
 
             if(order.getProducts()!=null) {
                 for (int i = 0; i < order.getProducts().size(); i++) {
@@ -210,13 +211,6 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class ViewHolderHeader extends RecyclerView.ViewHolder {
 
-        /*
-        public TextView orderId;
-        public TextView orderName;
-        public TextView orderDateCreated;
-        public TextView orderTotal;
-        public TextView orderStatus;
-        */
         public Context context;
 
         public TextView order_create_summary_text;
@@ -226,6 +220,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TextView order_create_total_price;
         public TextView order_create_seller;
         public TextView order_comment;
+        public TextView order_status;
 
         LinearLayout order_create_cart_items_layout;
 
@@ -239,12 +234,13 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         public ViewHolderHeader(View headerView) {
             super(headerView);
 
-            order_create_subtotal = (TextView) headerView.findViewById(R.id.order_create_subtotal);
-            order_create_discount = (TextView) headerView.findViewById(R.id.order_create_discount);
-            order_create_isv = (TextView) headerView.findViewById(R.id.order_create_isv);
-            order_create_total_price = (TextView) headerView.findViewById(R.id.order_create_total_price);
+            order_create_subtotal = (TextView) headerView.findViewById(R.id.order_history_subtotal);
+            order_create_discount = (TextView) headerView.findViewById(R.id.order_history_discount);
+            order_create_isv = (TextView) headerView.findViewById(R.id.order_history_isv);
+            order_create_total_price = (TextView) headerView.findViewById(R.id.order_history_total_price);
             order_create_seller = (TextView) headerView.findViewById(R.id.order_create_seller);
             order_comment = (TextView) headerView.findViewById(R.id.order_comment);
+            order_status = (TextView) headerView.findViewById(R.id.order_history_status);
 
             order_create_summary_text = (TextView) headerView.findViewById(R.id.order_create_summary_text);
 
@@ -262,11 +258,10 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             orderResend = (Button) headerView.findViewById(R.id.order_resend);
             orderPrint = (Button) headerView.findViewById(R.id.order_print);
 
-
             orderResend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //MsgUtils.showToast(this.context, MsgUtils.TOAST_TYPE_MESSAGE, "Se ha reenviado pedido", MsgUtils.ToastLength.LONG);
+                    MsgUtils.showToast((MainActivity)context, MsgUtils.TOAST_TYPE_MESSAGE, "Se ha reenviado pedido", MsgUtils.ToastLength.LONG);
                 }
             });
 
@@ -298,30 +293,4 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         }
     }
-/*
-    private void postOrder(final long orderId) {
-
-        final User user = SettingsMy.getActiveUser();
-        if (user != null) {
-            String url = String.format(EndPoints.ORDERS_RECREATE, order.getId());
-            postOrderRequest = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {
-                @Override
-                public void onResponse(Order order) {
-                    Timber.d("response: %s", order.toString());
-                    progressDialog.cancel();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    progressDialog.cancel();
-                    // Return 501 for sample application.
-                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                }
-            }, getFragmentManager(), user.getAccessToken());
-            postOrderRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-            postOrderRequest.setShouldCache(false);
-            MyApplication.getInstance().addToRequestQueue(postOrderRequest, CONST.ORDER_CREATE_REQUESTS_TAG);
-        }
-    }
-*/
 }

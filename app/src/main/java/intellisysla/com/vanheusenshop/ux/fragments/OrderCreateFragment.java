@@ -80,35 +80,11 @@ public class OrderCreateFragment extends Fragment {
 
     private ScrollView scrollLayout;
     private LinearLayout cartItemsLayout;
+    private TextView orderTotalPriceTv;
 
     private Cart cart;
-    private double orderTotalPrice;
-    private TextView cartItemsTotalPrice;
-    private TextView orderTotalPriceTv;
     private EditText commentEditText;
 
-
-    // View with user information used to create order
-    private TextInputLayout nameInputWrapper;
-    private TextInputLayout streetInputWrapper;
-    private TextInputLayout houseNumberInputWrapper;
-    private TextInputLayout cityInputWrapper;
-    private TextInputLayout zipInputWrapper;
-    private TextInputLayout phoneInputWrapper;
-    private TextInputLayout emailInputWrapper;
-    private TextInputLayout noteInputWrapper;
-
-    // Shipping and payment
-    private Delivery delivery;
-    private Payment selectedPayment;
-    private Shipping selectedShipping;
-    private ProgressBar deliveryProgressBar;
-    private View deliveryShippingLayout;
-    private View deliveryPaymentLayout;
-    private TextView selectedShippingNameTv;
-    private TextView selectedShippingPriceTv;
-    private TextView selectedPaymentNameTv;
-    private TextView selectedPaymentPriceTv;
     private TextView summaryText;
     private GsonRequest<Order> postOrderRequest;
 
@@ -153,8 +129,6 @@ public class OrderCreateFragment extends Fragment {
 
         prepareSellerSpinner(view);
 
-        prepareDeliveryLayout(view);
-
         Button finishOrder = (Button) view.findViewById(R.id.order_create_finish);
         finishOrder.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -190,7 +164,7 @@ public class OrderCreateFragment extends Fragment {
     private void prepareSellerSpinner(View view){
 
         Spinner userSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
-        userSpinnerAdapter = new UserSpinnerAdapter(getContext());
+        userSpinnerAdapter = new UserSpinnerAdapter(getActivity());
         userSpinner.setAdapter(userSpinnerAdapter);
 
         userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -234,104 +208,6 @@ public class OrderCreateFragment extends Fragment {
         usersRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         usersRequest.setShouldCache(true);
         MyApplication.getInstance().addToRequestQueue(usersRequest, CONST.USERS_TAG);
-    }
-
-    private void prepareDeliveryLayout(View view) {
-        deliveryProgressBar = (ProgressBar) view.findViewById(R.id.delivery_progress);
-
-//        final View deliveryShippingBtn = view.findViewById(R.id.order_create_delivery_shipping_button);
-//        final View deliveryPaymentBtn = view.findViewById(R.id.order_create_delivery_payment_button);
-
-        this.deliveryShippingLayout = view.findViewById(R.id.order_create_delivery_shipping_layout);
-        //this.deliveryPaymentLayout = view.findViewById(R.id.order_create_delivery_payment_layout);
-
-        //selectedShippingNameTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_name);
-        //selectedShippingPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_shipping_price);
-        //selectedPaymentNameTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_name);
-        //selectedPaymentPriceTv = (TextView) view.findViewById(R.id.order_create_delivery_payment_price);
-
-        /*deliveryShippingLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShippingDialogFragment shippingDialogFragment = ShippingDialogFragment.newInstance(delivery, selectedShipping, new ShippingDialogInterface() {
-                    @Override
-                    public void onShippingSelected(Shipping shipping) {
-                        // Save selected value
-                        selectedShipping = shipping;
-
-                        // Update shipping related values
-                        showSelectedShipping(shipping);
-
-                        // Continue for payment
-                        selectedPayment = null;
-                        selectedPaymentNameTv.setText(getString(R.string.Choose_payment_method));
-                        selectedPaymentPriceTv.setText("");
-                        deliveryPaymentLayout.performClick();
-                    }
-                });
-                shippingDialogFragment.show(getFragmentManager(), ShippingDialogFragment.class.getSimpleName());
-            }
-        });*/
-
-        /*deliveryPaymentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PaymentDialogFragment paymentDialogFragment = PaymentDialogFragment.newInstance(selectedShipping, selectedPayment, new PaymentDialogInterface() {
-                    @Override
-                    public void onPaymentSelected(Payment payment) {
-                        selectedPayment = payment;
-                        showSelectedPayment(payment);
-                    }
-                });
-                paymentDialogFragment.show(getFragmentManager(), "PaymentDialog");
-            }
-        });*/
-    }
-
-    /**
-     * Show and update shipping related values.
-     *
-     * @param shipping values to show.
-     */
-    private void showSelectedShipping(Shipping shipping) {
-        if (shipping != null && selectedShippingNameTv != null && selectedShippingPriceTv != null) {
-            selectedShippingNameTv.setText(shipping.getName());
-            if (shipping.getPrice() != 0) {
-                selectedShippingPriceTv.setText(shipping.getPriceFormatted());
-            } else {
-                selectedShippingPriceTv.setText(getText(R.string.free));
-            }
-
-            // Set total order price
-            orderTotalPrice = shipping.getTotalPrice();
-            orderTotalPriceTv.setText(shipping.getTotalPriceFormatted());
-            deliveryPaymentLayout.setVisibility(View.VISIBLE);
-        } else {
-            Timber.e("Showing selected shipping with null values.");
-        }
-    }
-
-
-    /**
-     * Show and update payment related values.
-     *
-     * @param payment values to show.
-     */
-    private void showSelectedPayment(Payment payment) {
-        if (payment != null && selectedPaymentNameTv != null && selectedPaymentPriceTv != null) {
-            selectedPaymentNameTv.setText(payment.getName());
-            if (payment.getPrice() != 0) {
-                selectedPaymentPriceTv.setText(payment.getPriceFormatted());
-            } else {
-                selectedPaymentPriceTv.setText(getText(R.string.free));
-            }
-
-            // Set total order price
-            orderTotalPrice = payment.getTotalPrice();
-            orderTotalPriceTv.setText(payment.getTotalPriceFormatted());
-        } else {
-            Timber.e("Showing selected payment with null values.");
-        }
     }
 
     private void getUserCart() {
@@ -410,10 +286,10 @@ public class OrderCreateFragment extends Fragment {
         SharedPreferences prefs = getSettings();
         String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, null);
 
-        if(card_code==null)
+        if(card_code == null)
         {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-            builder1.setMessage(getString(R.string.You_must_select_a_client_before_creating_and_order));
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setMessage(this.getContext().getString(R.string.You_must_select_a_client_before_creating_and_order));
                     builder1.setCancelable(true);
 
             builder1.setPositiveButton(
@@ -487,8 +363,8 @@ public class OrderCreateFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        MyApplication.getInstance().cancelPendingRequests(CONST.USERS_TAG);
         MyApplication.getInstance().cancelPendingRequests(CONST.ORDER_CREATE_REQUESTS_TAG);
         if (progressDialog != null) progressDialog.cancel();
-        if (deliveryProgressBar != null) deliveryProgressBar.setVisibility(View.GONE);
     }
 }

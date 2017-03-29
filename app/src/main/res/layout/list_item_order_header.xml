@@ -4,27 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/base_margin">
+    android:padding="4dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
         <ScrollView
             android:id="@+id/order_create_scroll_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/base_margin_vertical"
-                android:paddingTop="@dimen/base_margin_vertical"
-                android:weightSum="1">
+                android:paddingTop="@dimen/base_margin_vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,8 +49,23 @@
                         android:layout_marginTop="8dp"
                         android:orientation="vertical"/>
 
+                </LinearLayout>
+
+                <!-- Visual screen divider-->
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical"
+                    android:layout_marginTop="@dimen/base_margin_vertical"
+                    android:background="@color/background_grey"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <TextView
-                        android:id="@+id/order_create_subtotal"
+                        android:id="@+id/order_history_subtotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -60,11 +73,12 @@
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:text="@string/Zero"
                         tools:text="Subtotal: 0.0 USD"/>
 
                     <!-- Total cart price-->
                     <TextView
-                        android:id="@+id/order_create_discount"
+                        android:id="@+id/order_history_discount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -72,11 +86,12 @@
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:text="@string/Zero"
                         tools:text="Descuento: 0.0 USD"/>
 
                     <!-- Total cart price-->
                     <TextView
-                        android:id="@+id/order_create_isv"
+                        android:id="@+id/order_history_isv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -84,11 +99,12 @@
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:text="@string/Zero"
                         tools:text="Impuesto: 0.0 USD"/>
 
                     <!-- Total cart price-->
                     <TextView
-                        android:id="@+id/order_create_total_price"
+                        android:id="@+id/order_history_total_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -96,6 +112,7 @@
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:text="@string/Zero"
                         tools:text="Total: 15212 USD"/>
                 </LinearLayout>
 
@@ -106,6 +123,7 @@
                     android:layout_marginBottom="@dimen/base_margin_vertical"
                     android:layout_marginTop="@dimen/base_margin_vertical"
                     android:background="@color/background_grey"/>
+
 
                 <!-- Delivery part -->
                 <RelativeLayout
@@ -152,6 +170,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/order_history_comment_section"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -178,6 +197,43 @@
 
                             <TextView
                                 android:id="@+id/order_comment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:hint="@string/Comment"
+                                android:inputType="textPersonName"
+                                android:nextFocusForward="@+id/order_create_street"
+                                android:singleLine="true"
+                                android:textColor="@color/textPrimary"/>
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/order_history_comment_section"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Status"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textBlack"
+                        android:padding="0dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColorHint="@color/colorPrimaryLight">
+
+                            <TextView
+                                android:id="@+id/order_history_status"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"

@@ -109,17 +109,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
-                android:gravity="start"
-                android:text="@string/Count"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:gravity="end"
                 android:text="@string/Total_price"
                 android:textColor="@color/colorAccent"
