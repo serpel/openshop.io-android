@@ -13,6 +13,7 @@ public class CONST {
     public static final int DEFAULT_EMPTY_ID = -131;
 
     // Volley requests tags
+    public static final String BANKS_TAG = "banks_requests";
     public static final String SPLASH_REQUESTS_TAG = "splash_requests";
     public static final String USERS_TAG = "users_request";
     public static final String SALES_PERSON_TAG = "sales_person_requests";

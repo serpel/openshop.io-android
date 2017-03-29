@@ -33,6 +33,7 @@ import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.Bank;
+import intellisysla.com.vanheusenshop.entities.BankResponse;
 import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.client.DocumentListResponse;
 import intellisysla.com.vanheusenshop.entities.delivery.Transport;
@@ -67,6 +68,7 @@ public class PaymentMainFragment extends Fragment {
     protected TextView CashText, TransferText, CheckText, TotalText;
     private double cash = 0, transfer = 0, check = 0, total = 0;
     private Client client;
+    private ArrayList<Bank> banks;
 
     private OnFragmentInteractionListener mListener;
 
@@ -112,7 +114,7 @@ public class PaymentMainFragment extends Fragment {
                     @Override
                     public void onResponse(@NonNull Client response) {
                         client = response;
-                        setFragments(client);
+                        getBanks();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -123,6 +125,26 @@ public class PaymentMainFragment extends Fragment {
         clientGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         clientGsonRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(clientGsonRequest, CONST.CLIENT_REQUESTS_TAG);
+    }
+
+    private void getBanks() {
+        String url = String.format(EndPoints.BANKS);
+        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, BankResponse.class,
+                new Response.Listener<BankResponse>() {
+                    @Override
+                    public void onResponse(@NonNull BankResponse response) {
+                        banks = response.getBanks();
+                        setFragments(client);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        });
+        banksGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+        banksGsonRequest.setShouldCache(true);
+        MyApplication.getInstance().addToRequestQueue(banksGsonRequest, CONST.BANNER_REQUESTS_TAG);
     }
 
     @Override
@@ -151,16 +173,11 @@ public class PaymentMainFragment extends Fragment {
 
     public void setFragments(Client client){
 
-        ArrayList<Bank> banks = new ArrayList<>();
-        banks.add(new Bank(69, "BAC", "Gorudo"));
-        banks.add(new Bank(15, "Ficosa", "Testi"));
-        banks.add(new Bank(7, "Orale", "Testo"));
-
         fragments = new ArrayList<>();
         fragments.add(PaymentGeneralFragment.newInstance(client));
         fragments.add(PaymentInvoiceFragment.newInstance(client.getInvoiceList()));
-        fragments.add(PaymentCashFragment.newInstance("",""));
-        fragments.add(PaymentTransferFragment.newInstance("",""));
+        fragments.add(PaymentCashFragment.newInstance());
+        fragments.add(PaymentTransferFragment.newInstance(banks));
         fragments.add(PaymentCheckFragment.newInstance(banks));
 
         mSectionsPagerAdapter.setFragments(fragments);

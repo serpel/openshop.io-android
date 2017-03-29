@@ -17,6 +17,24 @@
             android:paddingLeft="10dp"
             android:paddingStart="10dp">
 
+            <Spinner
+                android:id="@+id/bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dialog"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/payment_transfer_date"
+                android:textColor="#000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="2016/06/01"
+                android:inputType="date"
+                android:focusable="false"/>
+
             <TextView
                 android:id="@+id/document_document_credit_limit_2"
                 android:layout_marginTop="20dp"

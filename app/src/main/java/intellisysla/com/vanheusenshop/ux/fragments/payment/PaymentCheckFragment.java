@@ -107,6 +107,8 @@ public class PaymentCheckFragment extends Fragment {
     ListView my_listview;
     LinearLayout theLayout;
 
+    ArrayList<Bank> banks;
+
     public PaymentCheckFragment() {
         // Required empty public constructor
     }
@@ -116,8 +118,8 @@ public class PaymentCheckFragment extends Fragment {
         PaymentCheckFragment fragment = new PaymentCheckFragment();
         Bundle args = new Bundle();
 
-        fragment.setArguments(args);
         args.putSerializable(ARG_BANK_LIST, banks);
+        fragment.setArguments(args);
 
         return fragment;
     }
@@ -125,6 +127,10 @@ public class PaymentCheckFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
+        }
     }
 
     @Override
@@ -167,18 +173,14 @@ public class PaymentCheckFragment extends Fragment {
                 edit_text_amount.setText("");
                 edit_text_check_number.setText("");
 
-                ArrayList<Bank> banks = new ArrayList<>();
-
                 if (getArguments() != null) {
                     banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
                 }
 
-                ArrayList<String> bank_strings = new ArrayList<String>();
-
-                for(int i=0; i<banks.size();i++)
-                    bank_strings.add(banks.get(i).getName());
-
                 if(banks != null) {
+                    ArrayList<String> bank_strings = new ArrayList<String>();
+                    for(int i=0; i<banks.size();i++)
+                        bank_strings.add(banks.get(i).getName());
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(popup.getContext(), android.R.layout.simple_spinner_dropdown_item, bank_strings);
                     spinner_bank.setAdapter(adapter);
                 }
