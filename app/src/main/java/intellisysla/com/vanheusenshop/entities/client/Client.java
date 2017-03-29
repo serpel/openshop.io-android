@@ -2,6 +2,7 @@ package intellisysla.com.vanheusenshop.entities.client;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Client {
     private String address;
     private String RTN;
     @SerializedName("documents")
-    private List<Document> invoiceList;
+    private ArrayList<Document> invoiceList;
 
     public Client(){}
 
@@ -81,11 +82,11 @@ public class Client {
         this.email = email;
     }
 
-    public List<Document> getInvoiceList() {
+    public ArrayList<Document> getInvoiceList() {
         return invoiceList;
     }
 
-    public void setInvoiceList(List<Document> invoiceList) {
+    public void setInvoiceList(ArrayList<Document> invoiceList) {
         this.invoiceList = invoiceList;
     }
 }

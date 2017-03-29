@@ -20,6 +20,15 @@ public class Document implements Serializable {
     @SerializedName("payed_amount")
     private Double payedAmount;
 
+    public Document(String documentCode, String createdDate, String dueDate, Double totalAmount, Double payedAmount)
+    {
+        this.documentCode = documentCode;
+        this.createdDate = createdDate;
+        this.dueDate = dueDate;
+        this.totalAmount = totalAmount;
+        this.payedAmount = payedAmount;
+    }
+
     public Document(){}
 
     public String getDocumentCode() {

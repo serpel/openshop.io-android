@@ -236,6 +236,13 @@
     <string name="Check">Transferencia</string>
     <string name="Transfer">Cheque</string>
 
+    <string name="DocumentCode">Codigo de Documento</string>
+    <string name="CreatedDate">Fecha de Creacion</string>
+    <string name="DueDate">Fecha de vencimiento</string>
+    <string name="TotalAmount">Cantidad Total</string>
+    <string name="PayedAmount">Cantidad Pagada</string>
+    <string name="Selected">Seleccionado: </string>
+
     <!-- Payment Related Strings -->
     <string name="Bank">Banco</string>
     <string name="CheckNumber">Numero de cheque</string>

@@ -137,7 +137,7 @@ public class PaymentMainFragment extends Fragment {
 
         mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        setFragments();
+        setFragments(new Client());
 
         Bundle startBundle = getArguments();
         if( startBundle != null){
@@ -148,9 +148,10 @@ public class PaymentMainFragment extends Fragment {
         return view;
     }
 
-    public void setFragments(){
+    public void setFragments(Client client){
         fragments = new ArrayList<>();
         fragments.add(PaymentGeneralFragment.newInstance("",""));
+        fragments.add(PaymentInvoiceFragment.newInstance(client.getInvoiceList()));
         fragments.add(PaymentCashFragment.newInstance("",""));
         fragments.add(PaymentTransferFragment.newInstance("",""));
         fragments.add(PaymentCheckFragment.newInstance("",""));
@@ -242,6 +243,9 @@ public class PaymentMainFragment extends Fragment {
             }
             else if(fragment instanceof PaymentCheckFragment){
                 title = "Cheque";
+            }
+            else if(fragment instanceof PaymentInvoiceFragment){
+                title = "Factura";
             }
             else{
                 title = "";

@@ -3,34 +3,63 @@ package intellisysla.com.vanheusenshop.ux.fragments.payment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.client.Document;
-import intellisysla.com.vanheusenshop.ux.adapters.DocumentsRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.adapters.InvoiceRecyclerAdapter;
-import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent;
 import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link PaymentInvoiceFragment.OnListFragmentInteractionListener}
  * interface.
  */
+
+class DocumentAdapter extends ArrayAdapter<Document> {
+    public DocumentAdapter(Context context, ArrayList<Document> documents) {
+        super(context, 0, documents);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        Document document = getItem(position);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_document, parent, false);
+        }
+        TextView document_code = (TextView) convertView.findViewById(R.id.document_code);
+        TextView due_date = (TextView) convertView.findViewById(R.id.due_date);
+        TextView created_date = (TextView) convertView.findViewById(R.id.created_date);
+        TextView payed_amount = (TextView) convertView.findViewById(R.id.payed_amount);
+        TextView total_amount = (TextView) convertView.findViewById(R.id.total_amount);
+
+        document_code.setText(getContext().getString(R.string.DocumentCode) + ": " + document.getDocumentCode());
+        due_date.setText(getContext().getString(R.string.DueDate) + ": " + document.getDueDate());
+        created_date.setText(getContext().getString(R.string.CreatedDate) + ": " + document.getCreatedDate());
+        payed_amount.setText(getContext().getString(R.string.PayedAmount) + ": " + document.getPayedAmount());
+        total_amount.setText(getContext().getString(R.string.TotalAmount) + ": " + document.getTotalAmount());
+
+        return convertView;
+    }
+}
+
 public class PaymentInvoiceFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_INVOICE_LIST = "invoice-list";
     // TODO: Customize parameters
     private ArrayList<Document> documents;
+    ListView my_listview;
     private OnListFragmentInteractionListener mListener;
     private InvoiceRecyclerAdapter documentsRecyclerAdapter;
 
@@ -63,11 +92,18 @@ public class PaymentInvoiceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_payment_invoice_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_payment_document_list, container, false);
+
+        my_listview = (ListView)view.findViewById(R.id.invoice_list_view);
 
         Bundle startBundle = getArguments();
         if (startBundle != null) {
             documents = (ArrayList<Document>) getArguments().getSerializable(ARG_INVOICE_LIST);
+        }
+
+        if(documents != null) {
+            DocumentAdapter adapter = new DocumentAdapter(view.getContext(), documents);
+            my_listview.setAdapter(adapter);
         }
 
         return view;

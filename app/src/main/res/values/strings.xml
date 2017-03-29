@@ -267,6 +267,13 @@
     <string name="Check">Check</string>
     <string name="Transfer">Transfer</string>
 
+    <string name="DocumentCode">Document Code</string>
+    <string name="CreatedDate">Created Date</string>
+    <string name="DueDate">Due Date</string>
+    <string name="TotalAmount">Total Amount</string>
+    <string name="PayedAmount">Payed Amount</string>
+    <string name="Selected">Selected: </string>
+
     <!-- Payment Related Strings -->
     <string name="Bank">Bank</string>
     <string name="CheckNumber">Check Number</string>
