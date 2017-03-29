@@ -150,7 +150,7 @@ public class PaymentMainFragment extends Fragment {
 
     public void setFragments(Client client){
         fragments = new ArrayList<>();
-        fragments.add(PaymentGeneralFragment.newInstance("",""));
+        fragments.add(PaymentGeneralFragment.newInstance(client));
         fragments.add(PaymentInvoiceFragment.newInstance(client.getInvoiceList()));
         fragments.add(PaymentCashFragment.newInstance("",""));
         fragments.add(PaymentTransferFragment.newInstance("",""));
