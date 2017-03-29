@@ -17,7 +17,7 @@ public class Client {
     private String email;
     private String address;
     private String RTN;
-    @SerializedName("documents")
+    @SerializedName("invoices")
     private ArrayList<Document> invoiceList;
 
     public Client(){}

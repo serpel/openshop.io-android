@@ -628,10 +628,10 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, CategoryFragment.class.getSimpleName());
     }
 
-    private void onPaymentSelected(){
+    public void onPaymentSelected(String cardcode){
         clearBackStack();
         Timber.d("Called onPaymentSelected");
-        Fragment fragment = PaymentMainFragment.newInstance("");
+        Fragment fragment = PaymentMainFragment.newInstance(cardcode);
         replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
     }
 

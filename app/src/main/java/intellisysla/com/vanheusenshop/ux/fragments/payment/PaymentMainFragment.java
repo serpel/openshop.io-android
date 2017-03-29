@@ -105,12 +105,13 @@ public class PaymentMainFragment extends Fragment {
     }
 
     private void getClient(String card_code) {
-        String url = String.format(EndPoints.CLIENTS_SINGLE, card_code);
-        GsonRequest<Client> getDocumentRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
+        String url = String.format(EndPoints.CLIENT, card_code);
+        GsonRequest<Client> clientGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
                 new Response.Listener<Client>() {
                     @Override
                     public void onResponse(@NonNull Client response) {
                         client = response;
+                        setFragments(client);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -118,9 +119,9 @@ public class PaymentMainFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getDocumentRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getDocumentRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getDocumentRequest, CONST.CLIENT_REQUESTS_TAG);
+        clientGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+        clientGsonRequest.setShouldCache(false);
+        MyApplication.getInstance().addToRequestQueue(clientGsonRequest, CONST.CLIENT_REQUESTS_TAG);
     }
 
     @Override
@@ -137,12 +138,11 @@ public class PaymentMainFragment extends Fragment {
 
         mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        setFragments(new Client());
 
-        Bundle startBundle = getArguments();
-        if( startBundle != null){
-            String card_code = startBundle.getString(ARG_CARDCODE, "");
-            //getClient(card_code);
+        Bundle arguments = getArguments();
+        if(arguments != null){
+            String cardcode = arguments.getString(ARG_CARDCODE, "");
+            getClient(cardcode);
         }
 
         return view;
