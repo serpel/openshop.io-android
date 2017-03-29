@@ -152,6 +152,7 @@
     <string name="Total_colon">Total:</string>
     <string name="Comment_colon">Comentario:</string>
     <string name="Comment">Comentario</string>
+    <string name="AddCheck">Agregar cheque</string>
 
     <!-- Wishlist related -->
     <string name="Your_wishlist_is_empty">Tu lista de deseos esta vacía</string>
@@ -234,4 +235,8 @@
     <string name="Cash">Efectivo</string>
     <string name="Check">Transferencia</string>
     <string name="Transfer">Cheque</string>
+
+    <!-- Payment Related Strings -->
+    <string name="Bank">Banco</string>
+    <string name="CheckNumber">Numero de cheque</string>
 </resources>

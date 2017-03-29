@@ -155,6 +155,7 @@
     <string name="Total_colon">Total:</string>
     <string name="Comment_colon">Comment:</string>
     <string name="Comment">Comment</string>
+    <string name="AddCheck">Add check</string>
 
 
     <!-- Wishlist related -->
@@ -265,5 +266,9 @@
     <string name="Cash">Cash</string>
     <string name="Check">Check</string>
     <string name="Transfer">Transfer</string>
+
+    <!-- Payment Related Strings -->
+    <string name="Bank">Bank</string>
+    <string name="CheckNumber">Check Number</string>
 
 </resources>

@@ -1,98 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/rl">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/document_document_credit_limit"
-                android:layout_marginTop="20dp"
+            <Button
+                android:id="@+id/add_check_button"
+                style="@style/buttonPrimaryStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="12sp"
-                tools:text="Numero" />
+                android:text="@string/AddCheck" />
 
-            <EditText
-                android:id="@+id/document_document_pay_condition"
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="1234-12323-1232" />
-
-            <TextView
-                android:id="@+id/document_balance"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="MONTO" />
-
-            <EditText
-                android:id="@+id/document_orders"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="5,000.00" />
-
-            <TextView
-                android:id="@+id/document_document_credit_limit_3"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="Fecha" />
-
-            <EditText
-                android:id="@+id/document_document_pay_condition_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                tools:text="07/03/2017" />
-
-            <TextView
-                android:id="@+id/document_balance_text"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Balance"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:visibility="visible"
-                tools:text="BANCO" />
-
-            <EditText
-                android:id="@+id/document_orders_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/InOrder"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:visibility="visible"
-                tools:text="BANCO ATLANTIDA" />
-
+                android:layout_height="fill_parent"
+                android:fillViewport="true">
+                <ListView
+                    android:id="@+id/check_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/transparent"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:divider="#CCCCCC"
+                    android:dividerHeight="1dp"
+                    android:paddingLeft="2dp">
+                </ListView>
+            </ScrollView>
 
         </LinearLayout>
-    </LinearLayout>
-
-
-
-</FrameLayout>
+</RelativeLayout>
