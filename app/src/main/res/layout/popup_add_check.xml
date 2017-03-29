@@ -34,13 +34,12 @@
             android:padding="25sp"
             android:textColor="#FFF"
             />
-        <EditText
+        <Spinner
             android:id="@+id/bank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="25sp"
-            android:inputType="text"
-            />
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dialog"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -154,7 +154,12 @@ public class PaymentMainFragment extends Fragment {
         fragments.add(PaymentInvoiceFragment.newInstance(client.getInvoiceList()));
         fragments.add(PaymentCashFragment.newInstance("",""));
         fragments.add(PaymentTransferFragment.newInstance("",""));
-        fragments.add(PaymentCheckFragment.newInstance("",""));
+
+        ArrayList<String> banks = new ArrayList<>();
+        banks.add("A");
+        banks.add("B");
+        banks.add("X");
+        fragments.add(PaymentCheckFragment.newInstance(banks));
 
         mSectionsPagerAdapter.setFragments(fragments);
         mSectionsPagerAdapter.updateView();

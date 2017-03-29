@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.app.Activity;
@@ -33,9 +34,11 @@ import android.widget.RelativeLayout;
 import android.view.ViewGroup.LayoutParams;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
 
 /**
@@ -73,6 +76,7 @@ class ChecksAdapter extends ArrayAdapter<CheckPayment> {
 
 public class PaymentCheckFragment extends Fragment {
 
+    private static final String ARG_BANK_LIST = "bank-list";
     private OnFragmentInteractionListener mListener;
     ArrayList<CheckPayment> checks_array;
     ListView my_listview;
@@ -91,11 +95,13 @@ public class PaymentCheckFragment extends Fragment {
      * @return A new instance of fragment PaymentCheckFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PaymentCheckFragment newInstance(String param1, String param2) {
+    public static PaymentCheckFragment newInstance(ArrayList<String> banks) {
         PaymentCheckFragment fragment = new PaymentCheckFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
+        args.putSerializable(ARG_BANK_LIST, banks);
+
         return fragment;
     }
 
@@ -141,11 +147,21 @@ public class PaymentCheckFragment extends Fragment {
 
                 final EditText edit_text_amount = (EditText) popup.findViewById(R.id.amount);
                 final EditText edit_text_check_number = (EditText) popup.findViewById(R.id.check_num);
-                final EditText edit_text_bank = (EditText) popup.findViewById(R.id.bank);
+                final Spinner spinner_bank = (Spinner) popup.findViewById(R.id.bank);
 
                 edit_text_amount.setText("");
                 edit_text_check_number.setText("");
-                edit_text_bank.setText("");
+
+                ArrayList<String> banks = new ArrayList<>();
+
+                if (getArguments() != null) {
+                    banks = (ArrayList<String>) getArguments().getSerializable(ARG_BANK_LIST);
+                }
+
+                if(banks != null) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(popup.getContext(), android.R.layout.simple_spinner_dropdown_item, banks);
+                    spinner_bank.setAdapter(adapter);
+                }
 
                 mPopupWindow.setFocusable(true);
                 mPopupWindow.update();
@@ -172,7 +188,7 @@ public class PaymentCheckFragment extends Fragment {
                         if(edit_text_amount.getText().toString().equals(""))
                             return;
 
-                        checks_array.add(new CheckPayment(edit_text_check_number.getText().toString(), edit_text_bank.getText().toString(),
+                        checks_array.add(new CheckPayment(edit_text_check_number.getText().toString(), spinner_bank.getSelectedItem().toString(),
                                 Double.parseDouble(edit_text_amount.getText().toString())));
                         ChecksAdapter adapter = new ChecksAdapter(payment_check_fragment.getContext(), checks_array);
                         my_listview.setAdapter(adapter);
