@@ -1,14 +1,13 @@
 package intellisysla.com.vanheusenshop.entities;
 
 import java.io.Serializable;
-
-/**
- * Created by alienware on 3/29/2017.
- */
+import com.google.gson.annotations.SerializedName;
 
 public class Bank implements Serializable {
     private int id;
     private String name;
+
+    @SerializedName("general_account")
     private String GeneralAccount;
 
     public Bank(int id, String name, String GeneralAccount)
