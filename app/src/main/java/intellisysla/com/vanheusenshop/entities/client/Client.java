@@ -2,6 +2,7 @@ package intellisysla.com.vanheusenshop.entities.client;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +10,16 @@ import java.util.List;
  * Created by alienware on 2/1/2017.
  */
 
-public class Client {
+public class Client implements Serializable {
     private String name;
     @SerializedName("card_code")
     private String cardCode;
+    private String contact;
     private String phone;
     private String email;
     private String address;
     private String RTN;
-    @SerializedName("documents")
+    @SerializedName("invoices")
     private ArrayList<Document> invoiceList;
 
     public Client(){}
@@ -36,6 +38,14 @@ public class Client {
         if(RTN!=null)
             return RTN;
         return "";
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public void setRTN(String RTN) {

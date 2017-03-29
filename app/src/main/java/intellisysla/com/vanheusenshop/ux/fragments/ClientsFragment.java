@@ -119,7 +119,8 @@ public class ClientsFragment extends Fragment {
                 break;*/
             case R.id.menu_contextual_account_payment:
                 //Toast.makeText(getContext(), "le diste a 2", Toast.LENGTH_LONG).show();
-                addPaymentFragment();
+                //addPaymentFragment();
+                ((MainActivity)getActivity()).onPaymentSelected("C0005");
                 break;
             default:
                 break;

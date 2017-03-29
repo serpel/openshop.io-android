@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -38,6 +39,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
 
@@ -51,8 +53,29 @@ import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
  */
 
 class ChecksAdapter extends ArrayAdapter<CheckPayment> {
+    private ArrayList<CheckPayment> checks;
+
     public ChecksAdapter(Context context, ArrayList<CheckPayment> users) {
         super(context, 0, users);
+    }
+
+    public ChecksAdapter(Context context) {
+        super(context, 0);
+        checks = new ArrayList<>();
+    }
+
+    public void addCheck(CheckPayment check){
+        this.checks.add(check);
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<CheckPayment> getChecks() {
+        return checks;
+    }
+
+    public void setChecks(ArrayList<CheckPayment> checks) {
+        this.checks = checks;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -70,6 +93,7 @@ class ChecksAdapter extends ArrayAdapter<CheckPayment> {
         amount.setText(getContext().getString(R.string.Amount) + ": " + check_payment.getAmount());
         bank.setText(getContext().getString(R.string.Bank) + ": " + check_payment.getBank());
         number.setText(getContext().getString(R.string.CheckNumber) + ": " + check_payment.getCheckNumber());
+
         return convertView;
     }
 }
@@ -78,24 +102,17 @@ public class PaymentCheckFragment extends Fragment {
 
     private static final String ARG_BANK_LIST = "bank-list";
     private OnFragmentInteractionListener mListener;
+    private ChecksAdapter checksAdapter;
     ArrayList<CheckPayment> checks_array;
     ListView my_listview;
-    RelativeLayout theLayout;
+    LinearLayout theLayout;
 
     public PaymentCheckFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PaymentCheckFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static PaymentCheckFragment newInstance(ArrayList<String> banks) {
+    public static PaymentCheckFragment newInstance(ArrayList<Bank> banks) {
         PaymentCheckFragment fragment = new PaymentCheckFragment();
         Bundle args = new Bundle();
 
@@ -113,28 +130,26 @@ public class PaymentCheckFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final LayoutInflater inflater_final = inflater;
         View view = inflater.inflate(R.layout.fragment_payment_check, container, false);
+        final View popup = inflater.inflate(R.layout.popup_add_check,container,false);
 
-        final View popup = inflater_final.inflate(R.layout.popup_add_check,container,false);
+        //final PaymentCheckFragment payment_check_fragment = this;
 
-        final PaymentCheckFragment payment_check_fragment = this;
-
+        checks_array = new ArrayList<>();
+        checksAdapter = new ChecksAdapter(getContext());
         my_listview = (ListView)view.findViewById(R.id.check_list_view);
+        my_listview.setAdapter(checksAdapter);
 
-        my_listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        my_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 checks_array.remove(position);
-                ChecksAdapter adapter = new ChecksAdapter(payment_check_fragment.getContext(), checks_array);
-                my_listview.setAdapter(adapter);
+                return true;
             }
         });
 
-        theLayout = (RelativeLayout) view.findViewById(R.id.rl);
 
-        checks_array = new ArrayList<>();
+        theLayout = (LinearLayout) view.findViewById(R.id.linear_payment_s);
 
         Button add_check_button = (Button)view.findViewById(R.id.add_check_button);
         add_check_button.setOnClickListener(new View.OnClickListener() {
@@ -152,14 +167,19 @@ public class PaymentCheckFragment extends Fragment {
                 edit_text_amount.setText("");
                 edit_text_check_number.setText("");
 
-                ArrayList<String> banks = new ArrayList<>();
+                ArrayList<Bank> banks = new ArrayList<>();
 
                 if (getArguments() != null) {
-                    banks = (ArrayList<String>) getArguments().getSerializable(ARG_BANK_LIST);
+                    banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
                 }
 
+                ArrayList<String> bank_strings = new ArrayList<String>();
+
+                for(int i=0; i<banks.size();i++)
+                    bank_strings.add(banks.get(i).getName());
+
                 if(banks != null) {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(popup.getContext(), android.R.layout.simple_spinner_dropdown_item, banks);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(popup.getContext(), android.R.layout.simple_spinner_dropdown_item, bank_strings);
                     spinner_bank.setAdapter(adapter);
                 }
 
@@ -190,7 +210,7 @@ public class PaymentCheckFragment extends Fragment {
 
                         checks_array.add(new CheckPayment(edit_text_check_number.getText().toString(), spinner_bank.getSelectedItem().toString(),
                                 Double.parseDouble(edit_text_amount.getText().toString())));
-                        ChecksAdapter adapter = new ChecksAdapter(payment_check_fragment.getContext(), checks_array);
+                        ChecksAdapter adapter = new ChecksAdapter(getContext(), checks_array);
                         my_listview.setAdapter(adapter);
 
                         mPopupWindow.dismiss();

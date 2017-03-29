@@ -7,8 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.client.Client;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,12 +25,13 @@ import intellisysla.com.vanheusenshop.R;
 public class PaymentGeneralFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_CLIENT = "client";
+    private TextView clientCardCode;
+    private TextView clientContact;
+    private TextView clientName;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Client client;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,20 +39,11 @@ public class PaymentGeneralFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PaymentGeneralFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static PaymentGeneralFragment newInstance(String param1, String param2) {
+    public static PaymentGeneralFragment newInstance(Client client) {
         PaymentGeneralFragment fragment = new PaymentGeneralFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_CLIENT, client);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +52,7 @@ public class PaymentGeneralFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            client = (Client) getArguments().getSerializable(ARG_CLIENT);
         }
     }
 
@@ -65,7 +60,21 @@ public class PaymentGeneralFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payment_general, container, false);
+        View view = inflater.inflate(R.layout.fragment_payment_general, container, false);
+
+        clientCardCode = (TextView) view.findViewById(R.id.document_client_code);
+        //clientContact = (TextView) view.findViewById(R.id.document_client_code);
+        clientName = (TextView) view.findViewById(R.id.document_client_name);
+
+        Bundle args = getArguments();
+
+        if(args != null){
+            client = (Client) args.getSerializable(ARG_CLIENT);
+            clientName.setText(client.getName());
+            clientCardCode.setText(client.getCardCode());
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
