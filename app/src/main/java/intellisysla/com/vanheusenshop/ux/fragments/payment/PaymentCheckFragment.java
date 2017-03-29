@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -48,8 +49,29 @@ import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
  */
 
 class ChecksAdapter extends ArrayAdapter<CheckPayment> {
+    private ArrayList<CheckPayment> checks;
+
     public ChecksAdapter(Context context, ArrayList<CheckPayment> users) {
         super(context, 0, users);
+    }
+
+    public ChecksAdapter(Context context) {
+        super(context, 0);
+        checks = new ArrayList<>();
+    }
+
+    public void addCheck(CheckPayment check){
+        this.checks.add(check);
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<CheckPayment> getChecks() {
+        return checks;
+    }
+
+    public void setChecks(ArrayList<CheckPayment> checks) {
+        this.checks = checks;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -67,6 +89,7 @@ class ChecksAdapter extends ArrayAdapter<CheckPayment> {
         amount.setText(getContext().getString(R.string.Amount) + ": " + check_payment.getAmount());
         bank.setText(getContext().getString(R.string.Bank) + ": " + check_payment.getBank());
         number.setText(getContext().getString(R.string.CheckNumber) + ": " + check_payment.getCheckNumber());
+
         return convertView;
     }
 }
@@ -74,9 +97,10 @@ class ChecksAdapter extends ArrayAdapter<CheckPayment> {
 public class PaymentCheckFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ChecksAdapter checksAdapter;
     ArrayList<CheckPayment> checks_array;
     ListView my_listview;
-    RelativeLayout theLayout;
+    LinearLayout theLayout;
 
     public PaymentCheckFragment() {
         // Required empty public constructor
@@ -107,30 +131,27 @@ public class PaymentCheckFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final LayoutInflater inflater_final = inflater;
         View view = inflater.inflate(R.layout.fragment_payment_check, container, false);
+        final View popup = inflater.inflate(R.layout.popup_add_check,container,false);
 
-        final View popup = inflater_final.inflate(R.layout.popup_add_check,container,false);
+        //final PaymentCheckFragment payment_check_fragment = this;
 
-        final PaymentCheckFragment payment_check_fragment = this;
-
+        checks_array = new ArrayList<>();
+        checksAdapter = new ChecksAdapter(getContext());
         my_listview = (ListView)view.findViewById(R.id.check_list_view);
+        my_listview.setAdapter(checksAdapter);
 
-        my_listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        my_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 checks_array.remove(position);
-                ChecksAdapter adapter = new ChecksAdapter(payment_check_fragment.getContext(), checks_array);
-                my_listview.setAdapter(adapter);
+                return true;
             }
         });
 
-        theLayout = (RelativeLayout) view.findViewById(R.id.rl);
 
-        checks_array = new ArrayList<>();
-
-        Button add_check_button = (Button)view.findViewById(R.id.add_check_button);
+        theLayout = (LinearLayout) view.findViewById(R.id.linear_payment_s);
+        /*Button add_check_button = (Button)view.findViewById(R.id.add_check_button);
         add_check_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final PopupWindow mPopupWindow = new PopupWindow(
@@ -172,17 +193,18 @@ public class PaymentCheckFragment extends Fragment {
                         if(edit_text_amount.getText().toString().equals(""))
                             return;
 
-                        checks_array.add(new CheckPayment(edit_text_check_number.getText().toString(), edit_text_bank.getText().toString(),
-                                Double.parseDouble(edit_text_amount.getText().toString())));
-                        ChecksAdapter adapter = new ChecksAdapter(payment_check_fragment.getContext(), checks_array);
-                        my_listview.setAdapter(adapter);
+                        CheckPayment check = new CheckPayment(
+                                edit_text_check_number.getText().toString(),
+                                edit_text_bank.getText().toString(),
+                                Double.parseDouble(edit_text_amount.getText().toString()));
+                        checksAdapter.add(check);
 
                         mPopupWindow.dismiss();
                     }
                 });
                 mPopupWindow.showAtLocation(theLayout, Gravity.CENTER,0,0);
             }
-        });
+        });*/
 
         return view;
     }
