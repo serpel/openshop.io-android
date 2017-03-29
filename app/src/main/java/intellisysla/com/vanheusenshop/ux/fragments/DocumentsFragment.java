@@ -281,7 +281,7 @@ public class DocumentsFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getDocumentRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getDocumentRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getDocumentRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getDocumentRequest, CONST.DOCUMENT_REQUESTS_TAG);
     }

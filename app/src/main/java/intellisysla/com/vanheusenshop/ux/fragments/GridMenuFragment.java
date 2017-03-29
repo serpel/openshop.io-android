@@ -196,7 +196,7 @@ public class GridMenuFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getProductRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getProductRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getProductRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.MAIN_MENU_REQUESTS_TAG);
     }

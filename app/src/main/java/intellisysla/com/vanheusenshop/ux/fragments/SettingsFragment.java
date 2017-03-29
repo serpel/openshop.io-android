@@ -90,7 +90,7 @@ public class SettingsFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getShopsRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getShopsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getShopsRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getShopsRequest, CONST.SETTINGS_REQUESTS_TAG);
     }

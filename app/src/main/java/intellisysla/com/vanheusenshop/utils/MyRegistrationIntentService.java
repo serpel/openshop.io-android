@@ -124,7 +124,7 @@ public class MyRegistrationIntentService extends IntentService {
                     Timber.d("GCM registration send: non-authorized");
                     req = new JsonRequest(Request.Method.POST, url, requestPost, future, errorListener);
                 }
-                req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+                req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
                 req.setShouldCache(false);
                 MyApplication.getInstance().addToRequestQueue(req, "no_cancel_tag");
             } else {

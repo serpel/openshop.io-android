@@ -137,7 +137,7 @@ public class PageFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getPage.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getPage.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getPage.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getPage, CONST.PAGE_REQUESTS_TAG);
     }

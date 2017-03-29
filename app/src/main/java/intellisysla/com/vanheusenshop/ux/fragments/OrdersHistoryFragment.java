@@ -211,7 +211,7 @@ public class OrdersHistoryFragment extends Fragment {
                 }
             }, getFragmentManager(), user.getAccessToken());
 
-            req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             req.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(req, CONST.ORDERS_HISTORY_REQUESTS_TAG);
         } else {

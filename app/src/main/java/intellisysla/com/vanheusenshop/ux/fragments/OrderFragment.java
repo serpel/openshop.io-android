@@ -107,7 +107,7 @@ public class OrderFragment extends Fragment {
                 }
             }, getFragmentManager(), user.getAccessToken());
 
-            req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             req.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(req, CONST.ORDERS_DETAIL_REQUESTS_TAG);
         } else {

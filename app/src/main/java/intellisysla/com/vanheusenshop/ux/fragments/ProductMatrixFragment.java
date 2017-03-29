@@ -171,7 +171,7 @@ public class ProductMatrixFragment extends Fragment {
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), user.getAccessToken());
-            addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            addToCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             addToCart.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
         }
@@ -220,7 +220,7 @@ public class ProductMatrixFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getProductRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getProductRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getProductRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.PRODUCT_REQUESTS_TAG);
     }

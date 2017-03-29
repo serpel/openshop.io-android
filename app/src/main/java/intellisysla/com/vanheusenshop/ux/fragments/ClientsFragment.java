@@ -252,7 +252,7 @@ public class ClientsFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getClientsRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getClientsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getClientsRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getClientsRequest, CONST.CLIENT_REQUESTS_TAG);
     }

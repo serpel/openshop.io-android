@@ -9,6 +9,7 @@ public class CartProductItem {
     @SerializedName("remote_id")
     private long remoteId;
     private int quantity;
+    private double discount;
 
     @SerializedName("total_price")
     private double totalItemPrice;

@@ -3,6 +3,7 @@ package intellisysla.com.vanheusenshop.entities.cart;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Locale;
 
 public class Cart {
 
@@ -11,16 +12,37 @@ public class Cart {
     @SerializedName("product_count")
     private int productCount;
 
+    private double discount;
+
+    @SerializedName("subtotal")
+    private double subtotal;
+
     @SerializedName("total_price")
     private double totalPrice;
 
-    @SerializedName("total_price_formatted")
+    private double ISV;
+
+    private String subtotalPriceFormatted;
+
     private String totalPriceFormatted;
+
+    private String isvPriceFormatted;
+
+    private String discountPriceFormatted;
+
     private String currency;
     private List<CartProductItem> items;
     private List<CartDiscountItem> discounts;
 
     public Cart() {
+    }
+
+    public double getISV() {
+        return ISV;
+    }
+
+    public void setISV(double ISV) {
+        this.ISV = ISV;
     }
 
     public long getId() {
@@ -43,12 +65,52 @@ public class Cart {
         return totalPrice;
     }
 
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
     public String getTotalPriceFormatted() {
-        return totalPriceFormatted;
+        return currency + " " + String.format(Locale.US, "%.2f", totalPrice);
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public String getSubtotalPriceFormatted() {
+        return currency + " " + String.format(Locale.US, "%.2f", subtotal);
+    }
+
+    public void setSubtotalPriceFormatted(String subtotalPriceFormatted) {
+        this.subtotalPriceFormatted = subtotalPriceFormatted;
+    }
+
+    public String getIsvPriceFormatted() {
+        return currency + " " + String.format(Locale.US, "%.2f", ISV);
+    }
+
+    public void setIsvPriceFormatted(String isvPriceFormatted) {
+        this.isvPriceFormatted = isvPriceFormatted;
+    }
+
+    public String getDiscountPriceFormatted() {
+        return currency + " " + String.format(Locale.US, "%.2f", discount);
+    }
+
+    public void setDiscountPriceFormatted(String discountPriceFormatted) {
+        this.discountPriceFormatted = discountPriceFormatted;
     }
 
     public void setTotalPriceFormatted(String totalPriceFormatted) {

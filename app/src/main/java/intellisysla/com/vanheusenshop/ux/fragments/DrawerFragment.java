@@ -328,7 +328,7 @@ public class DrawerFragment extends Fragment {
                 if (drawerRetryBtn != null) drawerRetryBtn.setVisibility(View.VISIBLE);
             }
         });
-        getDrawerMenu.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getDrawerMenu.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getDrawerMenu.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getDrawerMenu, CONST.DRAWER_REQUESTS_TAG);
     }

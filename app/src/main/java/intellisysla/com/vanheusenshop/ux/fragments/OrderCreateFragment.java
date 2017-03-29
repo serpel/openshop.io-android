@@ -353,7 +353,7 @@ public class OrderCreateFragment extends Fragment {
                     if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).onDrawerBannersSelected();
                 }
             }, getFragmentManager(), user.getAccessToken());
-            getCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            getCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             getCart.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(getCart, CONST.ORDER_CREATE_REQUESTS_TAG);
         } else {
@@ -393,42 +393,10 @@ public class OrderCreateFragment extends Fragment {
                 }
             }
 
-            //TODO: verify this calculation
-            double subtotal = cart.getTotalPrice();
-            subtotalTextView.setText(String.format("%s %s", getString(R.string.SubTotal), subtotal));
-            double discount = 0;
-            discountTextView.setText(String.format("%s %s", getString(R.string.Discount), String.valueOf(discount)));
-            double isv = (subtotal * 15)/100;
-            isvTexView.setText(String.format("%s %s", getString(R.string.ISV), String.valueOf(isv)));
-            double total = (subtotal + discount) +  isv;
-            totalTextView.setText(String.format("%s %s", getString(R.string.Total_colon), total));
-
-            // TODO pull to scroll could be cool here
-            String url = String.format(EndPoints.CART_DELIVERY_INFO, SettingsMy.getActualNonNullShop(getActivity()).getId());
-
-            deliveryProgressBar.setVisibility(View.VISIBLE);
-            GsonRequest<DeliveryRequest> getDelivery = new GsonRequest<>(Request.Method.GET, url, null, DeliveryRequest.class,
-                    new Response.Listener<DeliveryRequest>() {
-                        @Override
-                        public void onResponse(@NonNull DeliveryRequest deliveryResp) {
-                            Timber.d("GetDelivery: %s", deliveryResp.toString());
-                            delivery = deliveryResp.getDelivery();
-                            deliveryProgressBar.setVisibility(View.GONE);
-                            deliveryShippingLayout.setVisibility(View.VISIBLE);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Timber.e("Get request cart error: %s", error.getMessage());
-                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
-
-                    deliveryProgressBar.setVisibility(View.GONE);
-                    if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).onDrawerBannersSelected();
-                }
-            }, getFragmentManager(), user.getAccessToken());
-            getDelivery.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-            getDelivery.setShouldCache(false);
-            MyApplication.getInstance().addToRequestQueue(getDelivery, CONST.ORDER_CREATE_REQUESTS_TAG);
+            subtotalTextView.setText(String.format("%s %s", getString(R.string.SubTotal), cart.getSubtotalPriceFormatted()));
+            discountTextView.setText(String.format("%s %s", getString(R.string.Discount), String.valueOf(cart.getDiscountPriceFormatted())));
+            isvTexView.setText(String.format("%s %s", getString(R.string.ISV), String.valueOf(cart.getIsvPriceFormatted())));
+            totalTextView.setText(String.format("%s %s", getString(R.string.Total_colon), String.valueOf(cart.getTotalPriceFormatted())));
         }
     }
 

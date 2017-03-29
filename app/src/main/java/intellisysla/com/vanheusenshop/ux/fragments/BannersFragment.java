@@ -184,7 +184,7 @@ public class BannersFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getBannersRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getBannersRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getBannersRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getBannersRequest, CONST.BANNER_REQUESTS_TAG);
     }

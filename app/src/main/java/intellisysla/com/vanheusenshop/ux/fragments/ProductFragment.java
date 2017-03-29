@@ -797,7 +797,7 @@ public class ProductFragment extends Fragment {
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), user.getAccessToken());
-            addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            addToCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             addToCart.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_REQUESTS_TAG);
         } else {

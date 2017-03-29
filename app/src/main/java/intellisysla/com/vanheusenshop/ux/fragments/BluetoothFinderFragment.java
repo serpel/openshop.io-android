@@ -174,7 +174,7 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), activeUser.getAccessToken());
-            req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             req.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(req, CONST.ACCOUNT_EDIT_REQUESTS_TAG);
         } else {

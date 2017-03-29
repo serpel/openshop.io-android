@@ -459,7 +459,7 @@ public class CategoryFragment extends Fragment {
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        getProductsRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        getProductsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         getProductsRequest.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(getProductsRequest, CONST.CATEGORY_REQUESTS_TAG);
     }

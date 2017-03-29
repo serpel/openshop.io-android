@@ -280,9 +280,15 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if(user!=null && client!=null && products!=null) {
                         BluetoothPrinter.print(context,
                                 user.getPrintBluetoothAddress(),
-                                order.getDateCreated(), client, order.getSeller(),
+                                order.getDateCreated(),
+                                client,
+                                order.getSeller(),
                                 products,
-                                order.getSubtotal(), order.getDiscount(), order.getSubtotal() - order.getDiscount(), order.getIVA(), order.getTotal());
+                                order.getSubtotal(),
+                                order.getDiscount(),
+                                order.getSubtotal() - order.getDiscount(),
+                                order.getIVA(),
+                                order.getTotal());
                     }else
                     {
                         MsgUtils.showToast((Activity)context, MsgUtils.TOAST_TYPE_INTERNAL_ERROR, context.getString(R.string.Internal_error), MsgUtils.ToastLength.SHORT);

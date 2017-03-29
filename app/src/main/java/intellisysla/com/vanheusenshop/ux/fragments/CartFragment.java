@@ -159,7 +159,7 @@ public class CartFragment extends Fragment {
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), user.getAccessToken());
-            getCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            getCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             getCart.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(getCart, CONST.CART_REQUESTS_TAG);
         } else {
@@ -262,7 +262,7 @@ public class CartFragment extends Fragment {
                             MsgUtils.logAndShowErrorMessage(getActivity(), error);
                         }
                     }, getFragmentManager(), user.getAccessToken());
-                    req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+                    req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
                     req.setShouldCache(false);
                     MyApplication.getInstance().addToRequestQueue(req, CONST.CART_REQUESTS_TAG);
                 } else {
