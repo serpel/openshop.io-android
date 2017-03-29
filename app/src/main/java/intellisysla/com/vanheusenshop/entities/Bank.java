@@ -1,12 +1,17 @@
 package intellisysla.com.vanheusenshop.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by alienware on 3/29/2017.
  */
 
 public class Bank {
+
     private int id;
     private String name;
+
+    @SerializedName("general_account")
     private String GeneralAccount;
 
     public int getId() {
