@@ -190,7 +190,7 @@ public class OrderCreateFragment extends Fragment {
     private void prepareSellerSpinner(View view){
 
         Spinner userSpinner = (Spinner) view.findViewById(R.id.order_seller_spinner);
-        userSpinnerAdapter = new UserSpinnerAdapter(getActivity());
+        userSpinnerAdapter = new UserSpinnerAdapter(getContext());
         userSpinner.setAdapter(userSpinnerAdapter);
 
         userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -218,18 +218,22 @@ public class OrderCreateFragment extends Fragment {
 
 
     private void getSellers(){
-        GsonRequest<UsersResponse> users = new GsonRequest<>(Request.Method.GET, EndPoints.USERS, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
+        GsonRequest<UsersResponse> usersRequest = new GsonRequest<>(Request.Method.GET, EndPoints.USERS, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
             @Override
             public void onResponse(@NonNull UsersResponse usersResponse) {
+                //deliveryProgressBar.setVisibility(View.GONE);
                 userSpinnerAdapter.setUserList(usersResponse.getUserList());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                //deliveryProgressBar.setVisibility(View.GONE);
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
-        MyApplication.getInstance().addToRequestQueue(users, CONST.SALES_PERSON_TAG);
+        usersRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+        usersRequest.setShouldCache(true);
+        MyApplication.getInstance().addToRequestQueue(usersRequest, CONST.USERS_TAG);
     }
 
     private void prepareDeliveryLayout(View view) {
