@@ -103,6 +103,13 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:text="" />
+            
+            <Button
+                android:id="@+id/product_payment_general_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Ok"
+                />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -129,6 +129,82 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private SimpleCursorAdapter searchSuggestionsAdapter;
     private ArrayList<String> searchSuggestionsList;
 
+    private double totalPaid = 0, totalInvoice = 0, cash = 0, transfer = 0, check = 0;
+
+    public void UpdateCash(double cash)
+    {
+        this.cash = cash;
+
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.UpdateCash(this.cash);
+        }
+    }
+
+    public void UpdateTransfer(double transfer)
+    {
+        this.transfer = transfer;
+
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.UpdateTransfer(this.transfer);
+        }
+    }
+
+    public void UpdateCheck(double check)
+    {
+        this.check = check;
+
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.UpdateCheck(this.transfer);
+        }
+    }
+
+    public void AddInvoice(Double invoice)
+    {
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.AddInvoice(String.valueOf(invoice));
+        }
+    }
+
+    public void RestInvoice(Double invoice)
+    {
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.RestInvoice(String.valueOf(invoice));
+        }
+    }
+
+    public double getCash() {
+        return cash;
+    }
+
+    public double getTransfer() {
+        return transfer;
+    }
+
+    public double getCheck() {
+        return check;
+    }
+
+    public double getTotalPaid() {
+        return totalPaid;
+    }
+
+    public void setTotalPaid(double totalPaid) {
+        this.totalPaid = totalPaid;
+    }
+
+    public double getTotalInvoice() {
+        return totalInvoice;
+    }
+
+    public void setTotalInvoice(double totalInvoice) {
+        this.totalInvoice = totalInvoice;
+    }
+
     /**
      * Refresh notification number of products in shopping cart.
      * Create action only if called from fragment attached to MainActivity.
@@ -543,33 +619,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         });
         loginDialogFragment.show(getSupportFragmentManager(), LoginDialogFragment.class.getSimpleName());
     }
-
-    public void UpdateCash(double cash){
-        UpdateFragment(cash);
-    }
-
-    private void UpdateFragment(Double cash){
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm != null) {
-            List<Fragment> fragments = fm.getFragments();
-            for(int i = fragments.size() - 1; i >= 0; i--){
-                Fragment fragment = fragments.get(i);
-                if(fragment != null) {
-                    // found the current fragment
-
-                    // if you want to check for specific fragment class
-                    if(fragment instanceof PaymentMainFragment) {
-                        // do something
-                        ((PaymentMainFragment)fragment).UpdateCash(cash);
-
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-
 
     /**
      * Method creates fragment transaction and replace current fragment with new one.

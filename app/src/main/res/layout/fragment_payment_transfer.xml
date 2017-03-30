@@ -17,6 +17,23 @@
             android:paddingLeft="10dp"
             android:paddingStart="10dp">
 
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="12sp"
+                android:text="TRANSFERENCIA" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="Banco" />
+
             <Spinner
                 android:id="@+id/bank"
                 android:layout_width="match_parent"
@@ -24,28 +41,7 @@
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dialog"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/payment_transfer_date"
-                android:textColor="#000"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:text="2016/06/01"
-                android:inputType="date"
-                android:focusable="false"/>
-
             <TextView
-                android:id="@+id/document_document_credit_limit_2"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="TRANSFERENCIA" />
-
-            <TextView
-                android:id="@+id/document_document_credit_limit_3"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,19 +50,39 @@
                 android:text="Fecha" />
 
             <EditText
-                android:id="@+id/document_document_pay_condition_2"
+                android:id="@+id/payment_transfer_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_marginLeft="1dp"
+                android:layout_marginStart="1dp"
+                android:text=""
+                android:inputType="date"
+                android:focusable="false"/>
+
+            <!--<TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="07/03/2017" />
+                android:text="Fecha" />
+
+            <EditText
+                android:id="@+id/payment_transfer_due_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:inputType="date"
+                android:text="" />-->
 
             <TextView
                 android:id="@+id/document_balance_text"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Balance"
+                android:text="REFERENCIA"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
@@ -74,13 +90,13 @@
 
             <EditText
                 android:id="@+id/document_orders_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/InOrder"
+                android:text="@string/Zero"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
-                tools:text="112302329" />
+                tools:text="@string/Zero" />
 
             <TextView
                 android:id="@+id/document_balance"
@@ -92,7 +108,7 @@
                 android:text="MONTO" />
 
             <EditText
-                android:id="@+id/document_orders"
+                android:id="@+id/payment_transfer_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"

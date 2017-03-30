@@ -35,8 +35,7 @@
                 android:text="@string/Selected"/>
             <CheckBox android:id="@+id/document_checkbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

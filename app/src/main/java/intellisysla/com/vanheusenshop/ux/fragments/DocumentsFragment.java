@@ -1,5 +1,7 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.client.DocumentListResponse;
 import intellisysla.com.vanheusenshop.interfaces.DocumentRecyclerInterface;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
@@ -64,7 +67,7 @@ public class DocumentsFragment extends Fragment {
     private ProgressBar loadMoreProgress;
 
     private TextView clientCode, clientName, clientCreditLimit, clientBalance, clientInOrders, clientPayCondition;
-    private Button documentBegin;
+    private Button documentBegin, clientOkButton;
     public static DocumentsFragment newInstance() {
         Bundle args = new Bundle();
         args.putString(SEARCH_QUERY, null);
@@ -135,6 +138,28 @@ public class DocumentsFragment extends Fragment {
         clientBalance = (TextView) view.findViewById(R.id.document_balance);
         clientInOrders = (TextView) view.findViewById(R.id.document_orders);
         clientPayCondition = (TextView) view.findViewById(R.id.document_document_pay_condition);
+        clientOkButton = (Button) view.findViewById(R.id.product_payment_general_ok);
+
+        clientOkButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                //((MainActivity) getActivity()).CreatePayment();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                builder1.setMessage("Su esta siendo procesado");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        getString(R.string.Ok),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
 
         documentBegin = (Button) view.findViewById(R.id.document_begin);
         documentBegin.setOnClickListener(new View.OnClickListener() {

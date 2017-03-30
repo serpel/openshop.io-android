@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.Bank;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +40,8 @@ public class PaymentTransferFragment extends Fragment {
     private static final String ARG_BANK_LIST = "bank-list";
 
     // TODO: Rename and change types of parameters
-    ArrayList<Bank> banks;
+    private ArrayList<Bank> banks;
+    private TextView amountEdit;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,6 +78,22 @@ public class PaymentTransferFragment extends Fragment {
         if (getArguments() != null) {
             banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
         }
+
+        amountEdit = (EditText)view.findViewById(R.id.payment_transfer_amount);
+        amountEdit.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String amount_string = amountEdit.getText().toString();
+                if(!amount_string.isEmpty()) {
+                    double amount = Double.parseDouble(amount_string);
+                    ((MainActivity)getActivity()).UpdateTransfer(amount);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
 
         final EditText dateEdit = (EditText) view.findViewById(R.id.payment_transfer_date);
 

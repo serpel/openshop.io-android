@@ -65,8 +65,8 @@ public class PaymentMainFragment extends Fragment {
     private ViewPager mViewPager;
     private ProgressBar progressView;
     private List<Fragment> fragments;
-    protected TextView CashText, TransferText, CheckText, TotalText;
-    private double cash = 0, transfer = 0, check = 0, total = 0;
+    protected TextView CashText, TransferText, CheckText, TotalText, TotalInvoiceText;
+    private double cash = 0, transfer = 0, check = 0, total = 0, totalInvoice = 0;
     private Client client;
     private ArrayList<Bank> banks;
 
@@ -88,15 +88,61 @@ public class PaymentMainFragment extends Fragment {
     public void UpdateCash(Double cash)
     {
         this.cash = cash;
-        this.total += cash;
         this.CashText.setText(String.valueOf(cash));
-
         UpdateTotal();
+    }
+
+    public void UpdateTransfer(Double transfer)
+    {
+        this.transfer = transfer;
+        this.TransferText.setText(String.valueOf(transfer));
+        UpdateTotal();
+    }
+
+    public void UpdateCheck(Double check)
+    {
+        this.check = check;
+        this.CheckText.setText(String.valueOf(check));
+        UpdateTotal();
+    }
+
+    public void AddInvoice(String invoice)
+    {
+        if(!invoice.isEmpty()){
+            double total = Double.parseDouble(invoice);
+            this.totalInvoice += total;
+            this.TotalInvoiceText.setText(String.valueOf(this.totalInvoice));
+            UpdateTotal();
+        }
+    }
+
+    public void RestInvoice(String invoice)
+    {
+        if(!invoice.isEmpty()){
+            double total = Double.parseDouble(invoice);
+            this.totalInvoice -= total;
+            this.TotalInvoiceText.setText(String.valueOf(this.totalInvoice));
+            UpdateTotal();
+        }
     }
 
     public void UpdateTotal()
     {
-        this.TotalText.setText(String.valueOf(total));
+        double cash = 0, transfer = 0, check = 0, totalPaid = 0, totalInvoices = 0;
+        String cashString = this.CashText.getText().toString();
+        String transferString = this.TransferText.getText().toString();
+        String checkString =  this.CheckText.getText().toString();
+
+        if(!cashString.isEmpty())
+            cash = Double.parseDouble(cashString);
+        if(!transferString.isEmpty())
+            transfer = Double.parseDouble(transferString);
+        if(!checkString.isEmpty())
+            check = Double.parseDouble(checkString);
+
+        totalPaid = cash + transfer + check;
+
+        this.TotalText.setText(String.valueOf(totalPaid));
     }
 
     @Override
@@ -156,6 +202,7 @@ public class PaymentMainFragment extends Fragment {
         TransferText = (TextView) view.findViewById(R.id.payment_main_transfer);
         CheckText = (TextView) view.findViewById(R.id.payment_main_check);
         TotalText = (TextView) view.findViewById(R.id.payment_main_total);
+        TotalInvoiceText = (TextView) view.findViewById(R.id.payment_main_paid_total);
 
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
 

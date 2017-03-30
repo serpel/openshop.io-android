@@ -233,8 +233,8 @@
     <string name="IVA">ISV</string>
     <string name="NameAndSignature">Nombre y Firma</string>
     <string name="Cash">Efectivo</string>
-    <string name="Check">Transferencia</string>
-    <string name="Transfer">Cheque</string>
+    <string name="Check">Cheque</string>
+    <string name="Transfer">Transferencia</string>
 
     <string name="DocumentCode">Codigo de Documento</string>
     <string name="CreatedDate">Fecha de Creacion</string>

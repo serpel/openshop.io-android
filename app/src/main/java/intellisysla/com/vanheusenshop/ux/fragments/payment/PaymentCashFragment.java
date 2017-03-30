@@ -72,22 +72,14 @@ public class PaymentCashFragment extends Fragment {
                 String amount_string = amountEdit.getText().toString();
                 if(!amount_string.isEmpty()) {
                     double amount = Double.parseDouble(amount_string);
+                    ((MainActivity)getActivity()).UpdateCash(amount);
                 }
-
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
-
-        /*amountEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable editable) {
-                cashValue = Double.valueOf(amountEdit.getText().toString());
-                ((MainActivity)getActivity()).UpdateCash(cashValue);
-            }
-        });*/
 
         return view;
     }
