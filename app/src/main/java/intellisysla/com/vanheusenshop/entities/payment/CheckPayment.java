@@ -10,10 +10,7 @@ public class CheckPayment {
 
     private double amount;
 
-    public CheckPayment()
-    {
-
-    }
+    public CheckPayment() {}
 
     public CheckPayment(String checkNumber, String bank, double amount)
     {
