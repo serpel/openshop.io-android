@@ -67,6 +67,7 @@ import intellisysla.com.vanheusenshop.entities.cart.CartInfo;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.order.Order;
+import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.interfaces.LoginDialogInterface;
 import intellisysla.com.vanheusenshop.utils.Analytics;
 import intellisysla.com.vanheusenshop.utils.JsonUtils;
@@ -88,6 +89,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.OrderCreateFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.OrderFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.OrdersHistoryFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.PageFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.PaymentsHistoryFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.SettingsFragment;
@@ -852,6 +854,16 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         });
     }
 
+    public void onPaymentsHistory() {
+        launchUserSpecificFragment(new PaymentsHistoryFragment(), PaymentsHistoryFragment.class.getSimpleName(), new LoginDialogInterface() {
+            @Override
+            public void successfulLoginOrRegistration(User user) {
+                // If login was successful launch orderHistoryFragment.
+                onPaymentsHistory();
+            }
+        });
+    }
+
     /**
      * Check if user is logged in. If so then start defined fragment, otherwise show login dialog.
      *
@@ -879,6 +891,15 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             replaceFragment(fragment, OrderFragment.class.getSimpleName());
         } else {
             Timber.e("Creating order detail with null data.");
+        }
+    }
+
+    public void onPaymentSelected(Payment payment) {
+        if (payment != null) {
+            //Fragment fragment = PaymentFragment.newInstance(payment.getId());
+            //replaceFragment(fragment, PaymentFragment.class.getSimpleName());
+        } else {
+            Timber.e("Creating payment detail with null data.");
         }
     }
 

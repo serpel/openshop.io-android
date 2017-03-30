@@ -277,5 +277,9 @@
     <!-- Payment Related Strings -->
     <string name="Bank">Bank</string>
     <string name="CheckNumber">Check Number</string>
+    <string name="PaymentHistory">Payment history</string>
+    <string name="MyPayments">My Payments</string>
+    <string name="Client">Client</string>
+    <string name="Your_payment_history_is_empty">Your payment history is empty</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package intellisysla.com.vanheusenshop.entities.payment;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,18 +12,42 @@ import intellisysla.com.vanheusenshop.entities.client.Client;
  */
 
 public class Payment {
+    @SerializedName("id")
     private int id;
     private String vendor;
+    @SerializedName("doc_entry")
     private String docEntry;
+    @SerializedName("total")
     private Double totalPaid;
+
     private String lastError;
+
     private Date date;
+
+    @SerializedName("client")
     private Client client;
+    @SerializedName("cash")
     private Cash cash;
+    @SerializedName("transfer")
     private Transfer transfer;
+    @SerializedName("checks")
     private ArrayList<CheckPayment> checks;
 
     public Payment() {}
+
+    public Payment(int id, String vendor, String docEntry, Double totalPaid, String lastError, Date date, Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks)
+    {
+        this.id = id;
+        this.vendor = vendor;
+        this.docEntry = docEntry;
+        this.totalPaid = totalPaid;
+        this.lastError = lastError;
+        this.date = date;
+        this.client = client;
+        this.cash = cash;
+        this.transfer = transfer;
+        this.checks = checks;
+    }
 
     public int getId() {
         return id;

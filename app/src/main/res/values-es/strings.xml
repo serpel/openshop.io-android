@@ -246,4 +246,9 @@
     <!-- Payment Related Strings -->
     <string name="Bank">Banco</string>
     <string name="CheckNumber">Numero de cheque</string>
+    <string name="PaymentHistory">Historial de pagos</string>
+    <string name="MyPayments">Mis Pagos</string>
+    <string name="Client">Cliente</string>
+    <string name="Your_payment_history_is_empty">Tu historico de cobros esta vacio</string>
+
 </resources>
