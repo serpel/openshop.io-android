@@ -12,7 +12,6 @@ import intellisysla.com.vanheusenshop.entities.Bank;
 
 public class Transfer {
     private int id;
-
     private String number;
     private double amount;
     @SerializedName("due_date")
