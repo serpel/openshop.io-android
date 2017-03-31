@@ -86,14 +86,6 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
                     clientRecyclerInterface.onClientSelected(v, client);
                 }
             });
-
-            v.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    //Toast.makeText(context, "Menu alterno", Toast.LENGTH_LONG).show();
-                    return false;
-                }
-            });
         }
 
         public void bindContent(Client client) {

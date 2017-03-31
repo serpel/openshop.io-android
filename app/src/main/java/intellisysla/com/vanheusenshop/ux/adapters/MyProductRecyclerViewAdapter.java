@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,9 @@ import java.util.List;
 
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.product.ProductSize;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductColorFragment.OnListFragmentInteractionListener;
 import intellisysla.com.vanheusenshop.views.ResizableImageView;
 import intellisysla.com.vanheusenshop.views.RoundedImageView;
@@ -28,11 +32,19 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
     private Context mContext;
     private final List<ProductVariant> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private ProductSize mSize;
 
     public MyProductRecyclerViewAdapter(List<ProductVariant> items, OnListFragmentInteractionListener listener, Context context) {
         mValues = items;
         mListener = listener;
         mContext = context;
+    }
+
+    public MyProductRecyclerViewAdapter(List<ProductVariant> items, OnListFragmentInteractionListener listener, Context context, ProductSize size) {
+        mValues = items;
+        mListener = listener;
+        mContext = context;
+        mSize = size;
     }
 
     @Override
@@ -131,6 +143,7 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
                     try{
                         int quantity = mItem.getNew_quantity();
                         if(quantity > 0) {
+                            //((MainActivity) mContext).updateQuantity(mItem, quantity);
                             mItem.setNew_quantity(--quantity);
                             new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
                             view.startAnimation(animation);
@@ -148,12 +161,36 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
                     try{
                         int quantity = mItem.getNew_quantity();
                         if(quantity <= CONST.MaxQuantityOrder) {
+                            //((MainActivity) mContext).updateQuantity(mItem, quantity);
                             mItem.setNew_quantity(++quantity);
                             new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
                             view.startAnimation(animation);
                         }
                     }catch (Exception e){
                         Timber.e(e.getMessage());
+                    }
+                }
+            });
+
+            new_quantity.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String quantityString = new_quantity.getText().toString();
+
+                    if(!quantityString.isEmpty()) {
+                        int quantity = Integer.parseInt(quantityString);
+                            if(quantity > 0)
+                                ((MainActivity) mContext).updateQuantity(mItem, quantity);
                     }
                 }
             });

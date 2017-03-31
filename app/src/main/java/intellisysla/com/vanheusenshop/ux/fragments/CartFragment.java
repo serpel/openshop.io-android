@@ -210,8 +210,10 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onProductDelete(CartProductItem cartProductItem) {
-                if (cartProductItem != null)
+                if (cartProductItem != null){
                     deleteItemFromCart(cartProductItem.getId(), false);
+                    //((MainActivity)getActivity()).deleteElement(cartProductItem.getVariant().getCode());
+                }
                 else
                     Timber.e("Trying delete null cart item.");
             }
@@ -230,7 +232,7 @@ public class CartFragment extends Fragment {
                     ((MainActivity) getActivity()).onProductSelected(productId);
             }
 
-            private void deleteItemFromCart(long id, boolean isDiscount) {
+            private void deleteItemFromCart(final long id, boolean isDiscount) {
                 User user = SettingsMy.getActiveUser();
                 if (user != null) {
                     String url = String.format(EndPoints.CART_ITEM_DELETE, user.getId(), id);

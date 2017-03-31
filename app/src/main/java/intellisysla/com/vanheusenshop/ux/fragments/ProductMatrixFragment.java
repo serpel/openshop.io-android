@@ -51,6 +51,7 @@ import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.api.JsonRequest;
 import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.product.Product;
+import intellisysla.com.vanheusenshop.entities.product.ProductElement;
 import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
 import intellisysla.com.vanheusenshop.entities.product.ProductSize;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
@@ -58,6 +59,7 @@ import intellisysla.com.vanheusenshop.utils.Analytics;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.adapters.MyProductRecyclerViewAdapter;
+import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
 import timber.log.Timber;
 
 import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
@@ -282,17 +284,10 @@ public class ProductMatrixFragment extends Fragment {
 
             orderSizesAscending(productSizes);
 
-            List<ProductMatrixView> items = new ArrayList<>();
-            fragments = new ArrayList<>();
             for(ProductSize size : productSizes){
-                ArrayList<ProductVariant> variants = product.getVariantsBySize(size);
-                items.add(new ProductMatrixView(size, variants));
-                fragments.add(ProductColorFragment.newInstance(size, variants));
+                ProductMatrixView productMatrixView = new ProductMatrixView(size, product.getVariantsBySize(size));
+                mSectionsPagerAdapter.addPageItem(productMatrixView);
             }
-
-            mSectionsPagerAdapter.setPages(items);
-            mSectionsPagerAdapter.setFragments(fragments);
-            mSectionsPagerAdapter.updateView();
         }
     }
 
@@ -335,7 +330,7 @@ public class ProductMatrixFragment extends Fragment {
         MainActivity.setActionBarTitle("");
     }
 
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+    /*public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> fragments;
         private List<ProductMatrixView> pages;
@@ -370,6 +365,42 @@ public class ProductMatrixFragment extends Fragment {
         public int getCount() {
             // Show 3 total pages.
             return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pages.get(position).getSize().getValue();
+        }
+    }*/
+
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+
+        private List<ProductMatrixView> pages;
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+            pages = new ArrayList<>();
+        }
+
+        public void setPages(List<ProductMatrixView> pages) {
+            this.pages = pages;
+            notifyDataSetChanged();
+        }
+
+        public void addPageItem(ProductMatrixView productMatrixView){
+            this.pages.add(productMatrixView);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            ProductMatrixView productMatrixView = pages.get(position);
+            return ProductColorFragment.newInstance(productMatrixView.getSize(), productMatrixView.getVariants());
+        }
+
+        @Override
+        public int getCount() {
+            return pages.size();
         }
 
         @Override
@@ -433,15 +464,13 @@ public class ProductMatrixFragment extends Fragment {
 
                 User user = SettingsMy.getActiveUser();
                 if (user != null) {
-                    for (Fragment fragment : fragments) {
-                        ProductColorFragment productColorFragment = (ProductColorFragment) fragment;
-                        ArrayList<ProductVariant> variants = productColorFragment.getVariants();
+                    List<ProductVariant> elements = ((MainActivity)getActivity()).getElements();
 
-                        for (ProductVariant productVariant : variants) {
-                            if (productVariant.getNew_quantity() > 0)
-                                addProductToCart(productVariant, user, card_code);
-                        }
+                    for(ProductVariant element: elements){
+                        addProductToCart(element, user, card_code);
                     }
+
+                    ((MainActivity)getActivity()).clearElements();
                 }
             }
 
