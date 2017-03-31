@@ -64,6 +64,7 @@ import intellisysla.com.vanheusenshop.api.JsonRequest;
 import intellisysla.com.vanheusenshop.entities.Banner;
 import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.cart.CartInfo;
+import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.order.Order;
@@ -688,6 +689,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         clearBackStack();
         Timber.d("Called onPaymentSelected");
         Fragment fragment = PaymentMainFragment.newInstance(cardcode);
+        replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
+    }
+
+    public void onPaymentClientSelected(Client client){
+        clearBackStack();
+        Timber.d("Called onPaymentSelected");
+        Fragment fragment = PaymentMainFragment.newInstance(client);
         replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
     }
 

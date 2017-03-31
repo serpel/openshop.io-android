@@ -57,6 +57,7 @@ public class PaymentMainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_CARDCODE = "cardcode";
+    private static final String ARG_CLIENT = "client-payment";
 
     // TODO: Rename and change types of parameters
     private String mCardCode;
@@ -81,6 +82,14 @@ public class PaymentMainFragment extends Fragment {
         PaymentMainFragment fragment = new PaymentMainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CARDCODE, cardCode);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static PaymentMainFragment newInstance(Client client) {
+        PaymentMainFragment fragment = new PaymentMainFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CLIENT, client);
         fragment.setArguments(args);
         return fragment;
     }
@@ -212,7 +221,12 @@ public class PaymentMainFragment extends Fragment {
         Bundle arguments = getArguments();
         if(arguments != null){
             String cardcode = arguments.getString(ARG_CARDCODE, "");
-            getClient(cardcode);
+            client = (Client)arguments.getSerializable(ARG_CLIENT);
+            if(client == null)
+                getClient(cardcode);
+            else{
+                getBanks();
+            }
         }
 
         return view;

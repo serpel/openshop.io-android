@@ -14,6 +14,7 @@ import java.util.List;
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.interfaces.ClientRecyclerInterface;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
 
 /**
  * Created by alienware on 2/1/2017.
@@ -84,6 +85,15 @@ public class ClientsRecyclerAdapter extends RecyclerView.Adapter<ClientsRecycler
                 @Override
                 public void onClick(View v) {
                     clientRecyclerInterface.onClientSelected(v, client);
+                }
+            });
+
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    //clientRecyclerInterface.onClientSelected();
+                    ((MainActivity)context).onPaymentClientSelected(client);
+                    return false;
                 }
             });
         }
