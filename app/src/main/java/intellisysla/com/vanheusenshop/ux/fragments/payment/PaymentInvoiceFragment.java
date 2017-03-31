@@ -1,8 +1,13 @@
 package intellisysla.com.vanheusenshop.ux.fragments.payment;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +21,14 @@ import java.util.ArrayList;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.client.Document;
+import intellisysla.com.vanheusenshop.interfaces.DocumentRecyclerInterface;
+import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
+import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
+import intellisysla.com.vanheusenshop.ux.adapters.DocumentsRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.adapters.InvoiceRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent.DummyItem;
+import timber.log.Timber;
 
 /**
  * A fragment representing a list of Items.
@@ -26,7 +36,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link PaymentInvoiceFragment.OnListFragmentInteractionListener}
  * interface.
  */
-
+/*
 class DocumentAdapter extends ArrayAdapter<Document> {
 
     TextView document_code, due_date, created_date, payed_amount, total_amount;
@@ -71,7 +81,7 @@ class DocumentAdapter extends ArrayAdapter<Document> {
 
         return convertView;
     }
-}
+}*/
 
 public class PaymentInvoiceFragment extends Fragment {
 
@@ -79,9 +89,11 @@ public class PaymentInvoiceFragment extends Fragment {
     private static final String ARG_INVOICE_LIST = "invoice-list";
     // TODO: Customize parameters
     private ArrayList<Document> documents;
-    ListView my_listview;
     private OnListFragmentInteractionListener mListener;
-    private InvoiceRecyclerAdapter documentsRecyclerAdapter;
+    private RecyclerView documentsRecycler;
+    private GridLayoutManager documentsRecyclerLayoutManager;
+    private DocumentsRecyclerAdapter documentsRecyclerAdapter;
+    private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -114,19 +126,48 @@ public class PaymentInvoiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_document_list, container, false);
 
-        my_listview = (ListView)view.findViewById(R.id.invoice_list_view);
-
         Bundle startBundle = getArguments();
         if (startBundle != null) {
             documents = (ArrayList<Document>) getArguments().getSerializable(ARG_INVOICE_LIST);
-        }
 
-        if(documents != null) {
-            DocumentAdapter adapter = new DocumentAdapter(view.getContext(), documents);
-            my_listview.setAdapter(adapter);
+            if (documentsRecyclerAdapter == null || documentsRecyclerAdapter.getItemCount() == 0) {
+                prepareRecyclerAdapter();
+                prepareDocumentRecycler(view);
+
+                if(documents != null && documents.size() > 0 && documentsRecycler != null)
+                    documentsRecyclerAdapter.addDocuments(documents);
+                //Analytics.logCategoryView(categoryId, categoryName, isSearch);
+            }else{
+                prepareDocumentRecycler(view);
+            }
         }
 
         return view;
+    }
+
+    private void prepareRecyclerAdapter() {
+        //On click event
+        documentsRecyclerAdapter = new DocumentsRecyclerAdapter(getActivity(), new DocumentRecyclerInterface() {
+            @Override
+            public void onDocumentRecyclerInterface(View caller, Document document) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    setReenterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
+                }
+                //((MainActivity) getActivity()).onDocumentSelected(document.getDocumentCode());
+            }
+        }, true);
+    }
+
+    private void prepareDocumentRecycler(View view) {
+        documentsRecycler = (RecyclerView) view.findViewById(R.id.payment_document_recycler);
+        documentsRecycler.addItemDecoration(new RecyclerMarginDecorator(getActivity(), RecyclerMarginDecorator.ORIENTATION.BOTH));
+        documentsRecycler.setItemAnimator(new DefaultItemAnimator());
+        documentsRecycler.setHasFixedSize(true);
+
+        documentsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
+
+        documentsRecycler.setLayoutManager(documentsRecyclerLayoutManager);
+        documentsRecycler.setAdapter(documentsRecyclerAdapter);
     }
 
 

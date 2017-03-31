@@ -225,7 +225,10 @@
     <string name="BeginOrder">Begin Order</string>
     <string name="SubTotal">Subtotal:</string>
     <string name="ISV">ISV:</string>
+    <string name="PastDue">Past due</string>
+    <string name="DueDays">Due days</string>
     <string name="Discount">Discount:</string>
+    <string name="BalanceDue">Balance Due</string>
     <string name="Zero">0</string>
     <string name="Back">Back</string>
     <string name="MainMenu">Main Menu</string>
@@ -267,6 +270,7 @@
     <string name="Check">Check</string>
     <string name="Transfer">Transfer</string>
 
+    <string name="Document">Document</string>
     <string name="DocumentCode">Document Code</string>
     <string name="CreatedDate">Created Date</string>
     <string name="DueDate">Due Date</string>

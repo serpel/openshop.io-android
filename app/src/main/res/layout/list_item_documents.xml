@@ -4,12 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    
-    <View
-        android:id="@+id/document_separator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line_light_grey"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:singleLine="true"
             android:textColor="@color/textPrimary"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -39,11 +32,10 @@
             android:layout_height="wrap_content"
             android:paddingBottom="1dp"
             android:paddingTop="1dp"
-            android:singleLine="true"
             android:textColor="@color/textPrimary"
             android:textSize="10sp"
-            android:text="Establecimiento"
-            tools:text="ESTABLECIMIENTO"/>
+            android:text="@string/Document"
+            tools:text="@string/Document"/>
     </LinearLayout>
 
     <LinearLayout
@@ -71,24 +63,42 @@
             android:paddingTop="4dp">
 
             <TextView
-                android:id="@+id/document_created_date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="@string/created_date"
-                tools:text="Created Date"/>
+                android:text="@string/CreatedDate"
+                tools:text="@string/CreatedDate"/>
 
             <TextView
-                android:id="@+id/document_total_amount_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
                 android:text="@string/total_amount"
-                tools:text="Total"/>
+                tools:text="@string/Total"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:visibility="visible"
+                android:text="@string/PastDue"
+                tools:text="@string/PastDue"/>
+
+            <TextView
+                android:id="@+id/document_selected_checkbox_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:visibility="visible"
+                android:text="@string/Select"
+                tools:text="@string/Select"/>
         </LinearLayout>
 
         <LinearLayout
@@ -112,10 +122,25 @@
                 android:id="@+id/document_total_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                tools:text="0.0"/>
+                tools:text="@string/Zero"/>
+
+            <TextView
+                android:id="@+id/document_past_due_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                tools:text="@string/Zero"/>
+
+            <CheckBox
+                android:id="@+id/document_selected_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:textSize="12sp"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -127,7 +152,6 @@
             android:paddingTop="4dp">
 
             <TextView
-                android:id="@+id/document_due_date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
@@ -137,14 +161,22 @@
                 tools:text="Due Date"/>
 
             <TextView
-                android:id="@+id/document_payed_amount_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
-                android:text="@string/payed_amount"
-                tools:text="Payed"/>
+                android:text="@string/BalanceDue"
+                tools:text="@string/BalanceDue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:visibility="visible"
+                android:text="@string/DueDays"
+                tools:text="@string/DueDays"/>
         </LinearLayout>
 
         <LinearLayout
@@ -164,7 +196,15 @@
                 tools:text="12/12/17"/>
 
             <TextView
-                android:id="@+id/document_payed_amount"
+                android:id="@+id/document_balance_due"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                tools:text="0.0"/>
+
+            <TextView
+                android:id="@+id/document_overdue_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
@@ -172,5 +212,13 @@
                 tools:text="0.0"/>
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/document_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/line_light_grey"/>
 </LinearLayout>
 

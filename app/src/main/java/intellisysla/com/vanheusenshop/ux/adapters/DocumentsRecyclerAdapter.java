@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -26,10 +27,17 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
     private final DocumentRecyclerInterface documentRecyclerInterface;
     private List<Document> documents = new ArrayList<>();
     private LayoutInflater layoutInflater;
+    private boolean showSelected = false;
 
     public DocumentsRecyclerAdapter(Context context, DocumentRecyclerInterface documentRecyclerInterface) {
         this.context = context;
         this.documentRecyclerInterface = documentRecyclerInterface;
+    }
+
+    public DocumentsRecyclerAdapter(Context context, DocumentRecyclerInterface documentRecyclerInterface, boolean showSelected) {
+        this.context = context;
+        this.documentRecyclerInterface = documentRecyclerInterface;
+        this.showSelected = showSelected;
     }
 
     public Document getItem(int position) {
@@ -56,19 +64,22 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
             layoutInflater = LayoutInflater.from(parent.getContext());
 
         View view = layoutInflater.inflate(R.layout.list_item_documents, parent, false);
-        return new DocumentsRecyclerAdapter.ViewHolder(view, documentRecyclerInterface);
+        return new DocumentsRecyclerAdapter.ViewHolder(view, documentRecyclerInterface, showSelected);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Document document = getItem(position);
         holder.bindContent(document);
+        holder.setShowSelected(showSelected);
         // - replace the contents of the view with that element
         holder.documentCode.setText(holder.document.getDocumentCode());
         holder.createdDate.setText(holder.document.getCreatedDate());
         holder.dueDate.setText(holder.document.getDueDate());
+        holder.pastDueAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(0));
         holder.totalAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getTotalAmount()));
-        holder.payedAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getPayedAmount()));
+        holder.balanceDue.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getBalanceDue()));
+        holder.overdueDays.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getOverdueDays()));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,24 +87,35 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
         public TextView createdDate;
         public TextView dueDate;
         public TextView totalAmount;
-        public TextView payedAmount;
-        public TextView createdDateText, dueDateText, totalText, payedText;
+        public TextView balanceDue, overdueDays, pastDueAmount;
+        public TextView selectedText;
+        public CheckBox selectedCheck;
         //public TextView clientCode;
         private Document document;
+        private boolean showSelected = false;
 
-        public ViewHolder(View v, final DocumentRecyclerInterface documentRecyclerInterface) {
+        public ViewHolder(View v, final DocumentRecyclerInterface documentRecyclerInterface, boolean showSelected) {
             super(v);
             //clientCode = (TextView) v.findViewById(R.id.document_client_code);
             documentCode = (TextView) v.findViewById(R.id.document_code);
             createdDate = (TextView) v.findViewById(R.id.document_created_date);
             dueDate = (TextView) v.findViewById(R.id.document_due_date);
             totalAmount = (TextView) v.findViewById(R.id.document_total_amount);
-            payedAmount = (TextView) v.findViewById(R.id.document_payed_amount);
+            pastDueAmount = (TextView) v.findViewById(R.id.document_past_due_amount);
+            balanceDue = (TextView) v.findViewById(R.id.document_balance_due);
+            overdueDays = (TextView) v.findViewById(R.id.document_overdue_days);
 
-            createdDateText = (TextView) v.findViewById(R.id.document_created_date_text);
-            dueDateText = (TextView) v.findViewById(R.id.document_due_date_text);
-            totalText = (TextView) v.findViewById(R.id.document_total_amount_text);
-            payedText = (TextView) v.findViewById(R.id.document_payed_amount_text);
+            selectedCheck = (CheckBox) v.findViewById(R.id.document_selected_checkbox);
+            selectedText = (TextView) v.findViewById(R.id.document_selected_checkbox_text);
+
+            //Selected is used on payments
+            if(showSelected){
+                selectedCheck.setVisibility(View.VISIBLE);
+                selectedText.setVisibility(View.VISIBLE);
+            }else{
+                selectedCheck.setVisibility(View.GONE);
+                selectedText.setVisibility(View.GONE);
+            }
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,6 +127,10 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
 
         public void bindContent(Document document) {
             this.document = document;
+        }
+
+        public void setShowSelected(boolean show){
+            this.showSelected = show;
         }
     }
 }

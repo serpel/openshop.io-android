@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 
 public class Document implements Serializable {
+
     @SerializedName("document_code")
     private String documentCode;
     @SerializedName("created_date")
@@ -19,17 +20,28 @@ public class Document implements Serializable {
     private Double totalAmount;
     @SerializedName("payed_amount")
     private Double payedAmount;
-
-    public Document(String documentCode, String createdDate, String dueDate, Double totalAmount, Double payedAmount)
-    {
-        this.documentCode = documentCode;
-        this.createdDate = createdDate;
-        this.dueDate = dueDate;
-        this.totalAmount = totalAmount;
-        this.payedAmount = payedAmount;
-    }
+    @SerializedName("balance_due")
+    private Double balanceDue;
+    @SerializedName("overdue_days")
+    private int overdueDays;
 
     public Document(){}
+
+    public Double getBalanceDue() {
+        return balanceDue;
+    }
+
+    public void setBalanceDue(Double balanceDue) {
+        this.balanceDue = balanceDue;
+    }
+
+    public int getOverdueDays() {
+        return overdueDays;
+    }
+
+    public void setOverdueDays(int overdueDays) {
+        this.overdueDays = overdueDays;
+    }
 
     public String getDocumentCode() {
         return documentCode;

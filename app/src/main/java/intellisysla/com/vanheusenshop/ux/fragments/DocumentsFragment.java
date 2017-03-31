@@ -210,7 +210,7 @@ public class DocumentsFragment extends Fragment {
                 }
                 ((MainActivity) getActivity()).onDocumentSelected(document.getDocumentCode());
             }
-        });
+        }, false);
     }
 
     /**

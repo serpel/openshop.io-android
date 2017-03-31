@@ -127,7 +127,7 @@
     <!-- Order related strings-->
     <string name="Order">Orden</string>
     <string name="Order_colon">Orden:</string>
-    <string name="Date_created">Fecha de creación</string>
+    <string name="Date_created">Creación</string>
     <string name="Date_created_colon">Fecha de creación:</string>
     <string name="Total_price">Precio Total</string>
     <string name="Order_summary">Resumen</string>
@@ -236,14 +236,29 @@
     <string name="Check">Cheque</string>
     <string name="Transfer">Transferencia</string>
 
+    <string name="Document">Numero de Factura</string>
     <string name="DocumentCode">Codigo de Documento</string>
-    <string name="CreatedDate">Fecha de Creacion</string>
-    <string name="DueDate">Fecha de vencimiento</string>
+    <string name="CreatedDate">Creacion</string>
+    <string name="DueDate">F. Vencimiento</string>
     <string name="TotalAmount">Cantidad Total</string>
     <string name="PayedAmount">Cantidad Pagada</string>
     <string name="Selected">Seleccionado: </string>
 
     <!-- Payment Related Strings -->
+    <string name="created_date">Fecha Creacion</string>
+    <string name="due_date">Vencimiento</string>
+    <string name="total_amount">Total</string>
+    <string name="payed_amount">A Pagar</string>
+    <string name="Balance">Balance</string>
+    <string name="BalanceDue">V. adeudado</string>
+    <string name="InOrder">En Ordenes</string>
+    <string name="CreditLimit">Limite de Credito</string>
+    <string name="PayCondition">Condicion de Pago</string>
+    <string name="BeginOrder">Comenzar Orden</string>
+    <string name="SubTotal">Subtotal</string>
+    <string name="ISV">ISV</string>
+    <string name="DueDays">D. atrazados</string>
+    <string name="PastDue">V. atrazado</string>
     <string name="Bank">Banco</string>
     <string name="CheckNumber">Numero de cheque</string>
     <string name="PaymentHistory">Historial de pagos</string>

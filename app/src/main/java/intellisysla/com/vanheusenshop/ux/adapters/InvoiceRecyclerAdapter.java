@@ -89,12 +89,6 @@ public class InvoiceRecyclerAdapter extends RecyclerView.Adapter<InvoiceRecycler
             createdDate = (TextView) v.findViewById(R.id.document_created_date);
             dueDate = (TextView) v.findViewById(R.id.document_due_date);
             totalAmount = (TextView) v.findViewById(R.id.document_total_amount);
-            payedAmount = (TextView) v.findViewById(R.id.document_payed_amount);
-
-            createdDateText = (TextView) v.findViewById(R.id.document_created_date_text);
-            dueDateText = (TextView) v.findViewById(R.id.document_due_date_text);
-            totalText = (TextView) v.findViewById(R.id.document_total_amount_text);
-            payedText = (TextView) v.findViewById(R.id.document_payed_amount_text);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

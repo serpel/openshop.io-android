@@ -66,7 +66,7 @@ public class PaymentMainFragment extends Fragment {
     private ViewPager mViewPager;
     private ProgressBar progressView;
     private List<Fragment> fragments;
-    protected TextView CashText, TransferText, CheckText, TotalText, TotalInvoiceText;
+    protected TextView cashText, transferText, checkText, totalText, totalInvoiceText;
     private double cash = 0, transfer = 0, check = 0, total = 0, totalInvoice = 0;
     private Client client;
     private ArrayList<Bank> banks;
@@ -97,21 +97,21 @@ public class PaymentMainFragment extends Fragment {
     public void UpdateCash(Double cash)
     {
         this.cash = cash;
-        this.CashText.setText(String.valueOf(cash));
+        this.cashText.setText(String.valueOf(cash));
         UpdateTotal();
     }
 
     public void UpdateTransfer(Double transfer)
     {
         this.transfer = transfer;
-        this.TransferText.setText(String.valueOf(transfer));
+        this.transferText.setText(String.valueOf(transfer));
         UpdateTotal();
     }
 
     public void UpdateCheck(Double check)
     {
         this.check = check;
-        this.CheckText.setText(String.valueOf(check));
+        this.checkText.setText(String.valueOf(check));
         UpdateTotal();
     }
 
@@ -120,7 +120,7 @@ public class PaymentMainFragment extends Fragment {
         if(!invoice.isEmpty()){
             double total = Double.parseDouble(invoice);
             this.totalInvoice += total;
-            this.TotalInvoiceText.setText(String.valueOf(this.totalInvoice));
+            this.totalInvoiceText.setText(String.valueOf(this.totalInvoice));
             UpdateTotal();
         }
     }
@@ -130,7 +130,7 @@ public class PaymentMainFragment extends Fragment {
         if(!invoice.isEmpty()){
             double total = Double.parseDouble(invoice);
             this.totalInvoice -= total;
-            this.TotalInvoiceText.setText(String.valueOf(this.totalInvoice));
+            this.totalInvoiceText.setText(String.valueOf(this.totalInvoice));
             UpdateTotal();
         }
     }
@@ -138,9 +138,9 @@ public class PaymentMainFragment extends Fragment {
     public void UpdateTotal()
     {
         double cash = 0, transfer = 0, check = 0, totalPaid = 0, totalInvoices = 0;
-        String cashString = this.CashText.getText().toString();
-        String transferString = this.TransferText.getText().toString();
-        String checkString =  this.CheckText.getText().toString();
+        String cashString = this.cashText.getText().toString();
+        String transferString = this.transferText.getText().toString();
+        String checkString =  this.checkText.getText().toString();
 
         if(!cashString.isEmpty())
             cash = Double.parseDouble(cashString);
@@ -151,7 +151,7 @@ public class PaymentMainFragment extends Fragment {
 
         totalPaid = cash + transfer + check;
 
-        this.TotalText.setText(String.valueOf(totalPaid));
+        this.totalText.setText(String.valueOf(totalPaid));
     }
 
     @Override
@@ -207,11 +207,11 @@ public class PaymentMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_main, container, false);
 
-        CashText = (TextView) view.findViewById(R.id.payment_main_cash);
-        TransferText = (TextView) view.findViewById(R.id.payment_main_transfer);
-        CheckText = (TextView) view.findViewById(R.id.payment_main_check);
-        TotalText = (TextView) view.findViewById(R.id.payment_main_total);
-        TotalInvoiceText = (TextView) view.findViewById(R.id.payment_main_paid_total);
+        cashText = (TextView) view.findViewById(R.id.payment_main_cash);
+        transferText = (TextView) view.findViewById(R.id.payment_main_transfer);
+        checkText = (TextView) view.findViewById(R.id.payment_main_check);
+        totalText = (TextView) view.findViewById(R.id.payment_main_total);
+        totalInvoiceText = (TextView) view.findViewById(R.id.payment_main_paid_total);
 
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
 
