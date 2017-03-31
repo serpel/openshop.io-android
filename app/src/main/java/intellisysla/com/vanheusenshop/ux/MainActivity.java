@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     {
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.AddInvoice(String.valueOf(invoice));
+            fragment.AddInvoice(invoice);
         }
     }
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     {
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.RestInvoice(String.valueOf(invoice));
+            fragment.RestInvoice(invoice);
         }
     }
     public double getCheck() {

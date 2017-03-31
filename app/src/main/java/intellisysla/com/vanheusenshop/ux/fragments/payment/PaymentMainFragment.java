@@ -115,21 +115,19 @@ public class PaymentMainFragment extends Fragment {
         UpdateTotal();
     }
 
-    public void AddInvoice(String invoice)
+    public void AddInvoice(Double invoice)
     {
-        if(!invoice.isEmpty()){
-            double total = Double.parseDouble(invoice);
-            this.totalInvoice += total;
+        if(invoice > 0){
+            this.totalInvoice += invoice;
             this.totalInvoiceText.setText(String.valueOf(this.totalInvoice));
             UpdateTotal();
         }
     }
 
-    public void RestInvoice(String invoice)
+    public void RestInvoice(Double invoice)
     {
-        if(!invoice.isEmpty()){
-            double total = Double.parseDouble(invoice);
-            this.totalInvoice -= total;
+        if(invoice > 0){
+            this.totalInvoice -= invoice;
             this.totalInvoiceText.setText(String.valueOf(this.totalInvoice));
             UpdateTotal();
         }
@@ -137,21 +135,9 @@ public class PaymentMainFragment extends Fragment {
 
     public void UpdateTotal()
     {
-        double cash = 0, transfer = 0, check = 0, totalPaid = 0, totalInvoices = 0;
-        String cashString = this.cashText.getText().toString();
-        String transferString = this.transferText.getText().toString();
-        String checkString =  this.checkText.getText().toString();
-
-        if(!cashString.isEmpty())
-            cash = Double.parseDouble(cashString);
-        if(!transferString.isEmpty())
-            transfer = Double.parseDouble(transferString);
-        if(!checkString.isEmpty())
-            check = Double.parseDouble(checkString);
-
-        totalPaid = cash + transfer + check;
-
-        this.totalText.setText(String.valueOf(totalPaid));
+        Double total = cash + transfer + check;
+        this.totalText.setText(String.valueOf(total));
+        this.totalInvoiceText.setText(String.valueOf(this.totalInvoice));
     }
 
     @Override

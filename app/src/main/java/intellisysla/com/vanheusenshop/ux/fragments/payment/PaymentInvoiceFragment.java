@@ -30,59 +30,6 @@ import intellisysla.com.vanheusenshop.ux.adapters.InvoiceRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.fragments.dummy.DummyContent.DummyItem;
 import timber.log.Timber;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link PaymentInvoiceFragment.OnListFragmentInteractionListener}
- * interface.
- */
-/*
-class DocumentAdapter extends ArrayAdapter<Document> {
-
-    TextView document_code, due_date, created_date, payed_amount, total_amount;
-
-    public DocumentAdapter(Context context, ArrayList<Document> documents) {
-        super(context, 0, documents);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        final Document document = getItem(position);
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_document, parent, false);
-        }
-        document_code = (TextView) convertView.findViewById(R.id.document_code);
-        due_date = (TextView) convertView.findViewById(R.id.due_date);
-        created_date = (TextView) convertView.findViewById(R.id.created_date);
-        payed_amount = (TextView) convertView.findViewById(R.id.payed_amount);
-        total_amount = (TextView) convertView.findViewById(R.id.total_amount);
-        CheckBox selectedCheck = (CheckBox) convertView.findViewById(R.id.document_checkbox);
-
-        document_code.setText(getContext().getString(R.string.DocumentCode) + ": " + document.getDocumentCode());
-        due_date.setText(getContext().getString(R.string.DueDate) + ": " + document.getDueDate());
-        created_date.setText(getContext().getString(R.string.CreatedDate) + ": " + document.getCreatedDate());
-        payed_amount.setText(getContext().getString(R.string.PayedAmount) + ": " + document.getPayedAmount());
-        total_amount.setText(getContext().getString(R.string.TotalAmount) + ": " + document.getTotalAmount());
-
-        selectedCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    if(document.getTotalAmount() > 0)
-                        ((MainActivity) getContext()).AddInvoice(document.getTotalAmount());
-                }else{
-                    if(!total_amount.getText().toString().isEmpty())
-                        ((MainActivity) getContext()).RestInvoice(document.getTotalAmount());
-                }
-            }
-        });
-
-        return convertView;
-    }
-}*/
-
 public class PaymentInvoiceFragment extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -93,7 +40,6 @@ public class PaymentInvoiceFragment extends Fragment {
     private RecyclerView documentsRecycler;
     private GridLayoutManager documentsRecyclerLayoutManager;
     private DocumentsRecyclerAdapter documentsRecyclerAdapter;
-    private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

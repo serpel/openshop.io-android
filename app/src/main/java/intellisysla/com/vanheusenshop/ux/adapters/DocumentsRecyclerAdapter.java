@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -16,6 +17,7 @@ import java.util.Locale;
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.interfaces.DocumentRecyclerInterface;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
 
 /**
  * Created by alienware on 2/1/2017.
@@ -28,11 +30,6 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
     private List<Document> documents = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private boolean showSelected = false;
-
-    public DocumentsRecyclerAdapter(Context context, DocumentRecyclerInterface documentRecyclerInterface) {
-        this.context = context;
-        this.documentRecyclerInterface = documentRecyclerInterface;
-    }
 
     public DocumentsRecyclerAdapter(Context context, DocumentRecyclerInterface documentRecyclerInterface, boolean showSelected) {
         this.context = context;
@@ -64,14 +61,13 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
             layoutInflater = LayoutInflater.from(parent.getContext());
 
         View view = layoutInflater.inflate(R.layout.list_item_documents, parent, false);
-        return new DocumentsRecyclerAdapter.ViewHolder(view, documentRecyclerInterface, showSelected);
+        return new DocumentsRecyclerAdapter.ViewHolder(view, documentRecyclerInterface, showSelected, context);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Document document = getItem(position);
         holder.bindContent(document);
-        holder.setShowSelected(showSelected);
         // - replace the contents of the view with that element
         holder.documentCode.setText(holder.document.getDocumentCode());
         holder.createdDate.setText(holder.document.getCreatedDate());
@@ -92,9 +88,8 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
         public CheckBox selectedCheck;
         //public TextView clientCode;
         private Document document;
-        private boolean showSelected = false;
 
-        public ViewHolder(View v, final DocumentRecyclerInterface documentRecyclerInterface, boolean showSelected) {
+        public ViewHolder(View v, final DocumentRecyclerInterface documentRecyclerInterface, boolean showSelected, final Context context) {
             super(v);
             //clientCode = (TextView) v.findViewById(R.id.document_client_code);
             documentCode = (TextView) v.findViewById(R.id.document_code);
@@ -112,6 +107,19 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
             if(showSelected){
                 selectedCheck.setVisibility(View.VISIBLE);
                 selectedText.setVisibility(View.VISIBLE);
+
+                selectedCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(b){
+                            if(document.getBalanceDue() > 0)
+                                ((MainActivity) context).AddInvoice(document.getBalanceDue());
+                        }else{
+                            if(document.getBalanceDue() > 0)
+                                ((MainActivity) context).RestInvoice(document.getBalanceDue());
+                        }
+                    }
+                });
             }else{
                 selectedCheck.setVisibility(View.GONE);
                 selectedText.setVisibility(View.GONE);
@@ -127,10 +135,6 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
 
         public void bindContent(Document document) {
             this.document = document;
-        }
-
-        public void setShowSelected(boolean show){
-            this.showSelected = show;
         }
     }
 }
