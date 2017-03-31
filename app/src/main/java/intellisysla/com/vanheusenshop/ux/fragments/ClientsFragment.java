@@ -118,8 +118,6 @@ public class ClientsFragment extends Fragment {
                 Toast.makeText(getContext(), "le diste a 1", Toast.LENGTH_LONG).show();
                 break;*/
             case R.id.menu_contextual_account_payment:
-                //Toast.makeText(getContext(), "le diste a 2", Toast.LENGTH_LONG).show();
-                //addPaymentFragment();
                 ((MainActivity)getActivity()).onPaymentSelected("C0005");
                 break;
             default:
@@ -127,14 +125,6 @@ public class ClientsFragment extends Fragment {
         }
 
         return super.onContextItemSelected(item);
-    }
-
-    private void addPaymentFragment() {
-        Fragment fragment = new PaymentMainFragment();
-        FragmentManager frgManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_content_frame, fragment).commit();
-        frgManager.executePendingTransactions();
     }
 
     private void prepareClientRecycler(View view) {

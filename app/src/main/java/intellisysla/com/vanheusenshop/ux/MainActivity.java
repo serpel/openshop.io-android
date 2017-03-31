@@ -67,6 +67,10 @@ import intellisysla.com.vanheusenshop.entities.cart.CartInfo;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.order.Order;
+import intellisysla.com.vanheusenshop.entities.product.ProductElement;
+import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
+import intellisysla.com.vanheusenshop.entities.product.ProductSize;
+import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
 import intellisysla.com.vanheusenshop.interfaces.LoginDialogInterface;
 import intellisysla.com.vanheusenshop.utils.Analytics;
 import intellisysla.com.vanheusenshop.utils.JsonUtils;
@@ -130,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private ArrayList<String> searchSuggestionsList;
 
     private double totalPaid = 0, totalInvoice = 0, cash = 0, transfer = 0, check = 0;
+    private List<ProductMatrixView> items = new ArrayList<>();
+    private List<ProductVariant> elements = new ArrayList<>();
 
     public void UpdateCash(double cash)
     {
@@ -176,35 +182,36 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             fragment.RestInvoice(String.valueOf(invoice));
         }
     }
-
-    public double getCash() {
-        return cash;
-    }
-
-    public double getTransfer() {
-        return transfer;
-    }
-
     public double getCheck() {
         return check;
     }
 
-    public double getTotalPaid() {
-        return totalPaid;
+    public void updateQuantity(ProductVariant variant, int quantity){
+        if(!this.elements.contains(variant)){
+            this.elements.add(variant);
+        }else{
+            int index = this.elements.indexOf(variant);
+            ProductVariant e = this.elements.get(index);
+            e.setNew_quantity(quantity);
+        }
     }
 
-    public void setTotalPaid(double totalPaid) {
-        this.totalPaid = totalPaid;
+    public void deleteElement(String code){
+       for(ProductVariant variant : this.elements){
+           if(variant.getCode().equals(code)){
+               this.elements.remove(variant);
+               break;
+           }
+       }
     }
 
-    public double getTotalInvoice() {
-        return totalInvoice;
+    public List<ProductVariant> getElements(){
+        return this.elements;
     }
 
-    public void setTotalInvoice(double totalInvoice) {
-        this.totalInvoice = totalInvoice;
+    public void clearElements(){
+        this.elements.clear();
     }
-
     /**
      * Refresh notification number of products in shopping cart.
      * Create action only if called from fragment attached to MainActivity.
