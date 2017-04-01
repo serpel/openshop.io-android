@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +23,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,29 +35,24 @@ import java.util.Locale;
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.SettingsMy;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.BankResponse;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.client.DocumentListResponse;
-import intellisysla.com.vanheusenshop.entities.delivery.Transport;
-import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
-import intellisysla.com.vanheusenshop.entities.product.ProductSize;
-import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
+import intellisysla.com.vanheusenshop.entities.payment.Cash;
+import intellisysla.com.vanheusenshop.entities.payment.Payment;
+import intellisysla.com.vanheusenshop.entities.payment.Transfer;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
+import intellisysla.com.vanheusenshop.utils.JsonUtils;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
-import intellisysla.com.vanheusenshop.ux.fragments.BannersFragment;
-import intellisysla.com.vanheusenshop.ux.fragments.ProductColorFragment;
-import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
+import intellisysla.com.vanheusenshop.ux.dialogs.LoginExpiredDialogFragment;
+import timber.log.Timber;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PaymentMainFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PaymentMainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PaymentMainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,8 +68,10 @@ public class PaymentMainFragment extends Fragment {
     private List<Fragment> fragments;
     protected TextView cashText, transferText, checkText, totalText, totalInvoiceText;
     private double cash = 0, transfer = 0, check = 0, total = 0, totalInvoice = 0;
+    private Button paymentSave;
     private Client client;
     private ArrayList<Bank> banks;
+    private Payment payment;
 
     private OnFragmentInteractionListener mListener;
 
@@ -198,11 +200,28 @@ public class PaymentMainFragment extends Fragment {
         checkText = (TextView) view.findViewById(R.id.payment_main_check);
         totalText = (TextView) view.findViewById(R.id.payment_main_total);
         totalInvoiceText = (TextView) view.findViewById(R.id.payment_main_paid_total);
+        //paymentSave = (Button) view.findViewById(R.id.product_payment_general_ok);
 
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
 
         mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        MainActivity.setActionBarTitle(getString(R.string.Payments));
+
+        /*paymentSave.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Bank bank = new Bank(0, "BATL", "_SYS00000001377");
+                Cash cash = new Cash(0, 10000, "_SYS00000001377");
+                Transfer transfer = new Transfer(0, "123", 10000, Date.valueOf("2017-03-31"), bank);
+
+                payment.setTransfer(transfer);
+                payment.setClient(client);
+                payment.setCash(cash);
+                putPayment(payment);
+            }
+        });*/
 
         Bundle arguments = getArguments();
         if(arguments != null){
@@ -216,6 +235,43 @@ public class PaymentMainFragment extends Fragment {
         }
 
         return view;
+    }
+
+    private void putPayment(Payment payment) {
+            if (payment != null) {
+                JSONObject joPayment = new JSONObject();
+                try {
+                    joPayment.put("ClientId", payment.getClient().getId());
+                    joPayment.put("CashId", payment.getCash().getId());
+                    joPayment.put("TransferId", payment.getTransfer().getId());
+                    joPayment.put("TotalAmount", payment.getTotalPaid());
+                    joPayment.put("CreatedDate", payment.getDate());
+                    joPayment.put("DeviceUserId", 1);
+                } catch (JSONException e) {
+                    Timber.e(e, "Parse new payment exception.");
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
+                    return;
+                }
+
+                //progressDialog.show();
+                GsonRequest<Payment> req = new GsonRequest<>(Request.Method.PUT, EndPoints.ADD_PAYMENT, joPayment.toString(), Payment.class,
+                        new Response.Listener<Payment>() {
+                            @Override
+                            public void onResponse(@NonNull Payment payment) {
+                                //progressDialog.cancel();
+                                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Ok), MsgUtils.ToastLength.SHORT);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //if (progressDialog != null) progressDialog.cancel();
+                        MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                    }
+                }, getFragmentManager(),  null);
+                req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+                req.setShouldCache(false);
+                MyApplication.getInstance().addToRequestQueue(req, CONST.ADD_PAYMENT_TAG);
+            }
     }
 
     public void setFragments(Client client){

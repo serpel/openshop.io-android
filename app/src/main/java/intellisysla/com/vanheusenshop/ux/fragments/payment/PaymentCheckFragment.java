@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +45,10 @@ import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
+import intellisysla.com.vanheusenshop.interfaces.ChecksRecyclerInterface;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
+import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
+import intellisysla.com.vanheusenshop.ux.adapters.ChecksRecyclerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,75 +59,25 @@ import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
  * create an instance of this fragment.
  */
 
-class ChecksAdapter extends ArrayAdapter<CheckPayment> {
-    private ArrayList<CheckPayment> checks;
-
-    public ChecksAdapter(Context context, ArrayList<CheckPayment> users) {
-        super(context, 0, users);
-    }
-
-    public ChecksAdapter(Context context) {
-        super(context, 0);
-        checks = new ArrayList<>();
-    }
-
-    public void addCheck(CheckPayment check){
-        this.checks.add(check);
-        notifyDataSetChanged();
-    }
-
-    public ArrayList<CheckPayment> getChecks() {
-        return checks;
-    }
-
-    public void setChecks(ArrayList<CheckPayment> checks) {
-        this.checks = checks;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        CheckPayment check_payment = getItem(position);
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_check, parent, false);
-        }
-        TextView amount = (TextView) convertView.findViewById(R.id.amount);
-        TextView number = (TextView) convertView.findViewById(R.id.number);
-        TextView bank = (TextView) convertView.findViewById(R.id.bank);
-
-        amount.setText(getContext().getString(R.string.Amount) + ": " + check_payment.getAmount());
-        bank.setText(getContext().getString(R.string.Bank) + ": " + check_payment.getBank());
-        number.setText(getContext().getString(R.string.CheckNumber) + ": " + check_payment.getCheckNumber());
-
-        return convertView;
-    }
-}
-
 public class PaymentCheckFragment extends Fragment {
 
     private static final String ARG_BANK_LIST = "bank-list";
     private OnFragmentInteractionListener mListener;
-    private ChecksAdapter checksAdapter;
-    ArrayList<CheckPayment> checks_array;
-    ListView my_listview;
-    LinearLayout theLayout;
+    private ChecksRecyclerAdapter checksRecyclerAdapter;
+    private GridLayoutManager checksGridLayoutManager;
+    private RecyclerView checkRecyclerView;
+    private Button addCheckButton;
+    private ArrayList<CheckPayment> checks;
+    private ArrayList<Bank> banks;
 
-    ArrayList<Bank> banks;
-
-    public PaymentCheckFragment() {
-        // Required empty public constructor
-    }
+    public PaymentCheckFragment() {}
 
     // TODO: Rename and change types and number of parameters
     public static PaymentCheckFragment newInstance(ArrayList<Bank> banks) {
         PaymentCheckFragment fragment = new PaymentCheckFragment();
         Bundle args = new Bundle();
-
         args.putSerializable(ARG_BANK_LIST, banks);
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -137,23 +94,37 @@ public class PaymentCheckFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_check, container, false);
-        final View popup = inflater.inflate(R.layout.popup_add_check,container,false);
 
-        //final PaymentCheckFragment payment_check_fragment = this;
+        addCheckButton = (Button) view.findViewById(R.id.payment_check_add_button);
+        addCheckButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
 
-        checks_array = new ArrayList<>();
-        checksAdapter = new ChecksAdapter(getContext());
-        my_listview = (ListView)view.findViewById(R.id.check_list_view);
-        my_listview.setAdapter(checksAdapter);
+            }
+        });
 
-        my_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        Bundle bundle = getArguments();
+
+        if(bundle != null){
+            banks = (ArrayList<Bank>) bundle.getSerializable(ARG_BANK_LIST);
+
+            if(checksRecyclerAdapter !=null && checksRecyclerAdapter.getItemCount() > 0){
+                prepareRecyclerAdapter();
+                prepareCheckRecycler(view);
+            }else{
+                prepareCheckRecycler(view);
+            }
+        }
+
+        return view;
+
+        /*my_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 checks_array.remove(position);
                 return true;
             }
         });
-
 
         theLayout = (LinearLayout) view.findViewById(R.id.linear_payment_s);
 
@@ -220,9 +191,28 @@ public class PaymentCheckFragment extends Fragment {
                 });
                 mPopupWindow.showAtLocation(theLayout, Gravity.CENTER,0,0);
             }
-        });
+        });*/
+    }
 
-        return view;
+    private void prepareCheckRecycler(View view) {
+        checkRecyclerView = (RecyclerView) view.findViewById(R.id.payment_check_recycler);
+        checkRecyclerView.addItemDecoration(new RecyclerMarginDecorator(getActivity(), RecyclerMarginDecorator.ORIENTATION.BOTH));
+        checkRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        checkRecyclerView.setHasFixedSize(true);
+
+        checksGridLayoutManager = new GridLayoutManager(getActivity(), 1);
+
+        checkRecyclerView.setLayoutManager(checksGridLayoutManager);
+        checkRecyclerView.setAdapter(checksRecyclerAdapter);
+    }
+
+    public void prepareRecyclerAdapter(){
+        checksRecyclerAdapter = new ChecksRecyclerAdapter(getActivity(), new ChecksRecyclerInterface(){
+            @Override
+            public void onCheckSelected(View view, CheckPayment checkPayment) {
+
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

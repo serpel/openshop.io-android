@@ -11,6 +11,8 @@ import java.util.List;
  */
 
 public class Client implements Serializable {
+
+    private long id;
     private String name;
     @SerializedName("card_code")
     private String cardCode;
@@ -23,6 +25,14 @@ public class Client implements Serializable {
     private ArrayList<Document> invoiceList;
 
     public Client(){}
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getAddress() {
         if(address!=null)

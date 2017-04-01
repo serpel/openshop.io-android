@@ -7,12 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.client.Client;
+import intellisysla.com.vanheusenshop.entities.payment.Cash;
+import intellisysla.com.vanheusenshop.entities.payment.Transfer;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
+import intellisysla.com.vanheusenshop.utils.MsgUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +38,7 @@ public class PaymentGeneralFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Client client;
+    private Button paymentSave;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,6 +72,23 @@ public class PaymentGeneralFragment extends Fragment {
         clientCardCode = (TextView) view.findViewById(R.id.document_client_code);
         //clientContact = (TextView) view.findViewById(R.id.document_client_code);
         clientName = (TextView) view.findViewById(R.id.document_client_name);
+        paymentSave = (Button) view.findViewById(R.id.product_payment_general_ok);
+
+        paymentSave.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+               /* Bank bank = new Bank(0, "BATL", "_SYS00000001377");
+                Cash cash = new Cash(0, 10000, "_SYS00000001377");
+                Transfer transfer = new Transfer(0, "123", 10000, Date.valueOf("2017-03-31"), bank);
+
+                payment.setTransfer(transfer);
+                payment.setClient(client);
+                payment.setCash(cash);
+                putPayment(payment);*/
+
+                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Ok), MsgUtils.ToastLength.SHORT);
+            }
+        });
 
         Bundle args = getArguments();
 

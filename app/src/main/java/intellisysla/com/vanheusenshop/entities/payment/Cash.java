@@ -7,9 +7,25 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Cash {
+
+    private long id;
     private double amount;
     @SerializedName("general_account")
     private String generalAccount;
+
+    public Cash(long id, double amount, String generalAccount) {
+        this.id = id;
+        this.amount = amount;
+        this.generalAccount = generalAccount;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public double getAmount() {
         return amount;

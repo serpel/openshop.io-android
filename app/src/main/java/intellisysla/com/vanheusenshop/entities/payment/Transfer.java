@@ -20,6 +20,14 @@ public class Transfer {
 
     public Transfer(){}
 
+    public Transfer(int id, String number, double amount, Date dueDate, Bank bank) {
+        this.id = id;
+        this.number = number;
+        this.amount = amount;
+        this.dueDate = dueDate;
+        this.bank = bank;
+    }
+
     public int getId() {
         return id;
     }
