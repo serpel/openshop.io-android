@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,10 +46,15 @@ import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
+import intellisysla.com.vanheusenshop.entities.payment.Payment;
+import intellisysla.com.vanheusenshop.interfaces.BankDialogInterface;
 import intellisysla.com.vanheusenshop.interfaces.ChecksRecyclerInterface;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
 import intellisysla.com.vanheusenshop.ux.adapters.ChecksRecyclerAdapter;
+import intellisysla.com.vanheusenshop.ux.dialogs.MapDialogFragment;
+import intellisysla.com.vanheusenshop.ux.dialogs.PaymentCheckDialog;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +75,7 @@ public class PaymentCheckFragment extends Fragment {
     private Button addCheckButton;
     private ArrayList<CheckPayment> checks;
     private ArrayList<Bank> banks;
+    private PaymentCheckFragment fragment;
 
     public PaymentCheckFragment() {}
 
@@ -78,6 +85,7 @@ public class PaymentCheckFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable(ARG_BANK_LIST, banks);
         fragment.setArguments(args);
+        fragment.fragment = fragment;
         return fragment;
     }
 
@@ -90,6 +98,24 @@ public class PaymentCheckFragment extends Fragment {
         }
     }
 
+    private void openCheckDialog()
+    {
+        FragmentManager fm = fragment.getFragmentManager();
+        PaymentCheckDialog checkDialog = PaymentCheckDialog.newInstance(this, new CheckPayment(), new BankDialogInterface() {
+            @Override
+            public void onBankSelected(Bank bank) {
+                Timber.d("Hola mundo");
+            }
+        }, banks);
+        checkDialog.setRetainInstance(true);
+        checkDialog.show(fm, PaymentCheckDialog.class.getSimpleName());
+    }
+
+    public void setCheckData(CheckPayment check){
+        if(checksRecyclerAdapter != null)
+            checksRecyclerAdapter.addCheck(check);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,7 +125,7 @@ public class PaymentCheckFragment extends Fragment {
         addCheckButton.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-
+                openCheckDialog();
             }
         });
 
@@ -109,9 +135,9 @@ public class PaymentCheckFragment extends Fragment {
             banks = (ArrayList<Bank>) bundle.getSerializable(ARG_BANK_LIST);
 
             if(checksRecyclerAdapter !=null && checksRecyclerAdapter.getItemCount() > 0){
-                prepareRecyclerAdapter();
                 prepareCheckRecycler(view);
             }else{
+                prepareRecyclerAdapter();
                 prepareCheckRecycler(view);
             }
         }
