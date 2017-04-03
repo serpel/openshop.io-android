@@ -69,36 +69,36 @@ public class ChecksRecyclerAdapter extends RecyclerView.Adapter<ChecksRecyclerAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         CheckPayment checkPayment = getItem(position);
         holder.bindContent(checkPayment);
-      /*  // - replace the contents of the view with that element
-        holder.documentCode.setText(holder.document.getDocumentCode());
-        holder.createdDate.setText(holder.document.getCreatedDate());
-        holder.dueDate.setText(holder.document.getDueDate());
-        holder.pastDueAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(0));
-        holder.totalAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getTotalAmount()));
-        holder.balanceDue.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getBalanceDue()));
-        holder.overdueDays.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getOverdueDays()));*/
+
+        holder.checkNumberText.setText(holder.check.getCheckNumber());
+        holder.createdDateText.setText(String.valueOf(holder.check.getDate().toString()));
+
+        if(checkPayment.getBank() != null)
+            holder.bankText.setText(holder.check.getBank().getName());
+
+        holder.amountText.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.check.getAmount()));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView checkNumber;
-        public TextView createdDate;
-        public TextView bank;
-        //public TextView clientCode;
+        public TextView checkNumberText;
+        public TextView createdDateText;
+        public TextView bankText;
+        public TextView amountText;
         private CheckPayment check;
 
         public ViewHolder(final Context context, View v, final ChecksRecyclerInterface checksRecyclerInterface) {
             super(v);
-            //clientCode = (TextView) v.findViewById(R.id.document_client_code);
-            /*checkNumber = (TextView) v.findViewById(R.id.payment_ch);
-            createdDate = (TextView) v.findViewById(R.id.document_created_date);
-            bank = (TextView) v.findViewById(R.id.document_due_date);
+            checkNumberText = (TextView) v.findViewById(R.id.check_number);
+            createdDateText = (TextView) v.findViewById(R.id.check_date);
+            bankText = (TextView) v.findViewById(R.id.check_bank);
+            amountText = (TextView) v.findViewById(R.id.check_amount);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     checksRecyclerInterface.onCheckSelected(v, check);
                 }
-            });*/
+            });
         }
 
         public void bindContent(CheckPayment check) {

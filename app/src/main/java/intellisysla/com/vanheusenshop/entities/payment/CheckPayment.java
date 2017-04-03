@@ -14,22 +14,23 @@ public class CheckPayment {
 
     private double amount;
 
-    private Date date;
+    private String date;
 
     public CheckPayment() {}
 
-    public CheckPayment(String checkNumber, Bank bank, double amount)
+    public CheckPayment(String checkNumber, Bank bank, double amount, String date)
     {
         this.checkNumber = checkNumber;
         this.bank = bank;
         this.amount = amount;
+        this.date = date;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

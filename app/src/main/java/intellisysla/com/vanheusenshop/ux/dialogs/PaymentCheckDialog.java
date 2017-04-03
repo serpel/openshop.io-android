@@ -21,9 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.R;
@@ -59,6 +61,7 @@ public class PaymentCheckDialog extends DialogFragment {
     private ArrayList<Bank> bankList;
     private Bank selectedBank;
     private PaymentCheckFragment fragment;
+    private String formatDate = "yyyy/MM/dd";
 
 
     public static PaymentCheckDialog newInstance(PaymentCheckFragment fragment, CheckPayment checkPayment, BankDialogInterface bankDialogInterface, ArrayList<Bank> banks) {
@@ -89,7 +92,7 @@ public class PaymentCheckDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         Timber.d("%s - OnCreateView", this.getClass().getSimpleName());
         View view = inflater.inflate(R.layout.dialog_check, container, false);
@@ -112,8 +115,7 @@ public class PaymentCheckDialog extends DialogFragment {
                                 myCalendar.set(Calendar.MONTH, monthOfYear);
                                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                                String myFormat = "yyyy/MM/dd";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                SimpleDateFormat sdf = new SimpleDateFormat(formatDate, Locale.US);
                                 dateEdit.setText(sdf.format(myCalendar.getTime()));
                             }
                         },
@@ -130,14 +132,14 @@ public class PaymentCheckDialog extends DialogFragment {
             public void onSingleClick(View view) {
 
                 Double value = 0.0;
-                if(amountEdit.getText().toString().isEmpty())
+
+                if(!amountEdit.getText().toString().isEmpty())
                     value = Double.parseDouble(amountEdit.getText().toString());
 
                 CheckPayment check = new CheckPayment(checkNumberEdit.getText().toString(),
-                        selectedBank, value);
+                        selectedBank, value, dateEdit.getText().toString());
 
                 fragment.setCheckData(check);
-
                 dismiss();
             }
         });
