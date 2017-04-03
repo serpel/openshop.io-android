@@ -80,36 +80,25 @@ public class ChecksRecyclerAdapter extends RecyclerView.Adapter<ChecksRecyclerAd
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView documentCode;
+        public TextView checkNumber;
         public TextView createdDate;
-        public TextView dueDate;
-        public TextView totalAmount;
-        public TextView balanceDue, overdueDays, pastDueAmount;
-        public TextView selectedText;
-        public CheckBox selectedCheck;
+        public TextView bank;
         //public TextView clientCode;
         private CheckPayment check;
 
         public ViewHolder(final Context context, View v, final ChecksRecyclerInterface checksRecyclerInterface) {
             super(v);
             //clientCode = (TextView) v.findViewById(R.id.document_client_code);
-           /* documentCode = (TextView) v.findViewById(R.id.document_code);
+            /*checkNumber = (TextView) v.findViewById(R.id.payment_ch);
             createdDate = (TextView) v.findViewById(R.id.document_created_date);
-            dueDate = (TextView) v.findViewById(R.id.document_due_date);
-            totalAmount = (TextView) v.findViewById(R.id.document_total_amount);
-            pastDueAmount = (TextView) v.findViewById(R.id.document_past_due_amount);
-            balanceDue = (TextView) v.findViewById(R.id.document_balance_due);
-            overdueDays = (TextView) v.findViewById(R.id.document_overdue_days);
-
-            selectedCheck = (CheckBox) v.findViewById(R.id.document_selected_checkbox);
-            selectedText = (TextView) v.findViewById(R.id.document_selected_checkbox_text);*/
+            bank = (TextView) v.findViewById(R.id.document_due_date);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     checksRecyclerInterface.onCheckSelected(v, check);
                 }
-            });
+            });*/
         }
 
         public void bindContent(CheckPayment check) {
