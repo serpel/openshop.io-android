@@ -109,36 +109,11 @@ public class ClientsFragment extends Fragment {
         inflater.inflate(R.menu.menu_contextual, menu);
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        switch (item.getItemId())
-        {
-            /*case R.id.menu_contextual_account_status:
-                Toast.makeText(getContext(), "le diste a 1", Toast.LENGTH_LONG).show();
-                break;*/
-            case R.id.menu_contextual_account_payment:
-                ((MainActivity)getActivity()).onPaymentSelected("C0005");
-                break;
-            default:
-                break;
-        }
-
-        return super.onContextItemSelected(item);
-    }
-
     private void prepareClientRecycler(View view) {
         this.clientsRecycler = (RecyclerView) view.findViewById(R.id.clients_recycler);
         clientsRecycler.addItemDecoration(new RecyclerMarginDecorator(getActivity(), RecyclerMarginDecorator.ORIENTATION.BOTH));
         clientsRecycler.setItemAnimator(new DefaultItemAnimator());
         clientsRecycler.setHasFixedSize(true);
-/*        switchLayoutManager.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                return new ImageView(getContext());
-            }
-        });*/
-
         clientsRecyclerLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         clientsRecycler.setLayoutManager(clientsRecyclerLayoutManager);
@@ -258,6 +233,7 @@ public class ClientsFragment extends Fragment {
 
     @Override
     public void onStop() {
+        super.onStop();
         if (loadMoreProgress != null) {
             // Hide progress dialog if exist.
             if (loadMoreProgress.getVisibility() == View.VISIBLE && endlessRecyclerScrollListener != null) {
@@ -267,7 +243,6 @@ public class ClientsFragment extends Fragment {
             loadMoreProgress.setVisibility(View.GONE);
         }
         MyApplication.getInstance().cancelPendingRequests(CONST.CLIENT_REQUESTS_TAG);
-        super.onStop();
     }
 
     @Override

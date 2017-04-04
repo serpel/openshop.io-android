@@ -250,43 +250,6 @@ public class PaymentMainFragment extends Fragment {
         return view;
     }
 
-    private void putPayment(Payment payment) {
-            if (payment != null) {
-                JSONObject joPayment = new JSONObject();
-                try {
-                    joPayment.put("ClientId", payment.getClient().getId());
-                    joPayment.put("CashId", payment.getCash().getId());
-                    joPayment.put("TransferId", payment.getTransfer().getId());
-                    joPayment.put("TotalAmount", payment.getTotalPaid());
-                    joPayment.put("CreatedDate", payment.getDate());
-                    joPayment.put("DeviceUserId", 1);
-                } catch (JSONException e) {
-                    Timber.e(e, "Parse new payment exception.");
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
-                    return;
-                }
-
-                //progressDialog.show();
-                GsonRequest<Payment> req = new GsonRequest<>(Request.Method.PUT, EndPoints.ADD_PAYMENT, joPayment.toString(), Payment.class,
-                        new Response.Listener<Payment>() {
-                            @Override
-                            public void onResponse(@NonNull Payment payment) {
-                                //progressDialog.cancel();
-                                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Ok), MsgUtils.ToastLength.SHORT);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //if (progressDialog != null) progressDialog.cancel();
-                        MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                    }
-                }, getFragmentManager(),  null);
-                req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-                req.setShouldCache(false);
-                MyApplication.getInstance().addToRequestQueue(req, CONST.ADD_PAYMENT_TAG);
-            }
-    }
-
     public void setFragments(Client client){
 
         fragments = new ArrayList<>();

@@ -139,6 +139,7 @@
     <string name="Order_details">Order details</string>
     <string name="Shipping">Shipping</string>
     <string name="Payment">Payment</string>
+    <string name="PaymentProcess">Payment is processing</string>
     <string name="Shipping_method">Shipping method</string>
     <string name="Choose_shipping_method">Choose shipping method</string>
     <string name="Choose_payment_method">Choose payment method</string>

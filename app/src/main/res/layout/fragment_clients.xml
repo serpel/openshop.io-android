@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
+    android:id="@+id/category_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/clients_recycler"
@@ -19,7 +19,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/semi_lighter_transparent"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             style="?android:attr/android:progressBarStyleSmall"
@@ -27,4 +27,4 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"/>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

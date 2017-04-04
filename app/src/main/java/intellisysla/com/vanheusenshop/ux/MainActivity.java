@@ -735,12 +735,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, PageFragment.class.getSimpleName());
     }
 
-    @Override
-    public void onAccountSelected() {
-        AccountFragment fragment = new AccountFragment();
-        replaceFragment(fragment, AccountFragment.class.getSimpleName());
-    }
-
     /**
      * Launch {@link PageFragment} with default values. It leads to load terms and conditions defined on server.
      */
@@ -791,11 +785,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
      * @param productId id of product for display.
      */
     public void onProductSelected(long productId) {
-        /*Fragment fragment = ProductFragment.newInstance(productId);
-        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
-        }
-        replaceFragment(fragment, ProductFragment.class.getSimpleName());*/
 
         Fragment fragment = ProductMatrixFragment.newInstance(productId);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -826,6 +815,21 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, GridMenuFragment.class.getSimpleName());
     }
 
+
+    @Override
+    public void onAccountSelected() {
+
+        Timber.d("onAccountSelected");
+
+        AccountFragment fragment = new AccountFragment();
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+
+        replaceFragment(fragment, AccountFragment.class.getSimpleName());
+    }
+
     public void onClientSelected(String card_code) {
 
         Timber.d("OnClientOptionSelected card_code: %s", card_code);
@@ -848,16 +852,21 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, DocumentsFragment.class.getSimpleName());
     }
 
-    /**
-     * Launch {@link SettingsFragment}.
-     */
     public void startSettingsFragment() {
+
         Fragment fragment = new SettingsFragment();
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
         replaceFragment(fragment, SettingsFragment.class.getSimpleName());
     }
 
     public void startBluetoothFragment() {
         Fragment fragment = new BluetoothFinderFragment();
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
         replaceFragment(fragment, BluetoothFinderFragment.class.getSimpleName());
     }
 

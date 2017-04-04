@@ -3,114 +3,129 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/payment_general_client_code"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="C0261" />
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/payment_general_client_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:textColor="@color/colorAccentDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="ABARROTERIA POPULAR" />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:text="FOLIO" />
+
+        <EditText
+            android:id="@+id/payment_general_folio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:inputType="text"
+            android:textSize="12sp"
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="10dp">
+            android:text="Referencia"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:visibility="visible" />
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/document_client_code"
+        <EditText
+            android:id="@+id/payment_general_reference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:inputType="text"
+            tools:text="" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:text="Contacto" />
+
+        <EditText
+            android:id="@+id/payment_general_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:text="" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:text="Comentario" />
+
+        <EditText
+            android:id="@+id/payment_general_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:inputType="textMultiLine"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/product_payment_general_cancel"
+                style="@style/buttonPrimaryStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="C0261" />
-
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/document_client_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:textColor="@color/colorAccentDark"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="ABARROTERIA POPULAR" />
-
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:text="FOLIO" />
-
-            <EditText
-                android:id="@+id/payment_general_folio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:text="" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Referencia"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:visibility="visible" />
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/Cancel"/>
 
-            <EditText
-                android:id="@+id/payment_general_reference"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:visibility="visible"
-                tools:text="" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:layout_marginTop="10dp"
-                android:textSize="12sp"
-                android:text="Contacto" />
-
-            <EditText
-                android:id="@+id/payment_general_contact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:text="" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:layout_marginTop="10dp"
-                android:textSize="12sp"
-                android:text="Comentario" />
-
-            <EditText
-                android:id="@+id/payment_general_comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:inputType="textMultiLine"
-                android:text="" />
-            
             <Button
                 android:id="@+id/product_payment_general_ok"
+                style="@style/buttonPrimaryStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/Save"
-                />
+                android:text="@string/Ok"/>
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </FrameLayout>

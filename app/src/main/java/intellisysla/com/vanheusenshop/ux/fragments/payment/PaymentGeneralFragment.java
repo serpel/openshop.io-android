@@ -3,22 +3,37 @@ package intellisysla.com.vanheusenshop.ux.fragments.payment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import intellisysla.com.vanheusenshop.CONST;
+import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.api.EndPoints;
+import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.payment.Cash;
+import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,12 +48,12 @@ public class PaymentGeneralFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_CLIENT = "client";
     private TextView clientCardCode;
-    private TextView clientContact;
+    private EditText clientContact;
     private TextView clientName;
 
     // TODO: Rename and change types of parameters
     private Client client;
-    private Button paymentSave;
+    private Button paymentSave, paymentCancel;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,10 +84,11 @@ public class PaymentGeneralFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payment_general, container, false);
 
-        clientCardCode = (TextView) view.findViewById(R.id.document_client_code);
-        //clientContact = (TextView) view.findViewById(R.id.document_client_code);
-        clientName = (TextView) view.findViewById(R.id.document_client_name);
+        clientCardCode = (TextView) view.findViewById(R.id.payment_general_client_code);
+        clientName = (TextView) view.findViewById(R.id.payment_general_client_name);
+        clientContact = (EditText) view.findViewById(R.id.payment_general_contact);
         paymentSave = (Button) view.findViewById(R.id.product_payment_general_ok);
+        paymentCancel = (Button) view.findViewById(R.id.product_payment_general_cancel);
 
         paymentSave.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -86,7 +102,15 @@ public class PaymentGeneralFragment extends Fragment {
                 payment.setCash(cash);
                 putPayment(payment);*/
 
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Ok), MsgUtils.ToastLength.SHORT);
+                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.PaymentProcess), MsgUtils.ToastLength.SHORT);
+                ((MainActivity)getActivity()).onAccountSelected();
+            }
+        });
+
+        paymentCancel.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                ((MainActivity)getActivity()).onOpenClientFragment();
             }
         });
 
@@ -96,10 +120,51 @@ public class PaymentGeneralFragment extends Fragment {
             client = (Client) args.getSerializable(ARG_CLIENT);
             clientName.setText(client.getName());
             clientCardCode.setText(client.getCardCode());
+
+            if(client.getContact() != null)
+                clientContact.setText(client.getContact());
         }
 
         return view;
     }
+
+    private void putPayment(Payment payment) {
+        if (payment != null) {
+            JSONObject joPayment = new JSONObject();
+            try {
+                joPayment.put("ClientId", payment.getClient().getId());
+                joPayment.put("CashId", payment.getCash().getId());
+                joPayment.put("TransferId", payment.getTransfer().getId());
+                joPayment.put("TotalAmount", payment.getTotalPaid());
+                joPayment.put("CreatedDate", payment.getDate());
+                joPayment.put("DeviceUserId", 1);
+            } catch (JSONException e) {
+                Timber.e(e, "Parse new payment exception.");
+                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
+                return;
+            }
+
+            //progressDialog.show();
+            GsonRequest<Payment> req = new GsonRequest<>(Request.Method.PUT, EndPoints.ADD_PAYMENT, joPayment.toString(), Payment.class,
+                    new Response.Listener<Payment>() {
+                        @Override
+                        public void onResponse(@NonNull Payment payment) {
+                            //progressDialog.cancel();
+                            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Ok), MsgUtils.ToastLength.SHORT);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //if (progressDialog != null) progressDialog.cancel();
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            }, getFragmentManager(),  null);
+            req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            req.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(req, CONST.ADD_PAYMENT_TAG);
+        }
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
