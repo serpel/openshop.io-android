@@ -3,19 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp">
 
             <TextView
                 android:layout_marginTop="20dp"
@@ -24,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textSize="12sp"
-                android:text="TRANSFERENCIA" />
+                android:text="@string/Transfer" />
 
             <TextView
                 android:layout_marginTop="10dp"
@@ -32,13 +30,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="Banco" />
+                android:text="@string/Bank" />
 
             <Spinner
                 android:id="@+id/bank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dialog"/>
 
             <TextView
@@ -47,11 +44,11 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="Fecha" />
+                android:text="@string/Date" />
 
             <EditText
                 android:id="@+id/payment_transfer_date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:layout_marginLeft="1dp"
@@ -60,33 +57,16 @@
                 android:inputType="date"
                 android:focusable="false"/>
 
-            <!--<TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:text="Fecha" />
-
-            <EditText
-                android:id="@+id/payment_transfer_due_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:inputType="date"
-                android:text="" />-->
-
             <TextView
                 android:id="@+id/document_balance_text"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REFERENCIA"
+                android:text="@string/Reference"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
-                tools:text="REFERENCIA" />
+                tools:text="@string/Reference" />
 
             <EditText
                 android:id="@+id/document_orders_text"
@@ -95,6 +75,7 @@
                 android:text="@string/Zero"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
+                android:inputType="textNoSuggestions"
                 android:visibility="visible"
                 tools:text="@string/Zero" />
 
@@ -105,15 +86,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:text="MONTO" />
+                android:text="@string/Amount" />
 
             <EditText
                 android:id="@+id/payment_transfer_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:inputType="numberDecimal"
                 android:textSize="12sp"
-                android:text="0.0" />
+                android:text="@string/Zero" />
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </FrameLayout>

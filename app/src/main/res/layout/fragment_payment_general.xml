@@ -66,7 +66,6 @@
                 android:id="@+id/payment_general_reference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:visibility="visible"
@@ -102,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
+                android:inputType="textMultiLine"
                 android:text="" />
             
             <Button

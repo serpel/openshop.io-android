@@ -51,6 +51,7 @@ import intellisysla.com.vanheusenshop.interfaces.BankDialogInterface;
 import intellisysla.com.vanheusenshop.interfaces.ChecksRecyclerInterface;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
+import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.adapters.ChecksRecyclerAdapter;
 import intellisysla.com.vanheusenshop.ux.dialogs.MapDialogFragment;
 import intellisysla.com.vanheusenshop.ux.dialogs.PaymentCheckDialog;
@@ -73,7 +74,7 @@ public class PaymentCheckFragment extends Fragment {
     private GridLayoutManager checksGridLayoutManager;
     private RecyclerView checkRecyclerView;
     private Button addCheckButton;
-    private ArrayList<CheckPayment> checks;
+    private ArrayList<CheckPayment> checks = new ArrayList<>();
     private ArrayList<Bank> banks;
     private PaymentCheckFragment fragment;
 
@@ -111,9 +112,23 @@ public class PaymentCheckFragment extends Fragment {
         checkDialog.show(fm, PaymentCheckDialog.class.getSimpleName());
     }
 
-    public void setCheckData(CheckPayment check){
-        if(checksRecyclerAdapter != null)
+    public void addCheckData(CheckPayment check){
+        if(checksRecyclerAdapter != null) {
+            checks.add(check);
             checksRecyclerAdapter.addCheck(check);
+            checksRecyclerAdapter.updateView();
+            ((MainActivity)getActivity()).addCheck(check.getAmount());
+        }
+    }
+
+    public void removeCheckData(int position){
+        if(checksRecyclerAdapter != null) {
+            CheckPayment check = checks.get(position);
+            checks.remove(position);
+            checksRecyclerAdapter.removeCheck(position);
+            checksRecyclerAdapter.updateView();
+            ((MainActivity)getActivity()).restCheck(check.getAmount());
+        }
     }
 
     @Override
@@ -134,7 +149,7 @@ public class PaymentCheckFragment extends Fragment {
         if(bundle != null){
             banks = (ArrayList<Bank>) bundle.getSerializable(ARG_BANK_LIST);
 
-            if(checksRecyclerAdapter !=null && checksRecyclerAdapter.getItemCount() > 0){
+            if(checksRecyclerAdapter != null && checksRecyclerAdapter.getItemCount() > 0){
                 prepareCheckRecycler(view);
             }else{
                 prepareRecyclerAdapter();
@@ -143,81 +158,6 @@ public class PaymentCheckFragment extends Fragment {
         }
 
         return view;
-
-        /*my_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                checks_array.remove(position);
-                return true;
-            }
-        });
-
-        theLayout = (LinearLayout) view.findViewById(R.id.linear_payment_s);
-
-        Button add_check_button = (Button)view.findViewById(R.id.add_check_button);
-        add_check_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                final PopupWindow mPopupWindow = new PopupWindow(
-                        popup,
-                        AbsListView.LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT
-                );
-
-                final EditText edit_text_amount = (EditText) popup.findViewById(R.id.amount);
-                final EditText edit_text_check_number = (EditText) popup.findViewById(R.id.check_num);
-                final Spinner spinner_bank = (Spinner) popup.findViewById(R.id.bank);
-
-                edit_text_amount.setText("");
-                edit_text_check_number.setText("");
-
-                if (getArguments() != null) {
-                    banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
-                }
-
-                if(banks != null) {
-                    ArrayList<String> bank_strings = new ArrayList<String>();
-                    for(int i=0; i<banks.size();i++)
-                        bank_strings.add(banks.get(i).getName());
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(popup.getContext(), android.R.layout.simple_spinner_dropdown_item, bank_strings);
-                    spinner_bank.setAdapter(adapter);
-                }
-
-                mPopupWindow.setFocusable(true);
-                mPopupWindow.update();
-
-                // Set an elevation value for popup window
-                // Call requires API level 21
-                if(Build.VERSION.SDK_INT>=21){
-                    mPopupWindow.setElevation(5.0f);
-                }
-
-                Button cancelButton = (Button) popup.findViewById(R.id.button_cancel);
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
-                    }
-                });
-
-                Button okButton = (Button) popup.findViewById(R.id.button_ok);
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if(edit_text_amount.getText().toString().equals(""))
-                            return;
-
-                        checks_array.add(new CheckPayment(edit_text_check_number.getText().toString(), spinner_bank.getSelectedItem().toString(),
-                                Double.parseDouble(edit_text_amount.getText().toString())));
-                        ChecksAdapter adapter = new ChecksAdapter(getContext(), checks_array);
-                        my_listview.setAdapter(adapter);
-
-                        mPopupWindow.dismiss();
-                    }
-                });
-                mPopupWindow.showAtLocation(theLayout, Gravity.CENTER,0,0);
-            }
-        });*/
     }
 
     private void prepareCheckRecycler(View view) {
@@ -233,12 +173,7 @@ public class PaymentCheckFragment extends Fragment {
     }
 
     public void prepareRecyclerAdapter(){
-        checksRecyclerAdapter = new ChecksRecyclerAdapter(getActivity(), new ChecksRecyclerInterface(){
-            @Override
-            public void onCheckSelected(View view, CheckPayment checkPayment) {
-
-            }
-        });
+        checksRecyclerAdapter = new ChecksRecyclerAdapter(getActivity(), null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

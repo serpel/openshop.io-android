@@ -19,6 +19,7 @@ import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
 import intellisysla.com.vanheusenshop.interfaces.ChecksRecyclerInterface;
 import intellisysla.com.vanheusenshop.interfaces.DocumentRecyclerInterface;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 
 /**
@@ -48,6 +49,15 @@ public class ChecksRecyclerAdapter extends RecyclerView.Adapter<ChecksRecyclerAd
 
     public void addCheck(CheckPayment check){
         this.checks.add(check);
+        notifyItemInserted(this.checks.size()-1);
+    }
+
+    public void removeCheck(int position){
+        this.checks.remove(position);
+        notifyItemRemoved(this.checks.size()-1);
+    }
+
+    public void updateView(){
         notifyDataSetChanged();
     }
 
@@ -93,12 +103,14 @@ public class ChecksRecyclerAdapter extends RecyclerView.Adapter<ChecksRecyclerAd
             bankText = (TextView) v.findViewById(R.id.check_bank);
             amountText = (TextView) v.findViewById(R.id.check_amount);
 
-            v.setOnClickListener(new View.OnClickListener() {
+          /*  v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    checksRecyclerInterface.onCheckSelected(v, check);
+                public boolean onLongClick(View view) {
+                    int postition = getAdapterPosition();
+
+                    return false;
                 }
-            });
+            });*/
         }
 
         public void bindContent(CheckPayment check) {

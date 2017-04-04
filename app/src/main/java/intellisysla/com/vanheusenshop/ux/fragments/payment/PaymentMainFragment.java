@@ -150,18 +150,42 @@ public class PaymentMainFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        setContentVisible(CONST.VISIBLE.CONTENT);
+    }
+
+    private void setContentVisible(CONST.VISIBLE visible) {
+        if (progressView != null) {
+            switch (visible) {
+                case PROGRESS:
+                    progressView.setVisibility(View.VISIBLE);
+                    break;
+                default: // Content
+                    progressView.setVisibility(View.GONE);
+            }
+        } else {
+            Timber.e(new RuntimeException(), "Setting content visibility with null views.");
+        }
+    }
+
     private void getClient(String card_code) {
         String url = String.format(EndPoints.CLIENT, card_code);
+        setContentVisible(CONST.VISIBLE.PROGRESS);
+
         GsonRequest<Client> clientGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
                 new Response.Listener<Client>() {
                     @Override
                     public void onResponse(@NonNull Client response) {
                         client = response;
                         getBanks();
+                        setContentVisible(CONST.VISIBLE.CONTENT);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                setContentVisible(CONST.VISIBLE.EMPTY);
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
@@ -171,6 +195,7 @@ public class PaymentMainFragment extends Fragment {
     }
 
     private void getBanks() {
+        setContentVisible(CONST.VISIBLE.PROGRESS);
         String url = String.format(EndPoints.BANKS);
         GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, BankResponse.class,
                 new Response.Listener<BankResponse>() {
@@ -178,6 +203,7 @@ public class PaymentMainFragment extends Fragment {
                     public void onResponse(@NonNull BankResponse response) {
                         banks = response.getBanks();
                         setFragments(client);
+                        setContentVisible(CONST.VISIBLE.CONTENT);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -187,7 +213,7 @@ public class PaymentMainFragment extends Fragment {
         });
         banksGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         banksGsonRequest.setShouldCache(true);
-        MyApplication.getInstance().addToRequestQueue(banksGsonRequest, CONST.BANNER_REQUESTS_TAG);
+        MyApplication.getInstance().addToRequestQueue(banksGsonRequest, CONST.BANKS_TAG);
     }
 
     @Override
@@ -195,6 +221,7 @@ public class PaymentMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_main, container, false);
 
+        progressView = (ProgressBar) view.findViewById(R.id.payment_progress);
         cashText = (TextView) view.findViewById(R.id.payment_main_cash);
         transferText = (TextView) view.findViewById(R.id.payment_main_transfer);
         checkText = (TextView) view.findViewById(R.id.payment_main_check);
@@ -208,20 +235,6 @@ public class PaymentMainFragment extends Fragment {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         MainActivity.setActionBarTitle(getString(R.string.Payments));
-
-        /*paymentSave.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                Bank bank = new Bank(0, "BATL", "_SYS00000001377");
-                Cash cash = new Cash(0, 10000, "_SYS00000001377");
-                Transfer transfer = new Transfer(0, "123", 10000, Date.valueOf("2017-03-31"), bank);
-
-                payment.setTransfer(transfer);
-                payment.setClient(client);
-                payment.setCash(cash);
-                putPayment(payment);
-            }
-        });*/
 
         Bundle arguments = getArguments();
         if(arguments != null){

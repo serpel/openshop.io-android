@@ -139,7 +139,7 @@ public class PaymentCheckDialog extends DialogFragment {
                 CheckPayment check = new CheckPayment(checkNumberEdit.getText().toString(),
                         selectedBank, value, dateEdit.getText().toString());
 
-                fragment.setCheckData(check);
+                fragment.addCheckData(check);
                 dismiss();
             }
         });

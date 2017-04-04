@@ -158,13 +158,23 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         }
     }
 
-    public void UpdateCheck(double check)
+    public void addCheck(double check)
     {
-        this.check = check;
+        this.check += check;
 
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.UpdateCheck(this.transfer);
+            fragment.UpdateCheck(this.check);
+        }
+    }
+
+    public void restCheck(double check)
+    {
+        this.check -= check;
+
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.UpdateCheck(this.check);
         }
     }
 
