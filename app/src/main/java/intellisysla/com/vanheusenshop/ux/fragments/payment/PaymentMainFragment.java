@@ -227,7 +227,6 @@ public class PaymentMainFragment extends Fragment {
         checkText = (TextView) view.findViewById(R.id.payment_main_check);
         totalText = (TextView) view.findViewById(R.id.payment_main_total);
         totalInvoiceText = (TextView) view.findViewById(R.id.payment_main_paid_total);
-        //paymentSave = (Button) view.findViewById(R.id.product_payment_general_ok);
 
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
 

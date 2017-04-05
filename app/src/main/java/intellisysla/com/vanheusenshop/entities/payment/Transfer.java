@@ -15,12 +15,12 @@ public class Transfer {
     private String number;
     private double amount;
     @SerializedName("due_date")
-    private Date dueDate;
+    private String dueDate;
     private Bank bank;
 
     public Transfer(){}
 
-    public Transfer(int id, String number, double amount, Date dueDate, Bank bank) {
+    public Transfer(int id, String number, double amount, String dueDate, Bank bank) {
         this.id = id;
         this.number = number;
         this.amount = amount;
@@ -52,11 +52,11 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 

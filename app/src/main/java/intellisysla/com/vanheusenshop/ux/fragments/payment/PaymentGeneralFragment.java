@@ -16,18 +16,25 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.SettingsMy;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.Bank;
+import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.payment.Cash;
+import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
 import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
@@ -93,23 +100,24 @@ public class PaymentGeneralFragment extends Fragment {
         paymentSave.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-               /* Bank bank = new Bank(0, "BATL", "_SYS00000001377");
-                Cash cash = new Cash(0, 10000, "_SYS00000001377");
-                Transfer transfer = new Transfer(0, "123", 10000, Date.valueOf("2017-03-31"), bank);
+                if(client != null){
+                    double totalPaid = ((MainActivity)getActivity()).getTotalPaid();
+                    Cash cash = ((MainActivity) getActivity()).getCash();
+                    cash.setGeneralAccount("_SYS00000001377");
+                    Transfer transfer = ((MainActivity) getActivity()).getTransfer();
+                    ArrayList<CheckPayment> checks = ((MainActivity)getActivity()).getChecks();
+                    putPayment(client, cash, transfer, checks, totalPaid);
 
-                payment.setTransfer(transfer);
-                payment.setClient(client);
-                payment.setCash(cash);
-                putPayment(payment);*/
-
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.PaymentProcess), MsgUtils.ToastLength.SHORT);
-                ((MainActivity)getActivity()).onAccountSelected();
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.PaymentProcess), MsgUtils.ToastLength.SHORT);
+                    ((MainActivity)getActivity()).onAccountSelected();
+                }
             }
         });
 
         paymentCancel.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                ((MainActivity)getActivity()).ClearPaymentData();
                 ((MainActivity)getActivity()).onOpenClientFragment();
             }
         });
@@ -128,28 +136,65 @@ public class PaymentGeneralFragment extends Fragment {
         return view;
     }
 
-    private void putPayment(Payment payment) {
-        if (payment != null) {
-            JSONObject joPayment = new JSONObject();
-            try {
-                joPayment.put("ClientId", payment.getClient().getId());
-                joPayment.put("CashId", payment.getCash().getId());
-                joPayment.put("TransferId", payment.getTransfer().getId());
-                joPayment.put("TotalAmount", payment.getTotalPaid());
-                joPayment.put("CreatedDate", payment.getDate());
-                joPayment.put("DeviceUserId", 1);
-            } catch (JSONException e) {
-                Timber.e(e, "Parse new payment exception.");
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
-                return;
+    private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, double totalPaid) {
+
+        final User user = SettingsMy.getActiveUser();
+
+        if (user != null) {
+            JSONObject joTransfer = new JSONObject();
+            JSONObject joCash = new JSONObject();
+            JSONArray joChecks = new JSONArray(checks);
+
+            if (transfer != null) {
+                //joTransfer = new JSONObject();
+                try {
+                    joTransfer.put("ReferenceNumber", transfer.getNumber());
+                    joTransfer.put("Amount", transfer.getAmount());
+                    joTransfer.put("Date", transfer.getDueDate());
+                    joTransfer.put("GeneralAccount", transfer.getBank().getGeneralAccount());
+                } catch (JSONException e) {
+                    Timber.e(e, "Parse new transfer exception.");
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
+                }
             }
 
-            //progressDialog.show();
-            GsonRequest<Payment> req = new GsonRequest<>(Request.Method.PUT, EndPoints.ADD_PAYMENT, joPayment.toString(), Payment.class,
-                    new Response.Listener<Payment>() {
+            if (cash != null) {
+                //joCash = new JSONObject();
+                try {
+                    joCash.put("GeneralAccount", cash.getGeneralAccount());
+                    joCash.put("Amount", cash.getAmount());
+                } catch (JSONException e) {
+                    Timber.e(e, "Parse new chash exception.");
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
+                }
+            }
+
+            /*if (checks != null) {
+                try {
+                    joArray = new JSONArray(checks);
+                } catch (Exception e) {
+                    Timber.e(e, "Parse new chash exception.");
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
+                }
+            }
+            */
+
+            //AddPayment?userId=%d&clientId=%d&totalPaid=%d&cash=%s&transfer=%s&checks=%s
+            String url = String.format(EndPoints.ADD_PAYMENT,
+                    user.getId(),
+                    client.getId(),
+                    totalPaid,
+                    joCash.toString(),
+                    joTransfer.toString(),
+                    joChecks.toString()
+                    );
+
+            GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(@NonNull Payment payment) {
+                        public void onResponse(@NonNull JSONObject payment) {
                             //progressDialog.cancel();
+                            Timber.d("Esto devolvio %s", payment);
                             MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Ok), MsgUtils.ToastLength.SHORT);
                         }
                     }, new Response.ErrorListener() {
@@ -158,13 +203,12 @@ public class PaymentGeneralFragment extends Fragment {
                     //if (progressDialog != null) progressDialog.cancel();
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
-            }, getFragmentManager(),  null);
-            req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            }, getFragmentManager(), null);
+            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             req.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(req, CONST.ADD_PAYMENT_TAG);
         }
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

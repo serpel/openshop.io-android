@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,7 +25,11 @@ import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.Bank;
+import intellisysla.com.vanheusenshop.interfaces.BankDialogInterface;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
+import intellisysla.com.vanheusenshop.ux.adapters.BankSpinnerAdapter;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +45,13 @@ public class PaymentTransferFragment extends Fragment {
     private static final String ARG_BANK_LIST = "bank-list";
 
     // TODO: Rename and change types of parameters
+    private EditText amountEdit;
+    private EditText referenceNumberEdit;
+
     private ArrayList<Bank> banks;
-    private TextView amountEdit;
+    private Spinner bankSpinner;
+    private Bank selectedBank;
+    private BankDialogInterface bankDialogInterface;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,6 +65,12 @@ public class PaymentTransferFragment extends Fragment {
         Bundle args = new Bundle();
 
         args.putSerializable(ARG_BANK_LIST, banks);
+        fragment.bankDialogInterface = new BankDialogInterface() {
+            @Override
+            public void onBankSelected(Bank bank) {
+
+            }
+        };
         fragment.setArguments(args);
 
         return fragment;
@@ -79,7 +95,26 @@ public class PaymentTransferFragment extends Fragment {
             banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
         }
 
-        amountEdit = (EditText)view.findViewById(R.id.payment_transfer_amount);
+        referenceNumberEdit = (EditText) view.findViewById(R.id.payment_transfer_reference_number);
+        referenceNumberEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String number = referenceNumberEdit.getText().toString();
+                ((MainActivity)getActivity()).UpdateTransferReferenceNumber(number);
+            }
+        });
+
+        amountEdit = (EditText) view.findViewById(R.id.payment_transfer_amount);
         amountEdit.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
@@ -96,12 +131,13 @@ public class PaymentTransferFragment extends Fragment {
         });
 
         final EditText dateEdit = (EditText) view.findViewById(R.id.payment_transfer_date);
-
         final Calendar myCalendar = Calendar.getInstance();
 
         String myFormat = "yyyy/MM/dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dateEdit.setText(sdf.format(myCalendar.getTime()));
+        ((MainActivity)getActivity()).UpdateTransferDate(sdf.format(myCalendar.getTime()));
+
 
         dateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +154,7 @@ public class PaymentTransferFragment extends Fragment {
                                 String myFormat = "yyyy/MM/dd";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 dateEdit.setText(sdf.format(myCalendar.getTime()));
+                                ((MainActivity)getActivity()).UpdateTransferDate(sdf.format(myCalendar.getTime()));
                             }
                         },
                         myCalendar.get(Calendar.YEAR),
@@ -127,15 +164,8 @@ public class PaymentTransferFragment extends Fragment {
             }
         });
 
-        final Spinner spinner_bank = (Spinner) view.findViewById(R.id.bank);
+        prepareSpinner(view);
 
-        if(banks != null) {
-            ArrayList<String> bank_strings = new ArrayList<String>();
-            for(int i=0; i<banks.size();i++)
-                bank_strings.add(banks.get(i).getName());
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, bank_strings);
-            spinner_bank.setAdapter(adapter);
-        }
         return view;
     }
 
@@ -157,18 +187,31 @@ public class PaymentTransferFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void prepareSpinner(View view){
+        bankSpinner = (Spinner) view.findViewById(R.id.payment_transfer_banks);
+        final BankSpinnerAdapter bankSpinnerAdapter = new BankSpinnerAdapter(getActivity(), this.banks);
+        bankSpinner.setAdapter(bankSpinnerAdapter);
+        bankSpinner.setOnItemSelectedListener(null);
+        bankSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedBank = bankSpinnerAdapter.getItem(i);
+
+                ((MainActivity)getActivity()).UpdateTransferBank(selectedBank);
+
+                if (bankDialogInterface != null)
+                    bankDialogInterface.onBankSelected(selectedBank);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Timber.d("OnNothingSelected - no change");
+            }
+        });
     }
 }

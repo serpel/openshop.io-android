@@ -13,6 +13,7 @@ public class Cash {
     @SerializedName("general_account")
     private String generalAccount;
 
+    public Cash(){}
     public Cash(long id, double amount, String generalAccount) {
         this.id = id;
         this.amount = amount;

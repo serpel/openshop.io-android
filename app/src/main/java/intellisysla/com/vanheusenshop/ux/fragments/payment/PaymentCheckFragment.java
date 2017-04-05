@@ -117,7 +117,7 @@ public class PaymentCheckFragment extends Fragment {
             checks.add(check);
             checksRecyclerAdapter.addCheck(check);
             checksRecyclerAdapter.updateView();
-            ((MainActivity)getActivity()).addCheck(check.getAmount());
+            ((MainActivity)getActivity()).addCheck(check);
         }
     }
 
@@ -127,7 +127,7 @@ public class PaymentCheckFragment extends Fragment {
             checks.remove(position);
             checksRecyclerAdapter.removeCheck(position);
             checksRecyclerAdapter.updateView();
-            ((MainActivity)getActivity()).restCheck(check.getAmount());
+            ((MainActivity)getActivity()).restCheck(check);
         }
     }
 

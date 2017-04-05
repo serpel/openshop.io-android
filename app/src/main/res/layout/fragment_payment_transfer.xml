@@ -33,7 +33,7 @@
                 android:text="@string/Bank" />
 
             <Spinner
-                android:id="@+id/bank"
+                android:id="@+id/payment_transfer_banks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dialog"/>
@@ -69,7 +69,7 @@
                 tools:text="@string/Reference" />
 
             <EditText
-                android:id="@+id/document_orders_text"
+                android:id="@+id/payment_transfer_reference_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Zero"

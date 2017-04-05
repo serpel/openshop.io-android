@@ -51,6 +51,7 @@ import com.facebook.appevents.AppEventsLogger;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import intellisysla.com.vanheusenshop.BuildConfig;
@@ -61,6 +62,7 @@ import intellisysla.com.vanheusenshop.SettingsMy;
 import intellisysla.com.vanheusenshop.api.EndPoints;
 import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.api.JsonRequest;
+import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.Banner;
 import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.cart.CartInfo;
@@ -68,6 +70,9 @@ import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.order.Order;
+import intellisysla.com.vanheusenshop.entities.payment.Cash;
+import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
+import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
 import intellisysla.com.vanheusenshop.entities.payment.Payment;
@@ -97,6 +102,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.ProductFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.SettingsFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.WishlistFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentCheckFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
 import timber.log.Timber;
 
@@ -134,47 +140,68 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private SimpleCursorAdapter searchSuggestionsAdapter;
     private ArrayList<String> searchSuggestionsList;
 
-    private double totalPaid = 0, totalInvoice = 0, cash = 0, transfer = 0, check = 0;
-    private List<ProductMatrixView> items = new ArrayList<>();
+    private double cashAmount = 0, transferAmount = 0, checkAmount = 0;
+    private ArrayList<CheckPayment> checks = new ArrayList<>();
+    private Transfer transfer = new Transfer();
+    private Cash cash = new Cash();
     private List<ProductVariant> elements = new ArrayList<>();
 
     public void UpdateCash(double cash)
     {
-        this.cash = cash;
+        this.cashAmount = cash;
+        this.cash.setAmount(cash);
 
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.UpdateCash(this.cash);
+            fragment.UpdateCash(this.cashAmount);
         }
     }
 
-    public void UpdateTransfer(double transfer)
+    public void UpdateTransfer(double amount)
     {
-        this.transfer = transfer;
+        this.transferAmount = amount;
+        this.transfer.setAmount(amount);
 
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.UpdateTransfer(this.transfer);
+            fragment.UpdateTransfer(this.transferAmount);
         }
     }
 
-    public void addCheck(double check)
+    public void UpdateTransferDate(String date)
     {
-        this.check += check;
+        this.transfer.setDueDate(date);
+    }
+
+    public void UpdateTransferReferenceNumber(String number)
+    {
+        this.transfer.setNumber(number);
+    }
+
+    public void UpdateTransferBank(Bank bank)
+    {
+        this.transfer.setBank(bank);
+    }
+
+    public void addCheck(CheckPayment check)
+    {
+        this.checkAmount += check.getAmount();
+        this.checks.add(check);
 
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.UpdateCheck(this.check);
+            fragment.UpdateCheck(this.checkAmount);
         }
     }
 
-    public void restCheck(double check)
+    public void restCheck(CheckPayment check)
     {
-        this.check -= check;
+        this.checkAmount -= check.getAmount();
+        this.checks.remove(check);
 
         PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
         if(fragment != null){
-            fragment.UpdateCheck(this.check);
+            fragment.UpdateCheck(this.checkAmount);
         }
     }
 
@@ -193,9 +220,23 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             fragment.RestInvoice(invoice);
         }
     }
-    public double getCheck() {
-        return check;
+    public Transfer getTransfer() { return transfer; }
+    public Cash getCash() {return cash; }
+    public ArrayList<CheckPayment> getChecks(){ return this.checks; }
+    public void ClearPaymentData(){
+        this.checks = new ArrayList<>();
+        this.transfer = new Transfer();
+        this.cash = new Cash();
+        this.cashAmount = 0;
+        this.transferAmount = 0;
+        this.checkAmount = 0;
     }
+    public double getTransferAmount() { return transferAmount; }
+    public double getCashAmount() { return cashAmount; }
+    public double getCheckAmount() {
+        return checkAmount;
+    }
+    public double getTotalPaid() { return cashAmount + checkAmount + transferAmount; }
 
     public void updateQuantity(ProductVariant variant, int quantity){
         if(!this.elements.contains(variant)){
