@@ -113,10 +113,10 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                         if(b){
                             if(document.getBalanceDue() > 0)
-                                ((MainActivity) context).AddInvoice(document.getBalanceDue());
+                                ((MainActivity) context).AddInvoice(document);
                         }else{
                             if(document.getBalanceDue() > 0)
-                                ((MainActivity) context).RestInvoice(document.getBalanceDue());
+                                ((MainActivity) context).RemoveInvoice(document);
                         }
                     }
                 });

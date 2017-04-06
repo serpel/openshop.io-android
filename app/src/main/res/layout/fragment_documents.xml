@@ -110,6 +110,7 @@
                             android:singleLine="true"
                             android:textColor="@color/colorAccent"
                             android:textSize="12sp"
+                            android:text="C - CLIENTE 30 DIAS"
                             tools:text="C - CLIENTE 30 DIAS" />
                     </LinearLayout>
 
@@ -133,11 +134,11 @@
                             android:id="@+id/document_orders_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/InOrder"
+                            android:text="Mora"
                             android:textColor="@color/colorAccent"
                             android:textSize="12sp"
                             android:visibility="visible"
-                            tools:text="@string/InOrder" />
+                            tools:text="Mora" />
                     </LinearLayout>
 
                     <LinearLayout

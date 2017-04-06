@@ -24,8 +24,18 @@ public class Document implements Serializable {
     private Double balanceDue;
     @SerializedName("overdue_days")
     private int overdueDays;
+    @SerializedName("doc_entry")
+    private int docEntry;
 
     public Document(){}
+
+    public int getDocEntry() {
+        return docEntry;
+    }
+
+    public void setDocEntry(int docEntry) {
+        this.docEntry = docEntry;
+    }
 
     public Double getBalanceDue() {
         return balanceDue;

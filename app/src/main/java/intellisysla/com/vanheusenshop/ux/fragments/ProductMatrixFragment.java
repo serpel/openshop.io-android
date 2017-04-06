@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -60,6 +61,7 @@ import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 import intellisysla.com.vanheusenshop.ux.adapters.MyProductRecyclerViewAdapter;
 import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
+import okhttp3.internal.framed.Variant;
 import timber.log.Timber;
 
 import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
@@ -79,10 +81,11 @@ public class ProductMatrixFragment extends Fragment {
     private ViewPager mViewPager;
     private ProgressBar progressView;
     private List<Fragment> fragments;
+    private List<String> mWarehouseList = new ArrayList<>();
 
     private TextView SKUDescriptionText;
     private TextView ProductBrand;
-    //private Spinner mWarehouseSpinner;
+    private Spinner mWarehouseSpinner;
     public ImageView productImage;
     private RelativeLayout productContainer;
 
@@ -119,12 +122,12 @@ public class ProductMatrixFragment extends Fragment {
 
         progressView = (ProgressBar) view.findViewById(R.id.product_matrix_progress);
         SKUDescriptionText = (TextView) view.findViewById(R.id.product_matrix_sku);
-        ProductBrand = (TextView) view.findViewById(R.id.product_brand);
+        //ProductBrand = (TextView) view.findViewById(R.id.product_brand);
         productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
         productContainer = (RelativeLayout) view.findViewById(R.id.product_matrix_main_layout);
 
         mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
-        //mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
+        mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
 
         //This show the scrollview correctly
        /* NestedScrollView scrollView = (NestedScrollView) view.findViewById (R.id.product_matrix_nested_scroll);
@@ -153,30 +156,6 @@ public class ProductMatrixFragment extends Fragment {
         getProduct(productId);
 
         return view;
-    }
-
-
-    private void postProductToCart(ProductVariant variant) {
-        User user = SettingsMy.getActiveUser();
-        if (user != null && variant.getNew_quantity() > 0) {
-            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity());
-            JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
-                    //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
-                    Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), 0.0);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                }
-            }, getFragmentManager(), user.getAccessToken());
-            addToCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-            addToCart.setShouldCache(false);
-            MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
-        }
     }
 
     private void addProductToCart(ProductVariant variant, User user, String cardcode) {
@@ -247,7 +226,7 @@ public class ProductMatrixFragment extends Fragment {
 
             this.product = product;
             SKUDescriptionText.setText(product.getCode() + " - " + product.getName() + " - " + product.getSeason());
-            ProductBrand.setText(product.getBrand());
+            //ProductBrand.setText(product.getBrand());
 
             if (loadHighRes && product.getMainImageHighRes() != null) {
                 Picasso.with(getContext()).load(product.getMainImageHighRes())
@@ -273,21 +252,70 @@ public class ProductMatrixFragment extends Fragment {
     private void setSpinners(Product product) {
         if (product != null && product.getVariants() != null && product.getVariants().size() > 0) {
             this.product = product;
-            List<ProductSize> productSizes = new ArrayList<>();
+            final List<ProductSize> productSizes = new ArrayList<>();
 
             for (ProductVariant pv : product.getVariants()) {
                 ProductSize size = pv.getSize();
                 if(!productSizes.contains(size)){
                     productSizes.add(size);
                 }
+
+                String ws = pv.getWarehouse();
+                if(!mWarehouseList.contains(ws)){
+                    mWarehouseList.add(ws);
+                }
             }
 
-            orderSizesAscending(productSizes);
+            if(mWarehouseList.size() > 0){
 
-            for(ProductSize size : productSizes){
-                ProductMatrixView productMatrixView = new ProductMatrixView(size, product.getVariantsBySize(size));
-                mSectionsPagerAdapter.addPageItem(productMatrixView);
+                orderStringAscending(mWarehouseList);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item, mWarehouseList);
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                mWarehouseSpinner.setAdapter(spinnerArrayAdapter);
+
+                mWarehouseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String warehouse = (String) mWarehouseSpinner.getSelectedItem();
+
+                        if(warehouse != null) {
+                            renderSizesView(productSizes, warehouse);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
             }
+
+            //renderSizesView(productSizes);
+        }
+    }
+
+    private void renderSizesView(List<ProductSize> productSizes){
+
+        orderSizesAscending(productSizes);
+
+        for(ProductSize size : productSizes){
+            ProductMatrixView productMatrixView = new ProductMatrixView(size, product.getVariantsBySize(size));
+            mSectionsPagerAdapter.addPageItem(productMatrixView);
+        }
+    }
+
+    private void renderSizesView(List<ProductSize> productSizes, String warehouse){
+
+        List<ProductMatrixView> renderList = new ArrayList<>();
+        for(ProductSize size : productSizes){
+            ArrayList<ProductVariant> variants = product.getVariantsBySizeAndWarehouse(size, warehouse);
+            if(variants.size() > 0){
+                renderList.add(new ProductMatrixView(size, variants));
+            }
+        }
+
+        if(renderList.size() > 0) {
+            mSectionsPagerAdapter.clearPages();
+            mSectionsPagerAdapter.setPages(renderList);
         }
     }
 
@@ -298,6 +326,15 @@ public class ProductMatrixFragment extends Fragment {
                return productSize.getValue().compareTo(t1.getValue());
            }
        });
+    }
+
+    private void orderStringAscending(List<String> wareshouses){
+        Collections.sort(wareshouses, new Comparator<String>() {
+            @Override
+            public int compare(String t1, String t2) {
+                return t1.compareTo(t2);
+            }
+        });
     }
 
     @Override
@@ -385,6 +422,10 @@ public class ProductMatrixFragment extends Fragment {
         public void setPages(List<ProductMatrixView> pages) {
             this.pages = pages;
             notifyDataSetChanged();
+        }
+
+        public void clearPages() {
+            this.pages.clear();
         }
 
         public void addPageItem(ProductMatrixView productMatrixView){

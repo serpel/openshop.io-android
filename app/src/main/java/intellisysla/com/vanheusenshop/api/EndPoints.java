@@ -12,7 +12,7 @@ public class EndPoints {
     private static final String API_URL2                = "http://10.0.2.2:64102/api/list";    // staging
 
     public static final String PAYMENTS                 = API_URL2.concat("/GetPayments?userId=%d&begin=%s&end=%s");
-    public static final String ADD_PAYMENT              = API_URL2.concat("/AddPayment?userId=%d&clientId=%d&totalPaid=%f&cash=%s&transfer=%s&checks=%s");
+    public static final String ADD_PAYMENT              = API_URL2.concat("/AddPayment?userId=%d&clientId=%d&totalPaid=%f&cash=%s&transfer=%s&checks=%s&invoices=%s");
     public static final String SHOPS                    = API_URL2.concat("/GetShops");
     public static final String BANKS                    = API_URL2.concat("/GetBanks");
     public static final String SHOPS_SINGLE             = API_URL2.concat("/GetShops/%d");

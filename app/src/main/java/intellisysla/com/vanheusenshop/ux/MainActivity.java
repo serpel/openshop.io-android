@@ -67,11 +67,13 @@ import intellisysla.com.vanheusenshop.entities.Banner;
 import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.cart.CartInfo;
 import intellisysla.com.vanheusenshop.entities.client.Client;
+import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemCategory;
 import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.order.Order;
 import intellisysla.com.vanheusenshop.entities.payment.Cash;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
+import intellisysla.com.vanheusenshop.entities.payment.InvoiceItem;
 import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
     private double cashAmount = 0, transferAmount = 0, checkAmount = 0;
     private ArrayList<CheckPayment> checks = new ArrayList<>();
+    private ArrayList<Document> invoices = new ArrayList<>();
     private Transfer transfer = new Transfer();
     private Cash cash = new Cash();
     private List<ProductVariant> elements = new ArrayList<>();
@@ -205,26 +208,32 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         }
     }
 
-    public void AddInvoice(Double invoice)
-    {
-        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
-        if(fragment != null){
-            fragment.AddInvoice(invoice);
-        }
-    }
-
-    public void RestInvoice(Double invoice)
-    {
-        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
-        if(fragment != null){
-            fragment.RestInvoice(invoice);
-        }
-    }
     public Transfer getTransfer() { return transfer; }
     public Cash getCash() {return cash; }
     public ArrayList<CheckPayment> getChecks(){ return this.checks; }
+    public ArrayList<Document> getInvoices(){ return this.invoices; }
+
+    public void AddInvoice(Document item){
+        this.invoices.add(item);
+
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.AddInvoice(item.getBalanceDue());
+        }
+    }
+
+    public void RemoveInvoice(Document item){
+        this.invoices.remove(item);
+
+        PaymentMainFragment fragment = (PaymentMainFragment)getSupportFragmentManager().findFragmentByTag(PaymentMainFragment.class.getSimpleName());
+        if(fragment != null){
+            fragment.RestInvoice(item.getBalanceDue());
+        }
+    }
+
     public void ClearPaymentData(){
-        this.checks = new ArrayList<>();
+        this.checks.clear();
+        this.invoices.clear();
         this.transfer = new Transfer();
         this.cash = new Cash();
         this.cashAmount = 0;

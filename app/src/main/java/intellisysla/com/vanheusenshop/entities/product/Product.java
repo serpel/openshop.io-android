@@ -146,6 +146,19 @@ public class Product {
         return items;
     }
 
+    public ArrayList<ProductVariant> getVariantsBySizeAndWarehouse(ProductSize size, String warehouse){
+
+        ArrayList<ProductVariant> items = new ArrayList<>();
+
+        for(ProductVariant variant : this.variants){
+            if(variant.getSize().getValue().equals(size.getValue()) && variant.getWarehouse().equals(warehouse)){
+                items.add(variant);
+            }
+        }
+
+        return items;
+    }
+
     public void setVariants(List<ProductVariant> variants) {
         this.variants = variants;
     }

@@ -33,8 +33,10 @@ import intellisysla.com.vanheusenshop.api.GsonRequest;
 import intellisysla.com.vanheusenshop.entities.Bank;
 import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.client.Client;
+import intellisysla.com.vanheusenshop.entities.client.Document;
 import intellisysla.com.vanheusenshop.entities.payment.Cash;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
+import intellisysla.com.vanheusenshop.entities.payment.InvoiceItem;
 import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
@@ -106,7 +108,18 @@ public class PaymentGeneralFragment extends Fragment {
                     cash.setGeneralAccount("_SYS00000001377");
                     Transfer transfer = ((MainActivity) getActivity()).getTransfer();
                     ArrayList<CheckPayment> checks = ((MainActivity)getActivity()).getChecks();
-                    putPayment(client, cash, transfer, checks, totalPaid);
+                    ArrayList<Document> documents = ((MainActivity) getActivity()).getInvoices();
+
+                    ArrayList<InvoiceItem> invoices = new ArrayList<>();
+                    for(Document myItem:documents){
+                       InvoiceItem item = new InvoiceItem();
+                       item.setDocumentNumber(myItem.getDocumentCode());
+                       item.setPayedAmount(myItem.getBalanceDue());
+                       item.setTotalAmount(myItem.getTotalAmount());
+                       item.setDocEntry(myItem.getDocEntry());
+                       invoices.add(item);
+                    }
+                    putPayment(client, cash, transfer, checks, invoices, totalPaid);
 
                     MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.PaymentProcess), MsgUtils.ToastLength.SHORT);
                     ((MainActivity)getActivity()).onAccountSelected();
@@ -136,14 +149,35 @@ public class PaymentGeneralFragment extends Fragment {
         return view;
     }
 
-    private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, double totalPaid) {
+    private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, ArrayList<InvoiceItem> invoices, double totalPaid) {
 
         final User user = SettingsMy.getActiveUser();
 
         if (user != null) {
             JSONObject joTransfer = new JSONObject();
             JSONObject joCash = new JSONObject();
-            JSONArray joChecks = new JSONArray(checks);
+            JSONArray joChecks = new JSONArray();
+            JSONArray joInvoices = new JSONArray();
+
+            if(invoices != null && invoices.size() > 0){
+                //JSONObject jObject = new JSONObject();
+                try
+                {
+                    for (InvoiceItem invoice : invoices)
+                    {
+                        JSONObject invoiceJSON = new JSONObject();
+                        invoiceJSON.put("DocumentNumber", invoice.getDocumentNumber());
+                        invoiceJSON.put("TotalAmount", invoice.getTotalAmount());
+                        invoiceJSON.put("PayedAmount", invoice.getPayedAmount());
+                        invoiceJSON.put("DocEntry", invoice.getDocEntry());
+                        joInvoices.put(invoiceJSON);
+                    }
+                    //jObject.put("StudentList", joInvoices);
+                } catch (JSONException e) {
+                    Timber.e(e, "Parse new invoice exception.");
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
+                }
+            }
 
             if (transfer != null) {
                 //joTransfer = new JSONObject();
@@ -179,14 +213,15 @@ public class PaymentGeneralFragment extends Fragment {
             }
             */
 
-            //AddPayment?userId=%d&clientId=%d&totalPaid=%d&cash=%s&transfer=%s&checks=%s
+            //AddPayment?userId=%d&clientId=%d&totalPaid=%d&cash=%s&transfer=%s&checks=%s%invoices=%s
             String url = String.format(EndPoints.ADD_PAYMENT,
                     user.getId(),
                     client.getId(),
                     totalPaid,
                     joCash.toString(),
                     joTransfer.toString(),
-                    joChecks.toString()
+                    joChecks.toString(),
+                    joInvoices.toString()
                     );
 
             GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
