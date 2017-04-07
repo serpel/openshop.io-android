@@ -269,10 +269,11 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     User user = getActiveUser();
+
                     Client client = order.getClient();
                     List<OrderItem> products = order.getProducts();
 
-                    if(user!=null && client!=null && products!=null) {
+                    if(user != null && client != null && products != null) {
                         BluetoothPrinter.print(context,
                                 user.getPrintBluetoothAddress(),
                                 order.getDateCreated(),
@@ -288,7 +289,6 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     {
                         MsgUtils.showToast((Activity)context, MsgUtils.TOAST_TYPE_INTERNAL_ERROR, context.getString(R.string.Internal_error), MsgUtils.ToastLength.SHORT);
                     }
-
                 }
             });
         }

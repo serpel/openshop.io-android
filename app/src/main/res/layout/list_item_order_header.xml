@@ -260,21 +260,31 @@
                     android:layout_marginBottom="@dimen/base_margin_vertical_half"
                     android:layout_marginTop="@dimen/base_margin_vertical_half"
                     android:background="@color/background_grey"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/order_print"
+                        style="@style/buttonPrimaryStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="@string/Print"/>
+
+                    <Button
+                        android:id="@+id/order_resend"
+                        style="@style/buttonPrimaryStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/Resend"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-
-    <Button
-        android:layout_marginTop="5dp"
-        android:id="@+id/order_resend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Resend"/>
-
-    <Button
-        android:layout_marginTop="5dp"
-        android:id="@+id/order_print"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Print"/>
 </LinearLayout>

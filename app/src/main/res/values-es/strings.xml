@@ -223,7 +223,7 @@
     <string name="CompanyFax">25164080</string>
     <string name="CompanyRTN">05019995143200</string>
     <string name="RTN">RTN</string>
-    <string name="SalesOrder">Sales Order</string>
+    <string name="SalesOrder">Ordern de Ventas</string>
 
     <string name="Date">Fecha</string>
     <string name="ClientCode">Codigo de Cliente</string>

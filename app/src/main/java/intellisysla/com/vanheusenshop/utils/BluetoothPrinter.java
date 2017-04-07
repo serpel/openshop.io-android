@@ -4,6 +4,7 @@ package intellisysla.com.vanheusenshop.utils;
  * Created by turupawn on 3/24/17.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -45,7 +46,11 @@ public class BluetoothPrinter {
                              String bluetooth_mac_address,
                              String date, Client client, String seller,
                              List<OrderItem> products,
-                             double sub_total, double discount, double total_after_discount, double IVA, double total)
+                             double sub_total,
+                             double discount,
+                             double total_after_discount,
+                             double IVA,
+                             double total)
     {
         byte[] printData = {0};
 
@@ -134,14 +139,14 @@ public class BluetoothPrinter {
         printData = docExPCL_LP.getDocumentData();
 
         try {
-            ConnectionBase conn = null;
-            conn = Connection_Bluetooth.createClient(bluetooth_mac_address);
-            conn.open();
-            conn.write(printData);
-            Thread.sleep(2000);
-            conn.close();
+            ConnectionBase conn = Connection_Bluetooth.createClient(bluetooth_mac_address);
+            if(conn.open()){
+                conn.write(printData);
+                conn.close();
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            MsgUtils.showToast((Activity)context, MsgUtils.TOAST_TYPE_INTERNAL_ERROR, e.getMessage(), MsgUtils.ToastLength.SHORT);
         }
     }
 }
