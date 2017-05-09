@@ -6,7 +6,7 @@
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/payment_history_empty"
+        android:id="@+id/client_transaction_empty"
         style="@style/emptyLayoutText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:visibility="gone"/>
 
     <LinearLayout
-        android:id="@+id/payment_history_content"
+        android:id="@+id/client_transaction_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -38,7 +38,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/payment_history_begin"
+                android:id="@+id/client_transaction_begin"
                 android:textColor="#000"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
@@ -56,7 +56,7 @@
                 android:textStyle="bold"/>
 
             <EditText
-                android:id="@+id/payment_history_end"
+                android:id="@+id/client_transaction_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
@@ -67,7 +67,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/payment_history_ok_button"
+                android:id="@+id/client_transaction_ok_button"
                 android:text="@string/menu_action_search"/>
 
         </LinearLayout>
@@ -85,7 +85,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.15"
                 android:gravity="start"
-                android:text="@string/Id"
+                android:text="@string/Date"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -95,7 +95,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.30"
                 android:gravity="start"
-                android:text="@string/Seller"
+                android:text="@string/Reference"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -105,7 +105,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.35"
                 android:gravity="start"
-                android:text="@string/Client"
+                android:text="@string/Description"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -115,7 +115,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="end"
-                android:text="@string/Total"
+                android:text="@string/Amount"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -123,7 +123,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/payments_history_recycler"
+            android:id="@+id/client_transaction_history_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

@@ -91,6 +91,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.BannersFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.BluetoothFinderFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.CartFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.CategoryFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.ClientTransactionsFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ClientsFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.DocumentsFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.DrawerFragment;
@@ -1039,6 +1040,11 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         } else {
             Timber.e("Creating order detail with null data.");
         }
+    }
+
+    public void onClientTransacionSelected() {
+        Fragment fragment = ClientTransactionsFragment.newInstance();
+        replaceFragment(fragment, ClientTransactionsFragment.class.getSimpleName());
     }
 
     public void onPaymentSelected(Payment payment) {

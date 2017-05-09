@@ -268,5 +268,9 @@
     <string name="Reference">Referencia</string>
     <string name="Your_payment_history_is_empty">Tu historico de cobros esta vacio</string>
     <string name="Sku">SKU</string>
+    <string name="Type">Tipo</string>
+    <string name="Description">Descripcion</string>
+    <string name="ClientTransactions">Transacciones</string>
+
 
 </resources>

@@ -41,6 +41,7 @@ public class CONST {
     public static final String ORDERS_HISTORY_REQUESTS_TAG = "orders_history_requests";
     public static final String ORDERS_DETAIL_REQUESTS_TAG = "orders_detail_requests";
     public static final String PAYMENTS_HISTORY_REQUESTS_TAG = "payments_history_requests";
+    public static final String CLIENT_TRANSACTIONS_REQUESTS_TAG = "client_tranactions_requests";
 
     // Bundle constants
     public static final String BUNDLE_PASS_TARGET = "target";

@@ -189,17 +189,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/base_margin_horizontal"
                     android:paddingRight="@dimen/base_margin_horizontal">
 
                     <Button
+                        android:id="@+id/document_transactions"
+                        style="@style/buttonPrimaryStyle"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/ClientTransactions" />
+                    <Button
                         android:id="@+id/document_begin"
                         style="@style/buttonPrimaryStyle"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/BeginOrder" />
-
                 </LinearLayout>
 
                 <View

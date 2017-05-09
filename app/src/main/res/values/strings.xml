@@ -300,6 +300,9 @@
     <string name="SendToSap">Sent SAP</string>
     <string name="Success">Success</string>
     <string name="Sku">SKU</string>
+    <string name="Type">Type</string>
+    <string name="Description">Description</string>
+    <string name="ClientTransactions">Client Transactions</string>
 
 
 </resources>

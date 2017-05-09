@@ -67,7 +67,7 @@ public class DocumentsFragment extends Fragment {
     private ProgressBar loadMoreProgress;
 
     private TextView clientCode, clientName, clientCreditLimit, clientBalance, clientInOrders, clientPayCondition;
-    private Button documentBegin;
+    private Button documentBegin, documentTransactions;
     public static DocumentsFragment newInstance() {
         Bundle args = new Bundle();
         args.putString(SEARCH_QUERY, null); 
@@ -138,6 +138,21 @@ public class DocumentsFragment extends Fragment {
         clientBalance = (TextView) view.findViewById(R.id.document_balance);
         clientInOrders = (TextView) view.findViewById(R.id.document_orders);
         clientPayCondition = (TextView) view.findViewById(R.id.document_document_pay_condition);
+        documentTransactions = (Button) view.findViewById(R.id.document_transactions);
+
+        documentTransactions.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                String customer = clientCode.getText().toString();
+                Timber.e("OnSelectedClienCardCode %s", customer);
+                SharedPreferences prefs = getSettings();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, customer);
+                editor.commit();
+
+                ((MainActivity)getActivity()).onClientTransacionSelected();
+            }
+        });
 
         documentBegin = (Button) view.findViewById(R.id.document_begin);
         documentBegin.setOnClickListener(new View.OnClickListener() {

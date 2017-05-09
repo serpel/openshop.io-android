@@ -22,6 +22,7 @@ public class EndPoints {
     public static final String PAGES_TERMS_AND_COND     = API_URL.concat("%d/pages/terms");
     public static final String CLIENT                   = API_URL2.concat("/Client?cardcode=%s");
     public static final String CLIENTS                  = API_URL2.concat("/GetClients");
+    public static final String CLIENT_TRANSACTIONS      = API_URL2.concat("/GetClientTransactions?cardcode=%s&begin=%s&end=%s");
     public static final String DOCUMENTS                = API_URL2.concat("/GetDocuments");
     public static final String DOCUMENTS_SINGLE         = API_URL2.concat("/GetDocuments?card_code=%s");
     public static final String DOCUMENTS_DETAILS        = API_URL2.concat("/Document?card_code=%s&include=%d");
