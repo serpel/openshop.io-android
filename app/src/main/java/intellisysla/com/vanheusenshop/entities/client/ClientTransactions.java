@@ -19,10 +19,10 @@ public class ClientTransactions {
     private long reference_number;
     private String card_code;
     private String description;
-    private Date date;
+    private String date;
     private Double amount;
 
-    public ClientTransactions(long id, long reference_number, String card_code, String description, Date date, Double amount) {
+    public ClientTransactions(long id, long reference_number, String card_code, String description, String date, Double amount) {
         this.id = id;
         this.reference_number = reference_number;
         this.card_code = card_code;
@@ -63,11 +63,11 @@ public class ClientTransactions {
         this.description = description;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

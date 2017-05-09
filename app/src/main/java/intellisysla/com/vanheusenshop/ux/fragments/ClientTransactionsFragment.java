@@ -176,26 +176,18 @@ public class ClientTransactionsFragment extends Fragment {
      */
     private void preparePaymentsHistoryRecycler(View view) {
         transactionsRecycler = (RecyclerView) view.findViewById(R.id.client_transaction_history_recycler);
-        //fix here
-        transactionsRecyclerAdapter = new ClientTransactionsRecyclerAdapter(null);
+        transactionsRecyclerAdapter = new ClientTransactionsRecyclerAdapter(new ClientTransactionsRecyclerInterface() {
+            @Override
+            public void onClientTransactionsSelected(View v, ClientTransactions transaction) {
+                Activity activity = getActivity();
+            }
+        });
         transactionsRecycler.setAdapter(transactionsRecyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(transactionsRecycler.getContext());
         transactionsRecycler.setLayoutManager(layoutManager);
         transactionsRecycler.setItemAnimator(new DefaultItemAnimator());
         transactionsRecycler.setHasFixedSize(true);
         transactionsRecycler.addItemDecoration(new RecyclerMarginDecorator(getResources().getDimensionPixelSize(R.dimen.base_margin)));
-
-        endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                /*if (paymentsMetadata != null && paymentsMetadata.getLinks() != null && paymentsMetadata.getLinks().getNext() != null) {
-                    loadPayments(paymentsMetadata.getLinks().getNext());
-                } else {
-                    Timber.d("CustomLoadMoreDataFromApi NO MORE DATA");
-                }*/
-            }
-        };
-        transactionsRecycler.addOnScrollListener(endlessRecyclerScrollListener);
     }
 
     /**
@@ -248,7 +240,7 @@ public class ClientTransactionsFragment extends Fragment {
             }
             progressDialog.cancel();
         }
-        MyApplication.getInstance().cancelPendingRequests(CONST.PAYMENTS_HISTORY_REQUESTS_TAG);
+        MyApplication.getInstance().cancelPendingRequests(CONST.CLIENT_TRANSACTIONS_REQUESTS_TAG);
         super.onStop();
     }
 

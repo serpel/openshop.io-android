@@ -45,13 +45,13 @@ public class ClientTransactionsRecyclerAdapter extends RecyclerView.Adapter<Clie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ClientTransactions transactions = getTransactionItem(position);
-        holder.bindContent(transactions);
+        ClientTransactions transaction = getTransactionItem(position);
+        holder.bindContent(transaction);
 
-        holder.referenceNumberTv.setText(String.valueOf(transactions.getReference_number()));
-        holder.descriptionTv.setText(transactions.getDescription());
-        holder.amountTv.setText(String.valueOf(transactions.getAmount()));
-        holder.dateTv.setText(String.valueOf(transactions.getDate()));
+        holder.referenceNumberTv.setText(String.valueOf(transaction.getReference_number()));
+        holder.descriptionTv.setText(transaction.getDescription());
+        holder.amountTv.setText(String.valueOf(transaction.getAmount()));
+        holder.dateTv.setText(String.valueOf(transaction.getDate()));
     }
 
     private ClientTransactions getTransactionItem(int position) {
@@ -87,18 +87,27 @@ public class ClientTransactionsRecyclerAdapter extends RecyclerView.Adapter<Clie
         private TextView dateTv;
         private TextView amountTv;
 
-        private ClientTransactions transactions;
+        private ClientTransactions transaction;
 
         public ViewHolder(View itemView, final ClientTransactionsRecyclerInterface transactionsRecyclerInterface) {
             super(itemView);
+
             referenceNumberTv = (TextView) itemView.findViewById(R.id.client_transaction_reference_number);
             dateTv = (TextView) itemView.findViewById(R.id.client_transaction_date);
             descriptionTv = (TextView) itemView.findViewById(R.id.client_transaction_description);
             amountTv = (TextView) itemView.findViewById(R.id.client_transaction_amount);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //transactionsRecyclerInterface
+                    transactionsRecyclerInterface.onClientTransactionsSelected(v, transaction);
+                }
+            });
         }
 
-        public void bindContent(ClientTransactions transactions) {
-            this.transactions = transactions;
+        public void bindContent(ClientTransactions transaction) {
+            this.transaction = transaction;
         }
     }
 }
