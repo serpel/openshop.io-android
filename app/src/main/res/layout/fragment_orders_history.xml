@@ -27,8 +27,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:gravity="start"
                 android:text="@string/Begin"
                 android:textColor="@color/colorAccent"
@@ -40,16 +40,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/order_history_begin"
                 android:textColor="#000"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:text="2016/06/01"
                 android:focusable="false" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:gravity="start"
                 android:text="@string/End"
                 android:textColor="@color/colorAccent"
@@ -61,10 +61,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/order_history_end"
                 android:textColor="#000"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:text="2016/06/01"
                 android:focusable="false"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/order_history_okButton"
+                android:text="@string/menu_action_search" />
 
         </LinearLayout>
 

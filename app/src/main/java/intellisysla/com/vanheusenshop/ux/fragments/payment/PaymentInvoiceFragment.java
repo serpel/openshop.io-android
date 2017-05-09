@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.client.Document;
+import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.interfaces.DocumentRecyclerInterface;
 import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
@@ -34,12 +35,14 @@ public class PaymentInvoiceFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_INVOICE_LIST = "invoice-list";
+    private static final String ARG_PAYMENT = "payment";
     // TODO: Customize parameters
     private ArrayList<Document> documents;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView documentsRecycler;
     private GridLayoutManager documentsRecyclerLayoutManager;
     private DocumentsRecyclerAdapter documentsRecyclerAdapter;
+    private Payment payment;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,11 +52,18 @@ public class PaymentInvoiceFragment extends Fragment {
     }
 
     // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static PaymentInvoiceFragment newInstance(ArrayList<Document> documents) {
         PaymentInvoiceFragment fragment = new PaymentInvoiceFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_INVOICE_LIST, documents);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static PaymentInvoiceFragment newInstance(Payment payment) {
+        PaymentInvoiceFragment fragment = new PaymentInvoiceFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PAYMENT, payment);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,19 +82,26 @@ public class PaymentInvoiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_document_list, container, false);
 
-        Bundle startBundle = getArguments();
-        if (startBundle != null) {
-            documents = (ArrayList<Document>) getArguments().getSerializable(ARG_INVOICE_LIST);
+        if (documentsRecyclerAdapter == null || documentsRecyclerAdapter.getItemCount() == 0) {
+            prepareRecyclerAdapter();
+        }
 
-            if (documentsRecyclerAdapter == null || documentsRecyclerAdapter.getItemCount() == 0) {
-                prepareRecyclerAdapter();
-                prepareDocumentRecycler(view);
+        prepareDocumentRecycler(view);
 
+        Bundle args = getArguments();
+        if (args != null) {
+            payment = (Payment) args.getSerializable(ARG_PAYMENT);
+
+            if(payment != null){
+
+                documents = payment.getClient().getInvoiceList();
                 if(documents != null && documents.size() > 0 && documentsRecycler != null)
                     documentsRecyclerAdapter.addDocuments(documents);
-                //Analytics.logCategoryView(categoryId, categoryName, isSearch);
-            }else{
-                prepareDocumentRecycler(view);
+
+            } else {
+                documents = (ArrayList<Document>) args.getSerializable(ARG_INVOICE_LIST);
+                if(documents != null && documents.size() > 0 && documentsRecycler != null)
+                    documentsRecyclerAdapter.addDocuments(documents);
             }
         }
 
@@ -96,9 +113,9 @@ public class PaymentInvoiceFragment extends Fragment {
         documentsRecyclerAdapter = new DocumentsRecyclerAdapter(getActivity(), new DocumentRecyclerInterface() {
             @Override
             public void onDocumentRecyclerInterface(View caller, Document document) {
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    setReenterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
-                }
+                //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                //    setReenterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
+                //}
                 //((MainActivity) getActivity()).onDocumentSelected(document.getDocumentCode());
             }
         }, true);

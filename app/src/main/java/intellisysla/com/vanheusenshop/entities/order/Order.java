@@ -33,6 +33,7 @@ public class Order {
     private Client client;
     private String seller;
     private String comment;
+    private String deliveryDate;
 
     @SerializedName("sales_person_code")
     private int salesPersonCode;
@@ -42,6 +43,14 @@ public class Order {
     private String cardCode;
 
     public Order() {
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public long getId() {

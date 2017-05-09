@@ -281,11 +281,25 @@
 
     <!-- Payment Related Strings -->
     <string name="Bank">Bank</string>
+    <string name="Version">Version</string>
     <string name="CheckNumber">Check Number</string>
     <string name="PaymentHistory">Payment history</string>
     <string name="MyPayments">My Payments</string>
     <string name="Client">Client</string>
     <string name="Reference">Reference</string>
     <string name="Your_payment_history_is_empty">Your payment history is empty</string>
+    <string name="DeliveryDate">Delivery Date</string>
+
+    <string name="Stats">Stats</string>
+    <string name="Chart">Chart</string>
+    <string name="Invoiced">Invoiced</string>
+    <string name="Quota">Quota</string>
+    <string name="Clients">Clients</string>
+    <string name="OneNumber">1</string>
+    <string name="Inventory">Inventory</string>
+    <string name="SendToSap">Sent SAP</string>
+    <string name="Success">Success</string>
+    <string name="Sku">SKU</string>
+
 
 </resources>

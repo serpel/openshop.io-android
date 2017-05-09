@@ -1,10 +1,12 @@
 package intellisysla.com.vanheusenshop.entities.payment;
 
+import java.io.Serializable;
+
 /**
  * Created by alienware on 4/5/2017.
  */
 
-public class InvoiceItem {
+public class InvoiceItem implements Serializable {
 
     public int docEntry;
     public String documentNumber;

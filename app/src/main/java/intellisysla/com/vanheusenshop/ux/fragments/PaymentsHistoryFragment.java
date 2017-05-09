@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -37,6 +38,7 @@ import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.entities.payment.PaymentResponse;
 import intellisysla.com.vanheusenshop.interfaces.OrdersRecyclerInterface;
 import intellisysla.com.vanheusenshop.interfaces.PaymentsRecyclerInterface;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
@@ -58,7 +60,8 @@ public class PaymentsHistoryFragment extends Fragment {
     private View empty;
     private View content;
     private EditText beginEdit, endEdit;
-    private Calendar myCalendar = Calendar.getInstance();
+    private Button searchButton;
+    private Calendar beginCalendar, endCalendar;
 
     /**
      * Request metadata containing urls for endlessScroll.
@@ -87,8 +90,15 @@ public class PaymentsHistoryFragment extends Fragment {
         content = view.findViewById(R.id.payment_history_content);
         beginEdit = (EditText) view.findViewById(R.id.payment_history_begin);
         endEdit = (EditText) view.findViewById(R.id.payment_history_end);
+        searchButton = (Button) view.findViewById(R.id.payment_history_ok_button);
 
-        myCalendar = Calendar.getInstance();
+        String myFormat = "yyyy/MM/dd";
+        final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        endCalendar = Calendar.getInstance();
+        beginCalendar = Calendar.getInstance();
+        beginCalendar.add(Calendar.DAY_OF_MONTH, -2);
+        beginEdit.setText(sdf.format(endCalendar.getTime()));
 
         beginEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,21 +108,21 @@ public class PaymentsHistoryFragment extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year,int monthOfYear, int dayOfMonth) {
-                                myCalendar.set(Calendar.YEAR, year);
-                                myCalendar.set(Calendar.MONTH, monthOfYear);
-                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                String myFormat = "yyyy/MM/dd";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                beginEdit.setText(sdf.format(myCalendar.getTime()));
+                                beginCalendar.set(Calendar.YEAR, year);
+                                beginCalendar.set(Calendar.MONTH, monthOfYear);
+                                beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                beginEdit.setText(sdf.format(beginCalendar.getTime()));
                             }
                         },
-                        myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH)-1,
-                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                        beginCalendar.get(Calendar.YEAR),
+                        beginCalendar.get(Calendar.MONTH),
+                        beginCalendar.get(Calendar.DAY_OF_MONTH)
                 ).show();
             }
         });
+
+        endCalendar.add(Calendar.DAY_OF_MONTH, 15);
+        endEdit.setText(sdf.format(endCalendar.getTime()));
 
         endEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,19 +132,23 @@ public class PaymentsHistoryFragment extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                                myCalendar.set(Calendar.YEAR, year);
-                                myCalendar.set(Calendar.MONTH, monthOfYear);
-                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                String myFormat = "yyyy/MM/dd";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                endEdit.setText(sdf.format(myCalendar.getTime()));
+                                endCalendar.set(Calendar.YEAR, year);
+                                endCalendar.set(Calendar.MONTH, monthOfYear);
+                                endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                endEdit.setText(sdf.format(endCalendar.getTime()));
                             }
                         },
-                        myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH)+2,
-                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                        endCalendar.get(Calendar.YEAR),
+                        endCalendar.get(Calendar.MONTH),
+                        endCalendar.get(Calendar.DAY_OF_MONTH)
                 ).show();
+            }
+        });
+
+        searchButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                loadPayments(null);
             }
         });
 
@@ -168,11 +182,11 @@ public class PaymentsHistoryFragment extends Fragment {
         endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (paymentsMetadata != null && paymentsMetadata.getLinks() != null && paymentsMetadata.getLinks().getNext() != null) {
+                /*if (paymentsMetadata != null && paymentsMetadata.getLinks() != null && paymentsMetadata.getLinks().getNext() != null) {
                     loadPayments(paymentsMetadata.getLinks().getNext());
                 } else {
                     Timber.d("CustomLoadMoreDataFromApi NO MORE DATA");
-                }
+                }*/
             }
         };
         paymentsRecycler.addOnScrollListener(endlessRecyclerScrollListener);
@@ -188,22 +202,22 @@ public class PaymentsHistoryFragment extends Fragment {
         if (user != null) {
             progressDialog.show();
             if (url == null) {
-                paymentsHistoryRecyclerAdapter.clear();
-                url = String.format(EndPoints.PAYMENTS, user.getId(),"2016/11/11","2018/11/11");
+                url = String.format(EndPoints.PAYMENTS, user.getId(),beginEdit.getText().toString(),endEdit.getText().toString());
             }
+            paymentsHistoryRecyclerAdapter.clear();
             GsonRequest<PaymentResponse> req = new GsonRequest<>(Request.Method.GET, url, null, PaymentResponse.class, new Response.Listener<PaymentResponse>() {
                 @Override
                 public void onResponse(PaymentResponse response) {
-                    paymentsMetadata = response.getMetadata();
+                    //paymentsMetadata = response.getMetadata();
                     paymentsHistoryRecyclerAdapter.addPayments(response.getPayments());
 
-                    if (paymentsHistoryRecyclerAdapter.getItemCount() > 0) {
+                   /* if (paymentsHistoryRecyclerAdapter.getItemCount() > 0) {
                         empty.setVisibility(View.GONE);
                         content.setVisibility(View.VISIBLE);
                     } else {
                         empty.setVisibility(View.VISIBLE);
                         content.setVisibility(View.GONE);
-                    }
+                    }*/
                     if (progressDialog != null) progressDialog.cancel();
                 }
             }, new Response.ErrorListener() {

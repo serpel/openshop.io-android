@@ -2,6 +2,7 @@ package intellisysla.com.vanheusenshop.entities.payment;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import intellisysla.com.vanheusenshop.entities.Bank;
@@ -10,7 +11,7 @@ import intellisysla.com.vanheusenshop.entities.Bank;
  * Created by alienware on 3/29/2017.
  */
 
-public class Transfer {
+public class Transfer implements Serializable {
     private int id;
     private String number;
     private double amount;

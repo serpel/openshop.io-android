@@ -2,11 +2,13 @@ package intellisysla.com.vanheusenshop.entities.payment;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by alienware on 3/29/2017.
  */
 
-public class Cash {
+public class Cash  implements Serializable {
 
     private long id;
     private double amount;

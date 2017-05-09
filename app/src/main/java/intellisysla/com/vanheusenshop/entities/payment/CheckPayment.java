@@ -1,5 +1,6 @@
 package intellisysla.com.vanheusenshop.entities.payment;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import intellisysla.com.vanheusenshop.entities.Bank;
@@ -7,7 +8,7 @@ import intellisysla.com.vanheusenshop.entities.Bank;
 /**
  * Created by turupawn on 3/28/17.
  */
-public class CheckPayment {
+public class CheckPayment implements Serializable {
     private String checkNumber;
 
     private Bank bank;

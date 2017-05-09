@@ -112,9 +112,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    tools:visibility="visible">
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/DueDate"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textBlack"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/order_create_delivery_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:hint="@string/DueDate"
+                        android:inputType="date"
+                        android:nextFocusForward="@+id/order_create_street"
+                        android:singleLine="true"
+                        android:textColor="@color/textPrimary"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -129,26 +147,16 @@
                         android:id="@+id/order_seller_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/spinner_background_black_baseline"
                         android:gravity="start"
                         android:paddingBottom="8dp"
-                        android:visibility="visible"
-                        android:spinnerMode="dialog"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@+id/order_create_delivery_shipping_layout"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_marginTop="12dp">
+                        android:spinnerMode="dialog" />
 
                     <TextView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/Comment"
                         android:textAllCaps="true"
@@ -161,7 +169,7 @@
                         android:id="@+id/order_comment_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="0dp"
                         android:textColorHint="@color/colorPrimaryLight">
 
                         <EditText
@@ -175,6 +183,7 @@
                             android:singleLine="true"
                             android:textColor="@color/textPrimary"/>
                     </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
             </RelativeLayout>
 

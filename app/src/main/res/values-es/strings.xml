@@ -267,5 +267,6 @@
     <string name="Client">Cliente</string>
     <string name="Reference">Referencia</string>
     <string name="Your_payment_history_is_empty">Tu historico de cobros esta vacio</string>
+    <string name="Sku">SKU</string>
 
 </resources>

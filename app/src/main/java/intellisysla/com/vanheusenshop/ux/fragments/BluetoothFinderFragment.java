@@ -98,10 +98,6 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
 
         if (getArguments() != null) {
         }
-
-        // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
     }
 
     @Override
@@ -109,9 +105,13 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bluetooth, container, false);
 
+        // TODO: Change Adapter to display your content
+        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -139,6 +139,7 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
                 mDeviceAddressList.add(device.getAddress());
                 mListView.setAdapter(new ArrayAdapter<String>(context,
                         android.R.layout.simple_list_item_1, mDeviceList));
+                mListView.notifyAll();
             }
 
             deliveryProgressBar.setVisibility(View.GONE);
@@ -190,10 +191,8 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
             // fragment is attached to one) that an item has been selected.
             mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
-        String printer_mac_address = mDeviceAddressList.get(position);
 
-        putUser(printer_mac_address);
-
+        putUser(mDeviceAddressList.get(position));
     }
 
     /**

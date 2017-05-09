@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.R;
 import intellisysla.com.vanheusenshop.entities.Bank;
+import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.interfaces.BankDialogInterface;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
@@ -43,6 +44,7 @@ public class PaymentTransferFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
 
     private static final String ARG_BANK_LIST = "bank-list";
+    private static final String ARG_TRANSFER = "transfer";
 
     // TODO: Rename and change types of parameters
     private EditText amountEdit;
@@ -52,6 +54,7 @@ public class PaymentTransferFragment extends Fragment {
     private Spinner bankSpinner;
     private Bank selectedBank;
     private BankDialogInterface bankDialogInterface;
+    private Transfer transfer;
 
     private OnFragmentInteractionListener mListener;
 
@@ -76,6 +79,17 @@ public class PaymentTransferFragment extends Fragment {
         return fragment;
     }
 
+    public static PaymentTransferFragment newInstance(Transfer transfer, ArrayList<Bank> banks) {
+        PaymentTransferFragment fragment = new PaymentTransferFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_TRANSFER, transfer);
+        args.putSerializable(ARG_BANK_LIST, banks);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +104,6 @@ public class PaymentTransferFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_payment_transfer, container, false);
-
-        if (getArguments() != null) {
-            banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
-        }
 
         referenceNumberEdit = (EditText) view.findViewById(R.id.payment_transfer_reference_number);
         referenceNumberEdit.addTextChangedListener(new TextWatcher() {
@@ -165,6 +175,20 @@ public class PaymentTransferFragment extends Fragment {
         });
 
         prepareSpinner(view);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            transfer = (Transfer) args.getSerializable(ARG_TRANSFER);
+            banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
+
+            if(transfer != null){
+                referenceNumberEdit.setText(transfer.getNumber());
+                amountEdit.setText(String.valueOf(transfer.getAmount()));
+                dateEdit.setText(transfer.getDueDate());
+                selectedBank = transfer.getBank();
+            }
+        }
+
 
         return view;
     }

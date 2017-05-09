@@ -44,6 +44,8 @@ import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.client.Client;
 import intellisysla.com.vanheusenshop.entities.client.DocumentListResponse;
 import intellisysla.com.vanheusenshop.entities.payment.Cash;
+import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
+import intellisysla.com.vanheusenshop.entities.payment.InvoiceItem;
 import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.entities.payment.Transfer;
 import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
@@ -58,6 +60,7 @@ public class PaymentMainFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_CARDCODE = "cardcode";
     private static final String ARG_CLIENT = "client-payment";
+    private static final String ARG_PAYMENT = "payment";
 
     // TODO: Rename and change types of parameters
     private String mCardCode;
@@ -84,6 +87,14 @@ public class PaymentMainFragment extends Fragment {
         PaymentMainFragment fragment = new PaymentMainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CARDCODE, cardCode);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static PaymentMainFragment newInstance(Payment payment) {
+        PaymentMainFragment fragment = new PaymentMainFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PAYMENT, payment);
         fragment.setArguments(args);
         return fragment;
     }
@@ -196,13 +207,11 @@ public class PaymentMainFragment extends Fragment {
 
     private void getBanks() {
         setContentVisible(CONST.VISIBLE.PROGRESS);
-        String url = String.format(EndPoints.BANKS);
-        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, BankResponse.class,
+        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, EndPoints.BANKS, null, BankResponse.class,
                 new Response.Listener<BankResponse>() {
                     @Override
                     public void onResponse(@NonNull BankResponse response) {
                         banks = response.getBanks();
-                        setFragments(client);
                         setContentVisible(CONST.VISIBLE.CONTENT);
                     }
                 }, new Response.ErrorListener() {
@@ -221,6 +230,7 @@ public class PaymentMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_payment_main, container, false);
 
+        MainActivity.setActionBarTitle(getString(R.string.Payments));
         progressView = (ProgressBar) view.findViewById(R.id.payment_progress);
         cashText = (TextView) view.findViewById(R.id.payment_main_cash);
         transferText = (TextView) view.findViewById(R.id.payment_main_transfer);
@@ -228,38 +238,53 @@ public class PaymentMainFragment extends Fragment {
         totalText = (TextView) view.findViewById(R.id.payment_main_total);
         totalInvoiceText = (TextView) view.findViewById(R.id.payment_main_paid_total);
 
-        mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
-
-        mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        MainActivity.setActionBarTitle(getString(R.string.Payments));
-
         Bundle arguments = getArguments();
         if(arguments != null){
-            String cardcode = arguments.getString(ARG_CARDCODE, "");
-            client = (Client)arguments.getSerializable(ARG_CLIENT);
-            if(client == null)
-                getClient(cardcode);
-            else{
+            payment = (Payment) arguments.getSerializable(ARG_PAYMENT);
+            if(payment != null){
+                setData();
                 getBanks();
+            }else{
+                String cardcode = arguments.getString(ARG_CARDCODE, "");
+                client = (Client)arguments.getSerializable(ARG_CLIENT);
+                if(client == null)
+                    getClient(cardcode);
+                else{
+                    getBanks();
+                }
             }
         }
+
+        mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
+        mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
         return view;
     }
 
-    public void setFragments(Client client){
+    public void setData(){
+        cashText.setText(String.valueOf(payment.getCash().getAmount()));
+        transferText.setText(String.valueOf(payment.getTransfer().getAmount()));
+        totalText.setText(String.valueOf(payment.getTotalPaid()));
 
-        fragments = new ArrayList<>();
-        fragments.add(PaymentGeneralFragment.newInstance(client));
-        fragments.add(PaymentInvoiceFragment.newInstance(client.getInvoiceList()));
-        fragments.add(PaymentCashFragment.newInstance());
-        fragments.add(PaymentTransferFragment.newInstance(banks));
-        fragments.add(PaymentCheckFragment.newInstance(banks));
+        Double totalChecks = 0.0;
+        for(CheckPayment c: payment.getChecks()){
+            total += c.getAmount();
+        }
+        checkText.setText(String.valueOf(totalChecks));
 
-        mSectionsPagerAdapter.setFragments(fragments);
-        mSectionsPagerAdapter.updateView();
+        Double totalInvoices = 0.0;
+        for(InvoiceItem i:payment.getInvoices()){
+            totalInvoices += i.getTotalAmount();
+        }
+        totalInvoiceText.setText(String.valueOf(totalInvoices));
+    }
+
+    public void setFragments(View view){
+
+        mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
+        mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -298,39 +323,44 @@ public class PaymentMainFragment extends Fragment {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private List<Fragment> fragments;
+        private int count = 5;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            fragments = new ArrayList<>();
-        }
-
-        public void setFragments(List<Fragment> fragments) {
-            this.fragments = fragments;
-        }
-
-
-        public void updateView(){
-            notifyDataSetChanged();
         }
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
-            return fragments.get(position);
+            Fragment fragment = null;
+
+            switch (position){
+                case 0: fragment = payment == null ? PaymentGeneralFragment.newInstance(client) : PaymentGeneralFragment.newInstance(payment);
+                    break;
+                case 1: fragment = payment == null ? PaymentInvoiceFragment.newInstance(client.getInvoiceList()) : PaymentInvoiceFragment.newInstance(payment);
+                    break;
+                case 2: fragment = payment == null ? PaymentTransferFragment.newInstance(banks) : PaymentTransferFragment.newInstance(payment.getTransfer(), banks);
+                    break;
+                case 3: fragment = payment == null ? PaymentCashFragment.newInstance() : PaymentCashFragment.newInstance(payment.getCash());
+                    break;
+                case 4:
+                    //fragment = payment == null ? PaymentCheckFragment.newInstance(banks) : PaymentCheckFragment.newInstance(payment.getChecks());
+                    break;
+                default:
+                    fragment = null;
+            }
+
+            return fragment;
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return fragments.size();
+            return count;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Fragment fragment = fragments.get(position);
+            /*Fragment fragment = fragments.get(position);
             String title = "";
             if(fragment instanceof PaymentGeneralFragment){
                 title = "General";
@@ -351,6 +381,21 @@ public class PaymentMainFragment extends Fragment {
             }
             else{
                 title = "";
+            }*/
+
+            String title = "";
+
+            switch (position){
+                case 0:  title = "General";
+                    break;
+                case 1: title = "Factura";
+                    break;
+                case 2: title = "Transferencia";
+                    break;
+                case 3: title = "Efectivo";
+                    break;
+                case 4: title = "Cheque";
+                    break;
             }
 
             return title;

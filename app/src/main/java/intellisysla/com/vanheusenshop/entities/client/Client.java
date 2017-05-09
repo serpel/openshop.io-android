@@ -63,9 +63,7 @@ public class Client implements Serializable {
     }
 
     public String getName() {
-        if(name!=null)
-            return name;
-        return "";
+        return name;
     }
 
     public void setName(String name) {

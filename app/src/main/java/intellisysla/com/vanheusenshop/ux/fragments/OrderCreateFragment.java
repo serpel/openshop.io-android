@@ -2,6 +2,7 @@ package intellisysla.com.vanheusenshop.ux.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -37,8 +39,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
@@ -83,7 +88,7 @@ public class OrderCreateFragment extends Fragment {
     private TextView orderTotalPriceTv;
 
     private Cart cart;
-    private EditText commentEditText;
+    private EditText commentEditText, deliveryDateEdit;
 
     private TextView summaryText;
     private GsonRequest<Order> postOrderRequest;
@@ -92,6 +97,7 @@ public class OrderCreateFragment extends Fragment {
 
     private UserSpinnerAdapter userSpinnerAdapter;
     private User selectedSeller = null;
+    private Calendar myCalendar;
 
 
     @Override
@@ -111,6 +117,36 @@ public class OrderCreateFragment extends Fragment {
         discountTextView = (TextView) view.findViewById(R.id.order_create_discount);
         isvTexView = (TextView) view.findViewById(R.id.order_create_isv);
         summaryText = (TextView) view.findViewById(R.id.order_create_summary_text);
+        deliveryDateEdit = (EditText) view.findViewById(R.id.order_create_delivery_date);
+
+        myCalendar = Calendar.getInstance();
+        String myFormat = "yyyy/MM/dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        deliveryDateEdit.setText(sdf.format(myCalendar.getTime()));
+
+        deliveryDateEdit.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                new DatePickerDialog(getContext(),
+                        R.style.MyDatePicker,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                                String myFormat = "yyyy/MM/dd";
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                deliveryDateEdit.setText(sdf.format(myCalendar.getTime()));
+                            }
+                        },
+                        myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH)-1,
+                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                ).show();
+            }
+        });
 
         SharedPreferences prefs = getSettings();
         String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "" );
@@ -136,6 +172,7 @@ public class OrderCreateFragment extends Fragment {
 
                 //TODO: Fix Seller Selection
                 Order order = new Order();
+                order.setDeliveryDate(deliveryDateEdit.getText().toString());
                 order.setComment(commentEditText.getText().toString());
                 v.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

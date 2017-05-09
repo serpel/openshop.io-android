@@ -142,6 +142,7 @@ public class GridMenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Timber.d("onReportsButonClick");
+                ((MainActivity)getActivity()).onReportSelected();
             }
         });
 

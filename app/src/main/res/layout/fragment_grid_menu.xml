@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Perfil"
+                    android:text="@string/Profile"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Inventario"
+                    android:text="@string/Inventory"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Sign Out"
+                    android:text="@string/Log_out"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Clientes"
+                    android:text="@string/Clients"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -162,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Reportes"
+                    android:text="@string/Stats"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -175,7 +175,7 @@
                     android:layout_marginStart="5dp"
                     android:background="@color/colorOrange"
                     android:padding="3dp"
-                    android:text="@string/Zero"
+                    android:text="@string/OneNumber"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>

@@ -33,24 +33,7 @@
             android:textStyle="bold"
             android:text="ABARROTERIA POPULAR" />
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="12sp"
-            android:text="FOLIO" />
-
-        <EditText
-            android:id="@+id/payment_general_folio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:inputType="text"
-            android:textSize="12sp"
-            android:text="" />
-
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -67,9 +50,9 @@
             android:textSize="12sp"
             android:visibility="visible"
             android:inputType="text"
-            tools:text="" />
+            tools:text="" />-->
 
-        <TextView
+        <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
@@ -83,7 +66,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
-            android:text="" />
+            android:text="" />-->
 
         <TextView
             android:layout_width="match_parent"
@@ -96,10 +79,11 @@
         <EditText
             android:id="@+id/payment_general_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
             android:inputType="textMultiLine"
+            android:lines="5"
             android:text="" />
 
         <LinearLayout

@@ -17,7 +17,7 @@
         tools:text="125364"/>
 
     <TextView
-        android:id="@+id/payment_history_seller"
+        android:id="@+id/payment_history_status"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.30"

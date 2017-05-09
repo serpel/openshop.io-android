@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import intellisysla.com.vanheusenshop.R;
+import intellisysla.com.vanheusenshop.entities.payment.Cash;
 import intellisysla.com.vanheusenshop.ux.MainActivity;
 
 /**
@@ -31,9 +32,11 @@ public class PaymentCashFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private final static String ARG_CASH = "cash";
 
     private EditText amountEdit;
     private TextView mainAmountEdit;
+    private Cash cash;
 
     public double cashValue = 0;
 
@@ -47,6 +50,14 @@ public class PaymentCashFragment extends Fragment {
     public static PaymentCashFragment newInstance() {
         PaymentCashFragment fragment = new PaymentCashFragment();
         Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static PaymentCashFragment newInstance(Cash cash) {
+        PaymentCashFragment fragment = new PaymentCashFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CASH, cash);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,6 +91,16 @@ public class PaymentCashFragment extends Fragment {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+
+        Bundle args = getArguments();
+
+        if(args != null){
+            cash = (Cash) args.getSerializable(ARG_CASH);
+
+            if(cash != null){
+                amountEdit.setText(String.valueOf(cash.getAmount()));
+            }
+        }
 
         return view;
     }

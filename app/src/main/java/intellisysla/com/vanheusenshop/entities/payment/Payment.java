@@ -2,6 +2,7 @@ package intellisysla.com.vanheusenshop.entities.payment;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,7 +12,8 @@ import intellisysla.com.vanheusenshop.entities.client.Client;
  * Created by alienware on 3/29/2017.
  */
 
-public class Payment {
+public class Payment implements Serializable {
+
     @SerializedName("id")
     private int id;
     private String vendor;
@@ -19,19 +21,18 @@ public class Payment {
     private String docEntry;
     @SerializedName("total")
     private Double totalPaid;
-
+    @SerializedName("last_error")
     private String lastError;
-
+    private String comment;
     private Date date;
-
-    @SerializedName("client")
     private Client client;
-    @SerializedName("cash")
     private Cash cash;
-    @SerializedName("transfer")
     private Transfer transfer;
-    @SerializedName("checks")
     private ArrayList<CheckPayment> checks;
+    private ArrayList<InvoiceItem> invoices;
+    private int status;
+    @SerializedName("status_text")
+    private String statusText;
 
     public Payment() {}
 
@@ -47,6 +48,38 @@ public class Payment {
         this.cash = cash;
         this.transfer = transfer;
         this.checks = checks;
+    }
+
+    public String getStatusText() {
+        return statusText;
+    }
+
+    public void setStatusText(String statusText) {
+        this.statusText = statusText;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public ArrayList<InvoiceItem> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(ArrayList<InvoiceItem> invoices) {
+        this.invoices = invoices;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getId() {

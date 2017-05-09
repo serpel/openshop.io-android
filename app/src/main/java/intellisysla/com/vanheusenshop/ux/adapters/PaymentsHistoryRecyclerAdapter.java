@@ -52,16 +52,9 @@ public class PaymentsHistoryRecyclerAdapter extends RecyclerView.Adapter<Payment
         holder.bindContent(payment);
 
         holder.paymentIdTv.setText(String.valueOf(payment.getId()));
-        if(payment.getVendor()!=null)
-            holder.sellerTv.setText(String.valueOf(payment.getVendor()));
+        holder.statusTv.setText(String.valueOf(payment.getStatus()));
         holder.docEntryTv.setText(String.valueOf(payment.getClient().getName()));
         holder.totalPayedTv.setText(String.valueOf(payment.getTotalPaid()));
-
-        /*
-        holder.paymentSAPId.setText(payment.getRemoteId());
-        holder.paymentDateCreatedTv.setText(payment.getDateCreated());
-        holder.paymentTotalPriceTv.setText(payment.getTotalFormatted());
-        */
     }
 
     private Payment getPaymentItem(int position) {
@@ -93,7 +86,7 @@ public class PaymentsHistoryRecyclerAdapter extends RecyclerView.Adapter<Payment
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView paymentIdTv;
-        private TextView sellerTv;
+        private TextView statusTv;
         private TextView docEntryTv;
         private TextView totalPayedTv;
 
@@ -102,21 +95,16 @@ public class PaymentsHistoryRecyclerAdapter extends RecyclerView.Adapter<Payment
         public ViewHolder(View itemView, final PaymentsRecyclerInterface paymentsRecyclerInterface) {
             super(itemView);
             paymentIdTv = (TextView) itemView.findViewById(R.id.payment_history_id);
-            sellerTv = (TextView) itemView.findViewById(R.id.payment_history_seller);
+            statusTv = (TextView) itemView.findViewById(R.id.payment_history_status);
             docEntryTv = (TextView) itemView.findViewById(R.id.payment_history_client);
             totalPayedTv = (TextView) itemView.findViewById(R.id.payment_history_total_payed);
-            /*
-            paymentSAPId = (TextView) itemView.findViewById(R.id.payment_history_item_sap_id);
-            paymentDateCreatedTv = (TextView) itemView.findViewById(R.id.payment_history_item_dateCreated);
-            paymentTotalPriceTv = (TextView) itemView.findViewById(R.id.payment_history_item_totalPrice);
-            //paymentCountTv = (TextView) itemView.findViewById(R.id.payment_history_item_count);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    paymentsRecyclerInterface.onPaymentSelected(v, payment);
+                    //paymentsRecyclerInterface.onPaymentSelected(v, payment);
                 }
             });
-            */
         }
 
         public void bindContent(Payment payment) {

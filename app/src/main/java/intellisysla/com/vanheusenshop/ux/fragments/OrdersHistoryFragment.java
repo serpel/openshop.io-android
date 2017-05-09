@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -34,6 +35,7 @@ import intellisysla.com.vanheusenshop.entities.User.User;
 import intellisysla.com.vanheusenshop.entities.order.Order;
 import intellisysla.com.vanheusenshop.entities.order.OrderResponse;
 import intellisysla.com.vanheusenshop.interfaces.OrdersRecyclerInterface;
+import intellisysla.com.vanheusenshop.listeners.OnSingleClickListener;
 import intellisysla.com.vanheusenshop.utils.EndlessRecyclerScrollListener;
 import intellisysla.com.vanheusenshop.utils.MsgUtils;
 import intellisysla.com.vanheusenshop.utils.RecyclerMarginDecorator;
@@ -54,7 +56,7 @@ public class OrdersHistoryFragment extends Fragment {
     private View empty;
     private View content;
     private EditText beginEdit, endEdit;
-    private Calendar myCalendar = Calendar.getInstance();
+    private Button searchButton;
 
     /**
      * Request metadata containing urls for endlessScroll.
@@ -83,8 +85,17 @@ public class OrdersHistoryFragment extends Fragment {
         content = view.findViewById(R.id.order_history_content);
         beginEdit = (EditText) view.findViewById(R.id.order_history_begin);
         endEdit = (EditText) view.findViewById(R.id.order_history_end);
+        searchButton = (Button) view.findViewById(R.id.order_history_okButton);
 
-        myCalendar = Calendar.getInstance();
+        searchButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                loadOrders(null);
+            }
+        });
+
+        final Calendar beginCalendar = Calendar.getInstance();
+        final Calendar endCalendar = Calendar.getInstance();
 
         beginEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,18 +105,18 @@ public class OrdersHistoryFragment extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year,int monthOfYear, int dayOfMonth) {
-                                myCalendar.set(Calendar.YEAR, year);
-                                myCalendar.set(Calendar.MONTH, monthOfYear);
-                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                beginCalendar.set(Calendar.YEAR, year);
+                                beginCalendar.set(Calendar.MONTH, monthOfYear);
+                                beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                                 String myFormat = "yyyy/MM/dd";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                beginEdit.setText(sdf.format(myCalendar.getTime()));
+                                beginEdit.setText(sdf.format(beginCalendar.getTime()));
                             }
                         },
-                        myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH)-1,
-                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                        beginCalendar.get(Calendar.YEAR),
+                        beginCalendar.get(Calendar.MONTH),
+                        beginCalendar.get(Calendar.DAY_OF_MONTH)
                 ).show();
             }
         });
@@ -118,24 +129,23 @@ public class OrdersHistoryFragment extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                                myCalendar.set(Calendar.YEAR, year);
-                                myCalendar.set(Calendar.MONTH, monthOfYear);
-                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                endCalendar.set(Calendar.YEAR, year);
+                                endCalendar.set(Calendar.MONTH, monthOfYear);
+                                endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                                 String myFormat = "yyyy/MM/dd";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                endEdit.setText(sdf.format(myCalendar.getTime()));
+                                endEdit.setText(sdf.format(endCalendar.getTime()));
                             }
                         },
-                        myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH)+2,
-                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                        endCalendar.get(Calendar.YEAR),
+                        endCalendar.get(Calendar.MONTH),
+                        endCalendar.get(Calendar.DAY_OF_MONTH)
                 ).show();
             }
         });
 
         prepareOrdersHistoryRecycler(view);
-
         loadOrders(null);
         return view;
     }
@@ -164,11 +174,11 @@ public class OrdersHistoryFragment extends Fragment {
         endlessRecyclerScrollListener = new EndlessRecyclerScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                if (ordersMetadata != null && ordersMetadata.getLinks() != null && ordersMetadata.getLinks().getNext() != null) {
+                /*if (ordersMetadata != null && ordersMetadata.getLinks() != null && ordersMetadata.getLinks().getNext() != null) {
                     loadOrders(ordersMetadata.getLinks().getNext());
                 } else {
                     Timber.d("CustomLoadMoreDataFromApi NO MORE DATA");
-                }
+                }*/
             }
         };
         ordersRecycler.addOnScrollListener(endlessRecyclerScrollListener);
@@ -183,8 +193,8 @@ public class OrdersHistoryFragment extends Fragment {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             progressDialog.show();
+            ordersHistoryRecyclerAdapter.clear();
             if (url == null) {
-                ordersHistoryRecyclerAdapter.clear();
                 //url = String.format(EndPoints.ORDERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
                 url = String.format(EndPoints.ORDERS, user.getId());
             }
@@ -194,13 +204,13 @@ public class OrdersHistoryFragment extends Fragment {
                     ordersMetadata = response.getMetadata();
                     ordersHistoryRecyclerAdapter.addOrders(response.getOrders());
 
-                    if (ordersHistoryRecyclerAdapter.getItemCount() > 0) {
+                    /*if (ordersHistoryRecyclerAdapter.getItemCount() > 0) {
                         empty.setVisibility(View.GONE);
                         content.setVisibility(View.VISIBLE);
                     } else {
                         empty.setVisibility(View.VISIBLE);
                         content.setVisibility(View.GONE);
-                    }
+                    }*/
                     if (progressDialog != null) progressDialog.cancel();
                 }
             }, new Response.ErrorListener() {

@@ -3,6 +3,7 @@ package intellisysla.com.vanheusenshop.entities.client;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by alienware on 2/1/2017.
@@ -26,8 +27,17 @@ public class Document implements Serializable {
     private int overdueDays;
     @SerializedName("doc_entry")
     private int docEntry;
+    private List<DocumentItem> items;
 
     public Document(){}
+
+    public List<DocumentItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<DocumentItem> items) {
+        this.items = items;
+    }
 
     public int getDocEntry() {
         return docEntry;

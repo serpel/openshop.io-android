@@ -103,6 +103,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.PaymentsHistoryFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.SettingsFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.StatsFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.WishlistFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentCheckFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
@@ -710,6 +711,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
      * Method clear fragment backStack (back history). On bottom of stack will remain Fragment added by {@link #addInitialFragment()}.
      */
     private void clearBackStack() {
+
         Timber.d("Clearing backStack");
         FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
@@ -844,9 +846,9 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     }
 
     public void onOpenClientFragment() {
-
         Timber.d("onOpenClientFragment");
 
+        clearBackStack();
         Fragment fragment = ClientsFragment.newInstance();
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
@@ -880,10 +882,23 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, AccountFragment.class.getSimpleName());
     }
 
+    public void onReportSelected() {
+
+        Timber.d("onReportSelected");
+
+        StatsFragment fragment = new StatsFragment();
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+
+        replaceFragment(fragment, StatsFragment.class.getSimpleName());
+    }
+
     public void onClientSelected(String card_code) {
 
         Timber.d("OnClientOptionSelected card_code: %s", card_code);
-
+        clearBackStack();
         Fragment fragment = DocumentsFragment.newInstance(card_code);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
@@ -895,6 +910,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
         Timber.d("OnClientOptionSelected card_code: %s", card_code);
 
+        clearBackStack();
         Fragment fragment = DocumentsFragment.newInstance(card_code);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
@@ -1027,8 +1043,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
     public void onPaymentSelected(Payment payment) {
         if (payment != null) {
-            //Fragment fragment = PaymentFragment.newInstance(payment.getId());
-            //replaceFragment(fragment, PaymentFragment.class.getSimpleName());
+            Fragment fragment = PaymentMainFragment.newInstance(payment);
+            replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
         } else {
             Timber.e("Creating payment detail with null data.");
         }
@@ -1040,11 +1056,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         if (drawerFragment == null || !drawerFragment.onBackHide()) {
             // If app should be finished or some fragment transaction still remains on backStack, let the system do the job.
             if (getSupportFragmentManager().getBackStackEntryCount() > 0 || isAppReadyToFinish) {
-
-                int count = getSupportFragmentManager().getBackStackEntryCount() - 1;
-                if(getSupportFragmentManager().getBackStackEntryAt(count) instanceof ProductMatrixFragment){
-                    Toast.makeText(this, "le dio back", Toast.LENGTH_LONG).show();
-                }
                 super.onBackPressed();
             }else {
                 // BackStack is empty. For closing the app user have to tap the back button two times in two seconds.
