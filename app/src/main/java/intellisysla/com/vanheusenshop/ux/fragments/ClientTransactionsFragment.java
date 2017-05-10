@@ -163,8 +163,7 @@ public class ClientTransactionsFragment extends Fragment {
             }
         });
 
-        preparePaymentsHistoryRecycler(view);
-
+        prepareClientTransactionsRecycler(view);
         loadTransactions(null);
         return view;
     }
@@ -174,7 +173,7 @@ public class ClientTransactionsFragment extends Fragment {
      *
      * @param view root fragment view.
      */
-    private void preparePaymentsHistoryRecycler(View view) {
+    private void prepareClientTransactionsRecycler(View view) {
         transactionsRecycler = (RecyclerView) view.findViewById(R.id.client_transaction_history_recycler);
         transactionsRecyclerAdapter = new ClientTransactionsRecyclerAdapter(new ClientTransactionsRecyclerInterface() {
             @Override
@@ -199,16 +198,15 @@ public class ClientTransactionsFragment extends Fragment {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             progressDialog.show();
+            transactionsRecyclerAdapter.clear();
             SharedPreferences prefs = getSettings();
             String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "");
             if (url == null) {
                 url = String.format(EndPoints.CLIENT_TRANSACTIONS, card_code, beginEdit.getText().toString(),endEdit.getText().toString());
             }
-            transactionsRecyclerAdapter.clear();
             GsonRequest<ClientTransactionsResponse> req = new GsonRequest<>(Request.Method.GET, url, null, ClientTransactionsResponse.class, new Response.Listener<ClientTransactionsResponse>() {
                 @Override
                 public void onResponse(ClientTransactionsResponse response) {
-                    //paymentsMetadata = response.getMetadata();
                     transactionsRecyclerAdapter.addPayments(response.getTransactions());
 
                     if (progressDialog != null) progressDialog.cancel();

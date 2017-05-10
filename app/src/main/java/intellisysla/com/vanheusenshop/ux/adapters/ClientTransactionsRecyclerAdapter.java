@@ -65,7 +65,7 @@ public class ClientTransactionsRecyclerAdapter extends RecyclerView.Adapter<Clie
 
     public void addPayments(List<ClientTransactions> transactions) {
         if (transactions != null && !transactions.isEmpty()) {
-            transactions.addAll(transactions);
+            this.transactions.addAll(transactions);
             notifyDataSetChanged();
         } else {
             Timber.e("Adding empty transactions list.");
