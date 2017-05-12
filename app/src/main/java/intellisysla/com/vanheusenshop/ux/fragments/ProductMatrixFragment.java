@@ -461,7 +461,7 @@ public class ProductMatrixFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
 
             SharedPreferences prefs = getSettings();
-            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, null);
+            card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, null);
 
             if(card_code != null){
 
