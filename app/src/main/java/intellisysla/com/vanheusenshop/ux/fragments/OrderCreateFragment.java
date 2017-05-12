@@ -73,6 +73,7 @@ import intellisysla.com.vanheusenshop.ux.dialogs.OrderCreateSuccessDialogFragmen
 import timber.log.Timber;
 
 import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED;
+import static intellisysla.com.vanheusenshop.SettingsMy.PREF_CLIENT_NAME_SELECTED;
 import static intellisysla.com.vanheusenshop.SettingsMy.getSettings;
 
 /**
@@ -150,7 +151,8 @@ public class OrderCreateFragment extends Fragment {
 
         SharedPreferences prefs = getSettings();
         String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "" );
-        summaryText.setText(getString(R.string.Summary) + " - " + getString(R.string.Customer) + ": " + card_code);
+        String name = prefs.getString(PREF_CLIENT_NAME_SELECTED, "");
+        summaryText.setText(getString(R.string.Summary) + " - " + getString(R.string.Customer) + ": " + card_code + " - " + name);
 
         orderTotalPriceTv = (TextView) view.findViewById(R.id.order_create_summary_total_price);
         TextView termsAndConditionsTv = (TextView) view.findViewById(R.id.order_create_summary_terms_and_condition);

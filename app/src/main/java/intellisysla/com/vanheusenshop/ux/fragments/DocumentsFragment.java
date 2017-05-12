@@ -143,13 +143,6 @@ public class DocumentsFragment extends Fragment {
         documentTransactions.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                String customer = clientCode.getText().toString();
-                Timber.e("OnSelectedClienCardCode %s", customer);
-                SharedPreferences prefs = getSettings();
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, customer);
-                editor.commit();
-
                 ((MainActivity)getActivity()).onClientTransacionSelected();
             }
         });
@@ -160,29 +153,21 @@ public class DocumentsFragment extends Fragment {
             public void onClick(View view) {
 
                 String customer = clientCode.getText().toString();
-
                 Timber.e("OnSelectedClienCardCode %s", customer);
-
                 SharedPreferences prefs = getSettings();
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, customer);
+                editor.putString(SettingsMy.PREF_CLIENT_NAME_SELECTED, clientName.getText().toString());
                 editor.commit();
 
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Customer) + ": " + customer , MsgUtils.ToastLength.SHORT);
 
-                addShopFragment();
+                ((MainActivity)getActivity()).onDrawerBannersSelected();
+                //addShopFragment();
             }
         });
 
         return view;
-    }
-
-    private void addShopFragment() {
-        Fragment fragment = new BannersFragment();
-        FragmentManager frgManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_content_frame, fragment).commit();
-        frgManager.executePendingTransactions();
     }
 
     private void prepareClientRecycler(View view) {
