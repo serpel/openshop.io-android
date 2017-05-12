@@ -7,7 +7,7 @@ public class EndPoints {
      */
     //private static final String API_URL                  = "http://181.199.190.20/VanHeusenShop/api/list";    // staging
     private static final String API_URL                 = "http://77.93.198.186/v1.2/ 200.59.27.2 181.199.190.20 ";    // staging
-    private static final String API_URL2                = "http://181.199.190.20/VanShopPruebas/api/list";    // staging
+    private static final String API_URL2                = "http://181.199.190.20/VanShopVhBackend/api/list";    // staging
     //http://200.59.27.2/OpenshopBackend/
     //private static final String API_URL2                = "http://181.199.190.20/VanHeusenShop/api/list";    // staging
 

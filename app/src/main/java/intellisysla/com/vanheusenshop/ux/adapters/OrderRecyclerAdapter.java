@@ -241,20 +241,9 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             order_create_seller = (TextView) headerView.findViewById(R.id.order_create_seller);
             order_comment = (TextView) headerView.findViewById(R.id.order_comment);
             order_status = (TextView) headerView.findViewById(R.id.order_history_status);
-
             order_create_summary_text = (TextView) headerView.findViewById(R.id.order_create_summary_text);
-
             order_create_cart_items_layout = (LinearLayout) headerView.findViewById(R.id.order_create_cart_items_layout);
-
             deliveryProgressBar = (ProgressBar) headerView.findViewById(R.id.delivery_progress);
-
-            /*
-            orderId = (TextView) headerView.findViewById(R.id.list_item_order_header_id);
-            orderName = (TextView) headerView.findViewById(R.id.list_item_order_header_name);
-            orderDateCreated = (TextView) headerView.findViewById(R.id.list_item_order_header_dateCreated);
-            orderTotal = (TextView) headerView.findViewById(R.id.list_item_order_header_total);
-            orderStatus = (TextView) headerView.findViewById(R.id.list_item_order_status);
-            */
             orderResend = (Button) headerView.findViewById(R.id.order_resend);
             orderPrint = (Button) headerView.findViewById(R.id.order_print);
 

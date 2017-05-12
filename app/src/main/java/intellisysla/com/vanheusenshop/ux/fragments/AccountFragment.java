@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import intellisysla.com.vanheusenshop.BuildConfig;
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
 import intellisysla.com.vanheusenshop.R;
@@ -47,6 +48,7 @@ public class AccountFragment extends Fragment {
     private TextView tvEmail;
     private Button backButton;
     private Button myPayments;
+    private TextView tvVersion;
 
     // Actions
     private Button myOrdersBtn;
@@ -64,6 +66,7 @@ public class AccountFragment extends Fragment {
         userInfoLayout = (LinearLayout) view.findViewById(R.id.account_user_info);
         tvUserName = (TextView) view.findViewById(R.id.account_name);
         tvEmail = (TextView) view.findViewById(R.id.account_email);
+        tvVersion = (TextView) view.findViewById(R.id.account_app_version);
         backButton = (Button) view.findViewById(R.id.account_back);
 
         myOrdersBtn = (Button) view.findViewById(R.id.account_my_orders);
@@ -84,6 +87,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        tvVersion.setText(BuildConfig.VERSION_NAME);
 
         Button settingsBtn = (Button) view.findViewById(R.id.account_settings);
         settingsBtn.setOnClickListener(new View.OnClickListener() {

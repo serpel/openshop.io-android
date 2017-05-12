@@ -117,7 +117,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/DueDate"
+                        android:text="@string/ShippingDate"
                         android:textAllCaps="true"
                         android:textColor="@color/textBlack"
                         android:textSize="14sp"
@@ -128,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:hint="@string/DueDate"
+                        android:hint="@string/ShippingDate"
                         android:inputType="date"
                         android:nextFocusForward="@+id/order_create_street"
                         android:singleLine="true"

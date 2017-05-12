@@ -33,6 +33,7 @@ public class Order {
     private Client client;
     private String seller;
     private String comment;
+    @SerializedName("delivery_date")
     private String deliveryDate;
 
     @SerializedName("sales_person_code")

@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/SubTotal"
+                    android:text="@string/Total"
                     android:textColor="@color/textSecondary"
                     android:textSize="13sp"/>
             </LinearLayout>

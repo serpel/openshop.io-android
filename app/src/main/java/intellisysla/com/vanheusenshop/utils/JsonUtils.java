@@ -48,6 +48,7 @@ public class JsonUtils {
     public static final String TAG_CARD_CODE = "card_code";
     public static final String TAG_SALES_PERSON_CODE = "sales_person_code";
     public static final String TAG_SERIES = "series";
+    public static final String TAG_DELIVERY_DATE = "delivery_date";
 
     private JsonUtils() {}
 
@@ -59,18 +60,11 @@ public class JsonUtils {
      */
     public static JSONObject createOrderJson(Order order) throws JSONException {
         JSONObject jo = new JSONObject();
-
         jo.put(TAG_SALES_PERSON_CODE, order.getSalesPersonCode());
         jo.put(TAG_SERIES, order.getSeries());
-
-        if(order.getCardCode() != null){
-            jo.put(TAG_CARD_CODE, order.getCardCode());
-        }
-
-        if (order.getComment() != null) {
-            jo.put(TAG_COMMENT, order.getComment());
-        }
-
+        jo.put(TAG_CARD_CODE, order.getCardCode());
+        jo.put(TAG_COMMENT, order.getComment());
+        jo.put(TAG_DELIVERY_DATE, order.getDeliveryDate());
         Timber.d("JSONParser postOrder: %s", jo.toString());
         return jo;
     }

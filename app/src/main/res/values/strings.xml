@@ -303,6 +303,7 @@
     <string name="Type">Type</string>
     <string name="Description">Description</string>
     <string name="ClientTransactions">Client Transactions</string>
+    <string name="ShippingDate">Shipping Date</string>
 
 
 </resources>

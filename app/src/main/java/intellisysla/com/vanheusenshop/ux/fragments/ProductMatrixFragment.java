@@ -367,49 +367,6 @@ public class ProductMatrixFragment extends Fragment {
         MainActivity.setActionBarTitle("");
     }
 
-    /*public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-
-        private List<Fragment> fragments;
-        private List<ProductMatrixView> pages;
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-            pages = new ArrayList<>();
-            fragments = new ArrayList<>();
-        }
-
-        public void setFragments(List<Fragment> fragments) {
-            this.fragments = fragments;
-        }
-
-        public void setPages(List<ProductMatrixView> pages) {
-            this.pages = pages;
-        }
-
-        public void updateView(){
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return fragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return pages.get(position).getSize().getValue();
-        }
-    }*/
-
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<ProductMatrixView> pages;
@@ -452,27 +409,34 @@ public class ProductMatrixFragment extends Fragment {
 
 
     private class FragmentPostToCartAsyncTask extends AsyncTask<Void, Void, Void>{
+
+        String card_code = null;
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
             Timber.d("Finished FragmentPostToCartTask");
 
-            String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
-            Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
-                    .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-                    .setAction(R.string.Go_to_cart, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (getActivity() instanceof MainActivity)
-                                ((MainActivity) getActivity()).onCartSelected();
-                        }
-                    });
-            TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.WHITE);
-            snackbar.show();
+            if(card_code != null) {
+                String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
+                Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
+                        .setAction(R.string.Go_to_cart, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (getActivity() instanceof MainActivity)
+                                    ((MainActivity) getActivity()).onCartSelected();
+                            }
+                        });
+                TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.WHITE);
+                snackbar.show();
 
-            MainActivity.updateCartCountNotification();
+                MainActivity.updateCartCountNotification();
+            }else{
+                messageDialog("Debes seleccionar cliente antes de usar el carrito");
+            }
         }
 
         private void messageDialog(String message){
@@ -497,11 +461,9 @@ public class ProductMatrixFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
 
             SharedPreferences prefs = getSettings();
-            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "");
+            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, null);
 
-            if(card_code.isEmpty()){
-                messageDialog("Debes seleccionar cliente antes de usar el carrito");
-            }else {
+            if(card_code != null){
 
                 User user = SettingsMy.getActiveUser();
                 if (user != null) {
@@ -514,7 +476,6 @@ public class ProductMatrixFragment extends Fragment {
                     ((MainActivity)getActivity()).clearElements();
                 }
             }
-
             return null;
         }
     }

@@ -182,7 +182,7 @@
     <string name="format_comma_prefix">, %1$s</string>
     <string name="format_string_division">%1$s / %2$s</string>
     <string name="format_quantity">%1$d u</string>
-    <string name="format_quantity_lines">%1$d Articulos</string>
+    <string name="format_quantity_lines">%1$d Lineas</string>
     <string name="format_string_quantity">%1$s %2$dx</string>
     <string name="format_plus">+ %1$s</string>
     <string name="format_number">%1$d</string>
@@ -271,6 +271,6 @@
     <string name="Type">Tipo</string>
     <string name="Description">Descripcion</string>
     <string name="ClientTransactions">Transacciones</string>
-
+    <string name="ShippingDate">Fecha de Envio</string>
 
 </resources>
