@@ -154,20 +154,21 @@ public class DocumentsFragment extends Fragment {
 
                 String customer = clientCode.getText().toString();
                 Timber.e("OnSelectedClienCardCode %s", customer);
-                SharedPreferences prefs = getSettings();
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, customer);
-                editor.putString(SettingsMy.PREF_CLIENT_NAME_SELECTED, clientName.getText().toString());
-                editor.commit();
-
+                SaveClientOnCache();
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Customer) + ": " + customer , MsgUtils.ToastLength.SHORT);
-
                 ((MainActivity)getActivity()).onDrawerBannersSelected();
-                //addShopFragment();
             }
         });
 
         return view;
+    }
+
+    private void SaveClientOnCache(){
+        SharedPreferences prefs = getSettings();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(SettingsMy.PREF_CLIENT_CARD_CODE_SELECTED, clientCode.getText().toString());
+        editor.putString(SettingsMy.PREF_CLIENT_NAME_SELECTED, clientName.getText().toString());
+        editor.commit();
     }
 
     private void prepareClientRecycler(View view) {
