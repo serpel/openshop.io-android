@@ -1,6 +1,7 @@
 package intellisysla.com.vanheusenshop.ux.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,37 +69,49 @@ public class StatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Timber.d("%s - onCreateView", this.getClass().getSimpleName());
         MainActivity.setActionBarTitle(getString(R.string.Stats));
-
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
         progressView = (ProgressBar) view.findViewById(R.id.stats_progress);
-        quotaTextView = (TextView) view.findViewById(R.id.stats_quota);
-        quotaAcumTextView = (TextView) view.findViewById(R.id.stats_quota_acum);
+        //quotaTextView = (TextView) view.findViewById(R.id.stats_quota);
+        //quotaAcumTextView = (TextView) view.findViewById(R.id.stats_quota_acum);
+        //invoicedTextView = (TextView) view.findViewById(R.id.stats_invoiced);
         chart = (PieChart) view.findViewById(R.id.stats_chart);
+        //chart.setUsePercentValues(true);
+        chart.getDescription().setText("Cuota de Venta");
+        chart.setDragDecelerationFrictionCoef(0.95f);
+        chart.setDrawHoleEnabled(true);
+        chart.setHoleColor(Color.WHITE);
+        chart.setTransparentCircleColor(Color.WHITE);
+        chart.setTransparentCircleAlpha(110);
 
-        FillChart();
+        chart.setHoleRadius(58f);
+        chart.setTransparentCircleRadius(61f);
 
+        chart.setDrawCenterText(true);
+        chart.setRotationAngle(0);
+
+        FillChart(view);
         return view;
     }
 
-    private void FillChart(){
+    private void FillChart(View view){
 
         List<PieEntry> entries = new ArrayList<>();
-        PieEntry x = new PieEntry(120000);
-        x.setLabel(getString(R.string.Invoiced));
 
-        PieEntry y = new PieEntry(155000);
-        y.setLabel(getString(R.string.Quota));
-
-        entries.add(x);
-        entries.add(y);
+        entries.add(new PieEntry(70000, "Cuota", 0));
+        entries.add(new PieEntry(80000, "Ventas", 1));
 
         PieDataSet dataSet = new PieDataSet(entries, getString(R.string.Chart));
+        dataSet.setValueTextSize(12f);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.notifyDataSetChanged();
+        //dataSet.setColor(R.color.com_facebook_blue);
+        //dataSet.setValueTextColor(R.color.white);
 
-        PieData d = new PieData();
-        d.addDataSet(dataSet);
-        chart.setData(d);
+        PieData pieData = new PieData(dataSet);
+        //chart.setDescription("213");
+        chart.setData(pieData);
+        chart.notifyDataSetChanged();
         chart.invalidate();
 
         progressView.setVisibility(View.GONE);

@@ -207,7 +207,7 @@ public class GridMenuFragment extends Fragment {
         if(mainMenu != null){
             clientCountText.setText(String.valueOf(mainMenu.getClientsCount()));
             inventoryCountText.setText(String.valueOf(mainMenu.getProductsCount()));
-            reportsCountText.setText(String.valueOf(mainMenu.getReportsCount()));
+            //reportsCountText.setText(String.valueOf(mainMenu.getReportsCount()));
         }
     }
 

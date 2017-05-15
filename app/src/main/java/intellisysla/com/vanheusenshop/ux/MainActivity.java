@@ -887,7 +887,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
         Timber.d("onReportSelected");
 
-        StatsFragment fragment = new StatsFragment();
+        StatsFragment fragment = StatsFragment.newInstance();
 
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));

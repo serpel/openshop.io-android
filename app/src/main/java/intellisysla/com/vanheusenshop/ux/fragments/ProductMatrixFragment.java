@@ -441,6 +441,8 @@ public class ProductMatrixFragment extends Fragment {
 
         private void messageDialog(String message){
 
+            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, message, MsgUtils.ToastLength.LONG);
+
             AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
             builder1.setMessage(message);
             builder1.setCancelable(true);
