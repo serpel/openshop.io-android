@@ -69,7 +69,7 @@
                             android:layout_marginTop="0dp">
 
                             <TextView
-                                android:id="@+id/product_stock_label"
+                                android:id="@+id/quota_accum_invoice_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="6dp"
@@ -78,12 +78,12 @@
                                 tools:text="Facturado"/>
 
                             <TextView
-                                android:id="@+id/stats_invoiced"
+                                android:id="@+id/quota_accum_invoiced"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="6dp"
-                                android:layout_toEndOf="@+id/product_stock_label"
-                                android:layout_toRightOf="@+id/product_stock_label"
+                                android:layout_toEndOf="@+id/quota_accum_invoice_label"
+                                android:layout_toRightOf="@+id/quota_accum_invoice_label"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
@@ -102,28 +102,27 @@
                         android:paddingTop="0dp">
 
                         <RelativeLayout
-                            android:id="@+id/product_season_details"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp">
 
                             <TextView
-                                android:id="@+id/product_season_label"
+                                android:id="@+id/quota_accum_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="6dp"
                                 android:textSize="15sp"
                                 android:visibility="visible"
-                                android:text="Cuota del mes"
-                                tools:text="Cuora del Mes"/>
+                                android:text="@string/QuotaMonthAccum"
+                                tools:text="@string/QuotaMonthAccum"/>
 
                             <TextView
-                                android:id="@+id/stats_quota"
+                                android:id="@+id/quota_accum"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="6dp"
-                                android:layout_toEndOf="@+id/product_season_label"
-                                android:layout_toRightOf="@+id/product_season_label"
+                                android:layout_toEndOf="@+id/quota_accum_label"
+                                android:layout_toRightOf="@+id/quota_accum_label"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
@@ -148,33 +147,33 @@
                             android:layout_marginTop="0dp">
 
                             <TextView
-                                android:id="@+id/report_quota_month_label"
+                                android:id="@+id/report_quota_accum_week_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
                                 android:textSize="15sp"
                                 android:visibility="visible"
-                                android:text="Mes"
-                                tools:text="Mes"/>
+                                android:text="@string/Week"
+                                tools:text="@string/Week"/>
 
                             <ImageButton
-                                android:id="@+id/report_quota_minus"
+                                android:id="@+id/report_quota_accum_minus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"
                                 android:layout_marginLeft="12dp"
-                                android:layout_toEndOf="@+id/report_quota_month_label"
-                                android:layout_toRightOf="@+id/report_quota_month_label"
+                                android:layout_toEndOf="@+id/report_quota_accum_week_label"
+                                android:layout_toRightOf="@+id/report_quota_accum_week_label"
                                 android:src="@drawable/minus" />
 
                             <EditText
-                                android:id="@+id/report_quota_month"
+                                android:id="@+id/report_quota_accum_week"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="12dp"
                                 android:layout_marginStart="12dp"
-                                android:layout_toEndOf="@+id/report_quota_minus"
-                                android:layout_toRightOf="@+id/report_quota_minus"
+                                android:layout_toEndOf="@+id/report_quota_accum_minus"
+                                android:layout_toRightOf="@+id/report_quota_accum_minus"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
@@ -183,13 +182,13 @@
                                 tools:text="1"/>
 
                             <ImageButton
-                                android:id="@+id/report_quota_plus"
+                                android:id="@+id/report_quota_accum_plus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="12dp"
                                 android:layout_marginStart="12dp"
-                                android:layout_toEndOf="@+id/report_quota_month"
-                                android:layout_toRightOf="@+id/report_quota_month"
+                                android:layout_toEndOf="@+id/report_quota_accum_week"
+                                android:layout_toRightOf="@+id/report_quota_accum_week"
                                 android:src="@drawable/plus" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -198,8 +197,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/stats_chart"
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/quota_accum_line_chart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -210,7 +209,7 @@
     <!--</ScrollView>-->
 
     <ProgressBar
-        android:id="@+id/stats_progress"
+        android:id="@+id/quota_accum_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

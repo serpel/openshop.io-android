@@ -246,6 +246,7 @@
     <string name="Selected">Seleccionado: </string>
 
     <!-- Payment Related Strings -->
+    <string name="Stats">Estadisticas</string>
     <string name="created_date">Fecha Creacion</string>
     <string name="due_date">Vencimiento</string>
     <string name="total_amount">Total</string>
@@ -272,5 +273,8 @@
     <string name="Description">Descripcion</string>
     <string name="ClientTransactions">Transacciones</string>
     <string name="ShippingDate">Fecha de Envio</string>
-
+    <string name="QuotaMonth">Cuota Mensual</string>
+    <string name="QuotaMonthAccum">Cuota Mensual acumulada</string>
+    <string name="Week">Semana</string>
+    <string name="Fields">Campos</string>
 </resources>

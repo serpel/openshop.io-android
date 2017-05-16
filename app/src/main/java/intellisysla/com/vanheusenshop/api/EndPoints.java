@@ -55,6 +55,9 @@ public class EndPoints {
     public static final String REGISTER_NOTIFICATION    = API_URL.concat("/GetDevices");
     public static final String MAIN_MENU_BADGE_COUNT    = API_URL.concat("/GetMenuBadgeCount");
 
+    public static final String REPORT_QUOTA_PIE         = API_URL.concat("/GetReportQuota?userId=%d&year=%d&month=%d");
+    public static final String REPORT_QUOTA_ACCUM_LINEAR= API_URL.concat("/GetReportQuotaAccum?userId=%d&year=%d&week=%d");
+
 
     // Notifications parameters
     public static final String NOTIFICATION_LINK        = "link";

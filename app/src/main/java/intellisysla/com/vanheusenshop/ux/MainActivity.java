@@ -41,7 +41,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -51,7 +50,6 @@ import com.facebook.appevents.AppEventsLogger;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import intellisysla.com.vanheusenshop.BuildConfig;
@@ -73,9 +71,7 @@ import intellisysla.com.vanheusenshop.entities.drawerMenu.DrawerItemPage;
 import intellisysla.com.vanheusenshop.entities.order.Order;
 import intellisysla.com.vanheusenshop.entities.payment.Cash;
 import intellisysla.com.vanheusenshop.entities.payment.CheckPayment;
-import intellisysla.com.vanheusenshop.entities.payment.InvoiceItem;
 import intellisysla.com.vanheusenshop.entities.payment.Transfer;
-import intellisysla.com.vanheusenshop.entities.product.ProductMatrixView;
 import intellisysla.com.vanheusenshop.entities.product.ProductVariant;
 import intellisysla.com.vanheusenshop.entities.payment.Payment;
 import intellisysla.com.vanheusenshop.interfaces.LoginDialogInterface;
@@ -104,9 +100,8 @@ import intellisysla.com.vanheusenshop.ux.fragments.PaymentsHistoryFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.SettingsFragment;
-import intellisysla.com.vanheusenshop.ux.fragments.StatsFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.reports.ReportQuotaFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.WishlistFragment;
-import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentCheckFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
 import timber.log.Timber;
 
@@ -887,13 +882,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
         Timber.d("onReportSelected");
 
-        StatsFragment fragment = StatsFragment.newInstance();
+        ReportQuotaFragment fragment = ReportQuotaFragment.newInstance();
 
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
         }
 
-        replaceFragment(fragment, StatsFragment.class.getSimpleName());
+        replaceFragment(fragment, ReportQuotaFragment.class.getSimpleName());
     }
 
     public void onClientSelected(String card_code) {
