@@ -225,6 +225,7 @@
     <string name="RTN">RTN</string>
     <string name="SalesOrder">Ordern de Ventas</string>
 
+    <string name="Invoiced">Facturado</string>
     <string name="Date">Fecha</string>
     <string name="ClientCode">Codigo de Cliente</string>
     <string name="Address">Direccion</string>
@@ -277,4 +278,7 @@
     <string name="QuotaMonthAccum">Cuota Mensual acumulada</string>
     <string name="Week">Semana</string>
     <string name="Fields">Campos</string>
+    <string name="Reports">Reportes</string>
+    <string name="Target">Meta</string>
+    <string name="DailyQuota">Cuota Diaria</string>
 </resources>

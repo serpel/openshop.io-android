@@ -105,14 +105,15 @@ public class ReportQuotaAccumFragment extends Fragment {
         quotaWeek = (EditText) view.findViewById(R.id.report_quota_accum_week);
 
         quotaWeek.setText(String.valueOf(currentWeek));
-        quotaMinusButton = (ImageButton) view.findViewById(R.id.report_quota_minus);
-        quotaPlusButton = (ImageButton) view.findViewById(R.id.report_quota_plus);
+        quotaMinusButton = (ImageButton) view.findViewById(R.id.report_quota_accum_minus);
+        quotaPlusButton = (ImageButton) view.findViewById(R.id.report_quota_accum_plus);
 
         quotaMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(currentWeek > 1) {
                     quotaWeek.setText(String.valueOf(--currentWeek));
+                    c.set(Calendar.WEEK_OF_YEAR, currentWeek);
                     getData();
                 }
             }
@@ -123,6 +124,7 @@ public class ReportQuotaAccumFragment extends Fragment {
             public void onClick(View v) {
                 if(currentWeek < 52) {
                     quotaWeek.setText(String.valueOf(++currentWeek));
+                    c.set(Calendar.WEEK_OF_YEAR, currentWeek);
                     getData();
                 }
             }
@@ -132,7 +134,7 @@ public class ReportQuotaAccumFragment extends Fragment {
         lineChart.getDescription().setEnabled(false);
 
         lineChart.setDragDecelerationFrictionCoef(0.95f);
-        lineChart.animateXY(1500, 1500);
+        lineChart.animateXY(3000, 3000);
 
         getData();
         return view;
@@ -140,29 +142,39 @@ public class ReportQuotaAccumFragment extends Fragment {
 
     private void FillChart(ArrayList<ReportEntry> firstList, ArrayList<ReportEntry> secondList) {
 
+        LineData lineData = new LineData();
         List<Entry> line1 = new ArrayList<>();
         List<Entry> line2 = new ArrayList<>();
 
-        for(ReportEntry reportEntry:firstList){
-            line1.add(new Entry(reportEntry.getX(), reportEntry.getY(), reportEntry.getLabel()));
+        if(firstList != null) {
+            for (ReportEntry reportEntry : firstList) {
+                line1.add(new Entry(reportEntry.getX(), reportEntry.getY(), reportEntry.getLabel()));
+            }
+
+            if(firstList.size() > 0) {
+                LineDataSet dataSet = new LineDataSet(line1, getString(R.string.DailyQuota));
+                dataSet.setValueTextSize(10f);
+                dataSet.setColor(Color.GREEN);
+                dataSet.notifyDataSetChanged();
+                lineData.addDataSet(dataSet);
+            }
         }
 
-        for(ReportEntry reportEntry:secondList){
-            line2.add(new Entry(reportEntry.getX(), reportEntry.getY(), reportEntry.getLabel()));
+        if(secondList != null) {
+            for (ReportEntry reportEntry : secondList) {
+                line2.add(new Entry(reportEntry.getX(), reportEntry.getY(), reportEntry.getLabel()));
+            }
+
+            if(secondList.size() > 0){
+                LineDataSet dataSet1 = new LineDataSet(line2, getString(R.string.Invoiced));
+                dataSet1.setValueTextSize(10f);
+                dataSet1.setColor(Color.BLUE);
+                dataSet1.notifyDataSetChanged();
+
+                lineData.addDataSet(dataSet1);
+            }
         }
 
-        LineDataSet dataSet = new LineDataSet(line1, "");
-        dataSet.setValueTextSize(12f);
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataSet.notifyDataSetChanged();
-
-        LineDataSet dataSet1 = new LineDataSet(line2, "");
-        dataSet1.setValueTextSize(12f);
-        dataSet1.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataSet1.notifyDataSetChanged();
-
-
-        LineData lineData = new LineData(dataSet, dataSet1);
         lineChart.setData(lineData);
         lineChart.notifyDataSetChanged();
         lineChart.invalidate();
@@ -174,7 +186,7 @@ public class ReportQuotaAccumFragment extends Fragment {
 
         if(user != null) {
 
-            String url = String.format(EndPoints.REPORT_QUOTA_ACCUM_LINEAR, user.getId(), c.get(Calendar.YEAR), Integer.parseInt(quotaWeek.getText().toString()));
+            String url = String.format(EndPoints.REPORT_QUOTA_ACCUM_LINEAR, user.getId(), c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DAY_OF_MONTH));
             progressView.setVisibility(View.VISIBLE);
 
             GsonRequest<ReportEntryLineResponse> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, ReportEntryLineResponse.class,

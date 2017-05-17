@@ -100,6 +100,7 @@ import intellisysla.com.vanheusenshop.ux.fragments.PaymentsHistoryFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.ProductMatrixFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.SettingsFragment;
+import intellisysla.com.vanheusenshop.ux.fragments.reports.ReportNavigationFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.reports.ReportQuotaFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.WishlistFragment;
 import intellisysla.com.vanheusenshop.ux.fragments.payment.PaymentMainFragment;
@@ -882,13 +883,22 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
         Timber.d("onReportSelected");
 
-        ReportQuotaFragment fragment = ReportQuotaFragment.newInstance();
+        /*ReportQuotaFragment fragment = ReportQuotaFragment.newInstance();
 
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
         }
 
-        replaceFragment(fragment, ReportQuotaFragment.class.getSimpleName());
+        replaceFragment(fragment, ReportQuotaFragment.class.getSimpleName());*/
+
+
+        Fragment fragment = ReportNavigationFragment.newInstance();
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+
+        replaceFragment(fragment, ReportNavigationFragment.class.getSimpleName());
     }
 
     public void onClientSelected(String card_code) {

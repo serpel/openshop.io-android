@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class ReportEntryLineResponse {
 
-    @SerializedName("firstline")
+    @SerializedName("firstlist")
     private ArrayList<ReportEntry> firstLine;
-    @SerializedName("secondline")
+    @SerializedName("secondlist")
     private ArrayList<ReportEntry> secondLine;
 
     public ReportEntryLineResponse(ArrayList<ReportEntry> firstLine, ArrayList<ReportEntry> secondLine) {

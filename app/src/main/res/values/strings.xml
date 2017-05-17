@@ -308,4 +308,7 @@
     <string name="QuotaMonthAccum">Quota Month accum</string>
     <string name="Week">Week</string>
     <string name="Fields">Fields</string>
+    <string name="Reports">Reports</string>
+    <string name="Target">Target</string>
+    <string name="DailyQuota">Daily Couta</string>
 </resources>
