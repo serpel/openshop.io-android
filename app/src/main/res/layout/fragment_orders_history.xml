@@ -42,7 +42,8 @@
                 android:textColor="#000"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:text="2016/06/01"
+                android:inputType="date"
+                android:text="2017/01/01"
                 android:focusable="false" />
 
             <TextView
@@ -63,7 +64,8 @@
                 android:textColor="#000"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:text="2016/06/01"
+                android:inputType="date"
+                android:text="2018/12/12"
                 android:focusable="false"/>
 
             <Button

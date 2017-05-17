@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class ReportEntryLineResponse {
 
+    @SerializedName("totalinvoiced")
+    private Double totalInvoiced;
+    @SerializedName("quotaaccum")
+    private Double quotaAccum;
     @SerializedName("firstlist")
     private ArrayList<ReportEntry> firstLine;
     @SerializedName("secondlist")
@@ -22,6 +26,22 @@ public class ReportEntryLineResponse {
 
     public ArrayList<ReportEntry> getFirstLine() {
         return firstLine;
+    }
+
+    public Double getTotalInvoiced() {
+        return totalInvoiced;
+    }
+
+    public void setTotalInvoiced(Double totalInvoiced) {
+        this.totalInvoiced = totalInvoiced;
+    }
+
+    public Double getQuotaAccum() {
+        return quotaAccum;
+    }
+
+    public void setQuotaAccum(Double quotaAccum) {
+        this.quotaAccum = quotaAccum;
     }
 
     public void setFirstLine(ArrayList<ReportEntry> firstLine) {

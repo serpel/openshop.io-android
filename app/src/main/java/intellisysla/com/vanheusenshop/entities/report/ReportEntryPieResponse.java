@@ -9,6 +9,11 @@ import java.util.ArrayList;
  */
 
 public class ReportEntryPieResponse {
+
+    @SerializedName("totalinvoiced")
+    private Double totalInvoiced;
+    private Double quota;
+
     private ArrayList<ReportEntry> entries;
 
     public ReportEntryPieResponse(ArrayList<ReportEntry> entries) {
@@ -17,6 +22,22 @@ public class ReportEntryPieResponse {
 
     public ArrayList<ReportEntry> getEntries() {
         return entries;
+    }
+
+    public Double getTotalInvoiced() {
+        return totalInvoiced;
+    }
+
+    public void setTotalInvoiced(Double totalInvoiced) {
+        this.totalInvoiced = totalInvoiced;
+    }
+
+    public Double getQuota() {
+        return quota;
+    }
+
+    public void setQuota(Double quota) {
+        this.quota = quota;
     }
 
     public void setEntries(ArrayList<ReportEntry> entries) {

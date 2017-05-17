@@ -194,14 +194,13 @@ public class ReportQuotaAccumFragment extends Fragment {
                         @Override
                         public void onResponse(@NonNull ReportEntryLineResponse response) {
 
-                            quotaTextView.setText("0");
-                            invoicedTextView.setText("0");
+
                             FillChart(response.getFirstLine(), response.getSecondLine());
 
-                            /*if (response.getEntries() != null && response.getEntries().size() == 2) {
-                                quotaTextView.setText(String.valueOf(response.getEntries().get(0).getY()+response.getEntries().get(1).getY()));
-                                invoicedTextView.setText(String.valueOf(response.getEntries().get(1).getY()));
-                            }*/
+                            quotaTextView.setText(String.valueOf(response.getQuotaAccum()));
+                            invoicedTextView.setText(String.valueOf(response.getTotalInvoiced()));
+
+
                             progressView.setVisibility(View.GONE);
                         }
                     }, new Response.ErrorListener() {

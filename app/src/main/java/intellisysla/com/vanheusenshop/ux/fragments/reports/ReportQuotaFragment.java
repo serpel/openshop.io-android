@@ -180,14 +180,11 @@ public class ReportQuotaFragment extends Fragment {
                         @Override
                         public void onResponse(@NonNull ReportEntryPieResponse response) {
 
-                            quotaTextView.setText("0");
-                            invoicedTextView.setText("0");
                             FillChart(response.getEntries());
 
-                            if (response.getEntries() != null && response.getEntries().size() == 2) {
-                                quotaTextView.setText(String.valueOf(response.getEntries().get(0).getY()+response.getEntries().get(1).getY()));
-                                invoicedTextView.setText(String.valueOf(response.getEntries().get(1).getY()));
-                            }
+                            quotaTextView.setText(String.valueOf(response.getQuota()));
+                            invoicedTextView.setText(String.valueOf(response.getTotalInvoiced()));
+
                             progressView.setVisibility(View.GONE);
                         }
                     }, new Response.ErrorListener() {

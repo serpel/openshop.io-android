@@ -45,6 +45,7 @@ public class EndPoints {
     public static final String CART_DISCOUNTS           = API_URL.concat("/Cart/discounts");
     public static final String CART_DISCOUNTS_SINGLE    = API_URL.concat("/Cart/discounts/%d");
     public static final String ORDERS                   = API_URL.concat("/GetOrders?userId=%d");
+    public static final String ORDERS_RANGE             = API_URL.concat("/GetOrders?userId=%d&begin=%s&end=%s");
     public static final String ORDERS_CREATE            = API_URL.concat("/CreateOrder?userId=%d&cartId=%d&jo=%s");
     public static final String ORDERS_SINGLE            = API_URL.concat("/Order/%d");
     public static final String ORDERS_RECREATE          = API_URL.concat("/ReCreateOrder?orderId=%");

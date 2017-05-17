@@ -97,6 +97,13 @@ public class OrdersHistoryFragment extends Fragment {
         final Calendar beginCalendar = Calendar.getInstance();
         final Calendar endCalendar = Calendar.getInstance();
 
+        String myFormat = "yyyy/MM/dd";
+        final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        beginCalendar.add(Calendar.DAY_OF_MONTH, -5);
+        beginEdit.setText(sdf.format(beginCalendar.getTime()));
+        endEdit.setText(sdf.format(endCalendar.getTime()));
+
         beginEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,9 +115,6 @@ public class OrdersHistoryFragment extends Fragment {
                                 beginCalendar.set(Calendar.YEAR, year);
                                 beginCalendar.set(Calendar.MONTH, monthOfYear);
                                 beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                String myFormat = "yyyy/MM/dd";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 beginEdit.setText(sdf.format(beginCalendar.getTime()));
                             }
                         },
@@ -132,9 +136,6 @@ public class OrdersHistoryFragment extends Fragment {
                                 endCalendar.set(Calendar.YEAR, year);
                                 endCalendar.set(Calendar.MONTH, monthOfYear);
                                 endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                String myFormat = "yyyy/MM/dd";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 endEdit.setText(sdf.format(endCalendar.getTime()));
                             }
                         },
@@ -196,7 +197,7 @@ public class OrdersHistoryFragment extends Fragment {
             ordersHistoryRecyclerAdapter.clear();
             if (url == null) {
                 //url = String.format(EndPoints.ORDERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
-                url = String.format(EndPoints.ORDERS, user.getId());
+                url = String.format(EndPoints.ORDERS_RANGE, user.getId(), beginEdit.getText().toString(), endEdit.getText().toString());
             }
             GsonRequest<OrderResponse> req = new GsonRequest<>(Request.Method.GET, url, null, OrderResponse.class, new Response.Listener<OrderResponse>() {
                 @Override
@@ -204,13 +205,6 @@ public class OrdersHistoryFragment extends Fragment {
                     ordersMetadata = response.getMetadata();
                     ordersHistoryRecyclerAdapter.addOrders(response.getOrders());
 
-                    /*if (ordersHistoryRecyclerAdapter.getItemCount() > 0) {
-                        empty.setVisibility(View.GONE);
-                        content.setVisibility(View.VISIBLE);
-                    } else {
-                        empty.setVisibility(View.VISIBLE);
-                        content.setVisibility(View.GONE);
-                    }*/
                     if (progressDialog != null) progressDialog.cancel();
                 }
             }, new Response.ErrorListener() {
