@@ -343,7 +343,7 @@ public class PaymentMainFragment extends Fragment {
                 case 3: fragment = payment == null ? PaymentCashFragment.newInstance() : PaymentCashFragment.newInstance(payment.getCash());
                     break;
                 case 4:
-                    //fragment = payment == null ? PaymentCheckFragment.newInstance(banks) : PaymentCheckFragment.newInstance(payment.getChecks());
+                    fragment = payment == null ? PaymentCheckFragment.newInstance(banks) : PaymentCheckFragment.newInstance(payment, payment.getChecks());
                     break;
                 default:
                     fragment = null;

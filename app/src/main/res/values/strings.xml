@@ -305,7 +305,7 @@
     <string name="ClientTransactions">Client Transactions</string>
     <string name="ShippingDate">Shipping Date</string>
     <string name="QuotaMonth">Quota Month</string>
-    <string name="QuotaMonthAccum">Quota Month accum</string>
+    <string name="QuotaMonthAccum">Quota week accum</string>
     <string name="Week">Week</string>
     <string name="Fields">Fields</string>
     <string name="Reports">Reports</string>

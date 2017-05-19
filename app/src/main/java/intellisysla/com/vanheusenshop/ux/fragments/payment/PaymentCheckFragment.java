@@ -69,6 +69,7 @@ import timber.log.Timber;
 public class PaymentCheckFragment extends Fragment {
 
     private static final String ARG_BANK_LIST = "bank-list";
+    private static final String ARG_CHECKS_LIST = "check-list";
     private OnFragmentInteractionListener mListener;
     private ChecksRecyclerAdapter checksRecyclerAdapter;
     private GridLayoutManager checksGridLayoutManager;
@@ -90,12 +91,22 @@ public class PaymentCheckFragment extends Fragment {
         return fragment;
     }
 
+    public static PaymentCheckFragment newInstance(Payment payment, ArrayList<CheckPayment> checks) {
+        PaymentCheckFragment fragment = new PaymentCheckFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CHECKS_LIST, checks);
+        fragment.setArguments(args);
+        fragment.fragment = fragment;
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
             banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
+            checks = (ArrayList<CheckPayment>) getArguments().getSerializable(ARG_CHECKS_LIST);
         }
     }
 

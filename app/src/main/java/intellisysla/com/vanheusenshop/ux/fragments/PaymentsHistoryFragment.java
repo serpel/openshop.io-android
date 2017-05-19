@@ -97,8 +97,10 @@ public class PaymentsHistoryFragment extends Fragment {
 
         endCalendar = Calendar.getInstance();
         beginCalendar = Calendar.getInstance();
-        beginCalendar.add(Calendar.DAY_OF_MONTH, -2);
-        beginEdit.setText(sdf.format(endCalendar.getTime()));
+
+        beginCalendar.add(Calendar.DAY_OF_MONTH, -5);
+        beginEdit.setText(sdf.format(beginCalendar.getTime()));
+        endEdit.setText(sdf.format(endCalendar.getTime()));
 
         beginEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +123,7 @@ public class PaymentsHistoryFragment extends Fragment {
             }
         });
 
-        endCalendar.add(Calendar.DAY_OF_MONTH, 15);
+        endCalendar.add(Calendar.DAY_OF_MONTH, 5);
         endEdit.setText(sdf.format(endCalendar.getTime()));
 
         endEdit.setOnClickListener(new View.OnClickListener() {
@@ -210,14 +212,6 @@ public class PaymentsHistoryFragment extends Fragment {
                 public void onResponse(PaymentResponse response) {
                     //paymentsMetadata = response.getMetadata();
                     paymentsHistoryRecyclerAdapter.addPayments(response.getPayments());
-
-                   /* if (paymentsHistoryRecyclerAdapter.getItemCount() > 0) {
-                        empty.setVisibility(View.GONE);
-                        content.setVisibility(View.VISIBLE);
-                    } else {
-                        empty.setVisibility(View.VISIBLE);
-                        content.setVisibility(View.GONE);
-                    }*/
                     if (progressDialog != null) progressDialog.cancel();
                 }
             }, new Response.ErrorListener() {

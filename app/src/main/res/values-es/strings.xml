@@ -20,6 +20,7 @@
     <string name="Continue">Continue</string>
 
     <!-- Main activity related -->
+    <string name="MainMenu">Menu Principal</string>
     <string name="Another_click_for_leaving_app">Otro Click para salir de la aplicacion</string>
     <string name="All_categories">Todas las categorias</string>
     <string name="menu_action_search">Buscar</string>
@@ -267,6 +268,7 @@
     <string name="PaymentHistory">Historial de pagos</string>
     <string name="MyPayments">Mis Pagos</string>
     <string name="Client">Cliente</string>
+    <string name="Clients">Clientes</string>
     <string name="Reference">Referencia</string>
     <string name="Your_payment_history_is_empty">Tu historico de cobros esta vacio</string>
     <string name="Sku">SKU</string>
@@ -275,10 +277,11 @@
     <string name="ClientTransactions">Transacciones</string>
     <string name="ShippingDate">Fecha de Envio</string>
     <string name="QuotaMonth">Cuota Mensual</string>
-    <string name="QuotaMonthAccum">Cuota Mensual acumulada</string>
+    <string name="QuotaMonthAccum">Cuota semanal acumulada</string>
     <string name="Week">Semana</string>
     <string name="Fields">Campos</string>
     <string name="Reports">Reportes</string>
     <string name="Target">Meta</string>
     <string name="DailyQuota">Cuota Diaria</string>
+    <string name="Inventory">Inventario</string>
 </resources>

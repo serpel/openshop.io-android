@@ -30,6 +30,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import intellisysla.com.vanheusenshop.CONST;
 import intellisysla.com.vanheusenshop.MyApplication;
@@ -197,9 +198,8 @@ public class ReportQuotaAccumFragment extends Fragment {
 
                             FillChart(response.getFirstLine(), response.getSecondLine());
 
-                            quotaTextView.setText(String.valueOf(response.getQuotaAccum()));
-                            invoicedTextView.setText(String.valueOf(response.getTotalInvoiced()));
-
+                            quotaTextView.setText(String.format(Locale.US, "%.2f", response.getQuotaAccum()));
+                            invoicedTextView.setText(String.format(Locale.US, "%.2f", response.getTotalInvoiced()));
 
                             progressView.setVisibility(View.GONE);
                         }
