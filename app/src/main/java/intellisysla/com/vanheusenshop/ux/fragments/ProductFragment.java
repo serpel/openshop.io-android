@@ -307,7 +307,8 @@ public class ProductFragment extends Fragment {
         addToCart.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                postProductToCart();
+                //postProductToCart();
+                postProductToWishList();
             }
         });
 
@@ -805,6 +806,70 @@ public class ProductFragment extends Fragment {
                 @Override
                 public void successfulLoginOrRegistration(User user) {
                     postProductToCart();
+                }
+            });
+            loginDialog.show(getFragmentManager(), LoginDialogFragment.class.getSimpleName());
+        }
+    }
+
+    private void postProductToWishList() {
+        if (selectedProductVariant == null || selectedProductVariant.getSize() == null ||
+                (selectedProductVariant.getId() == CONST.DEFAULT_EMPTY_ID &&
+                        selectedProductVariant.getSize().getId() == CONST.DEFAULT_EMPTY_ID)) {
+            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_NO_SIZE_SELECTED, null, MsgUtils.ToastLength.SHORT);
+            return;
+        }
+        User user = SettingsMy.getActiveUser();
+        if (user != null) {
+            if (addToCartImage != null) addToCartImage.setVisibility(View.INVISIBLE);
+            if (addToCartProgress != null) addToCartProgress.setVisibility(View.VISIBLE);
+
+            SharedPreferences prefs = getSettings();
+            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "");
+
+            String url = String.format(EndPoints.WISHLIST_CREATE, user.getId(), selectedProductVariant.getId());
+            JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
+                    if (addToCartImage != null) addToCartImage.setVisibility(View.VISIBLE);
+                    if (addToCartProgress != null)
+                        addToCartProgress.setVisibility(View.INVISIBLE);
+
+                    //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
+                    Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), 0.0);
+                    MainActivity.updateCartCountNotification();
+
+                    String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
+                    Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)
+                            .setActionTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
+                            .setAction(R.string.Go_to_cart, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (getActivity() instanceof MainActivity)
+                                        ((MainActivity) getActivity()).onCartSelected();
+                                }
+                            });
+                    TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.WHITE);
+                    snackbar.show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (addToCartImage != null) addToCartImage.setVisibility(View.VISIBLE);
+                    if (addToCartProgress != null) addToCartProgress.setVisibility(View.INVISIBLE);
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            }, getFragmentManager(), user.getAccessToken());
+            addToCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            addToCart.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_REQUESTS_TAG);
+        } else {
+            LoginDialogFragment loginDialog = LoginDialogFragment.newInstance(new LoginDialogInterface() {
+                @Override
+                public void successfulLoginOrRegistration(User user) {
+                    postProductToWishList();
                 }
             });
             loginDialog.show(getFragmentManager(), LoginDialogFragment.class.getSimpleName());

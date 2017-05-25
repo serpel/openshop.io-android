@@ -80,36 +80,11 @@ public class WishlistFragment extends Fragment {
      */
     public static void addToWishList(final FragmentActivity activity, long variantId, User user, String requestTag, final RequestListener requestListener) {
         if (activity != null && variantId != 0 && user != null && requestTag != null && requestListener != null) {
-            JSONObject jo = new JSONObject();
-            try {
-                jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, variantId);
-            } catch (Exception e) {
-                requestListener.requestFailed(null);
-                Timber.e(e, "Add to wishlist null product.");
-                return;
-            }
-            String url = String.format(EndPoints.WISHLIST, SettingsMy.getActualNonNullShop(activity).getId());
-            JsonRequest req = new JsonRequest(Request.Method.POST, url, jo, new Response.Listener<JSONObject>() {
+            String url = String.format(EndPoints.WISHLIST_CREATE, user.getId(), variantId);
+            JsonRequest req = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Timber.d("AddToWishlist response: %s", response.toString());
-                    try {
-                        final long responseId = response.getLong(JsonUtils.TAG_ID);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                requestListener.requestSuccess(responseId);
-                            }
-                        }, 500);
-                    } catch (Exception e) {
-                        Timber.e(e, "Parsing addToWishList response failed. Response: %s", response);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                requestListener.requestFailed(null);
-                            }
-                        }, 500);
-                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -123,7 +98,7 @@ public class WishlistFragment extends Fragment {
                     MsgUtils.logAndShowErrorMessage(activity, error);
                 }
             }, activity.getSupportFragmentManager(), user.getAccessToken());
-            req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             req.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(req, requestTag);
         } else {
@@ -281,7 +256,7 @@ public class WishlistFragment extends Fragment {
      * @param user logged user.
      */
     private void getWishlistContent(@NonNull User user) {
-        String url = String.format(EndPoints.WISHLIST, SettingsMy.getActualNonNullShop(getActivity()).getId());
+        String url = String.format(EndPoints.WISHLIST, user.getId());
 
         progressDialog.show();
         GsonRequest<WishlistResponse> getWishlist = new GsonRequest<>(Request.Method.GET, url, null, WishlistResponse.class,

@@ -644,10 +644,10 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_wish_list) {
+        if (id == R.id.action_wish_list) {
             onWishlistSelected();
             return true;
-        } else*/ if (id == R.id.action_cart) {
+        } else if (id == R.id.action_cart) {
             onCartSelected();
             return true;
         }

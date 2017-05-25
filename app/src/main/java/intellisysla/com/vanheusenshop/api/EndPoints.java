@@ -6,7 +6,7 @@ public class EndPoints {
      * Base server url.
      */
     //private static final String API_URL                  = "http://181.199.190.20/VanHeusenShop/api/list";    // staging
-    private static final String API_URL = "http://181.199.190.20/VanShopVhBackend/api/list";    // staging
+    private static final String API_URL = "http://181.199.190.20/VanShopVhBackendPruebas/api/list";    // staging
 
     public static final String PAYMENTS                 = API_URL.concat("/GetPayments?userId=%d&begin=%s&end=%s");
     public static final String ADD_PAYMENT              = API_URL.concat("/AddPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s");
@@ -50,9 +50,10 @@ public class EndPoints {
     public static final String ORDERS_SINGLE            = API_URL.concat("/Order/%d");
     public static final String ORDERS_RECREATE          = API_URL.concat("/ReCreateOrder?orderId=%");
     public static final String BRANCHES                 = API_URL.concat("%d/branches");
-    public static final String WISHLIST                 = API_URL.concat("%d/wishlist");
-    public static final String WISHLIST_SINGLE          = API_URL.concat("%d/wishlist/%d");
-    public static final String WISHLIST_IS_IN_WISHLIST  = API_URL.concat("%d/wishlist/is-in-wishlist/%d");
+    public static final String WISHLIST                 = API_URL.concat("/GetWishlist?userId=%d");
+    public static final String WISHLIST_CREATE          = API_URL.concat("/AddToWishList?userId=%d&variantId=%d");
+    public static final String WISHLIST_SINGLE          = API_URL.concat("/GetWishlist/%d?userId=%d");
+    public static final String WISHLIST_IS_IN_WISHLIST  = API_URL.concat("%d/wishlist/is-in-wishlist/%d?userId=%d");
     public static final String REGISTER_NOTIFICATION    = API_URL.concat("/GetDevices");
     public static final String MAIN_MENU_BADGE_COUNT    = API_URL.concat("/GetMenuBadgeCount");
 

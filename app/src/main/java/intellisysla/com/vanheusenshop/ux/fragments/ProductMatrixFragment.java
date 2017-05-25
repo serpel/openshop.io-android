@@ -178,6 +178,27 @@ public class ProductMatrixFragment extends Fragment {
             MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
     }
 
+    private void addProductToWishList(ProductVariant variant, User user) {
+        String url = String.format(EndPoints.WISHLIST_CREATE, user.getId(), variant.getId());
+        JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
+                //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
+                Analytics.logAddProductToCart(product.getRemoteId(), product.getCode(), 0.0);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        }, getFragmentManager(), user.getAccessToken());
+        addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        addToCart.setShouldCache(false);
+        MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
+    }
+
+
 
     private void getProduct(final long productId) {
         // Load product info
@@ -472,7 +493,8 @@ public class ProductMatrixFragment extends Fragment {
                     List<ProductVariant> elements = ((MainActivity)getActivity()).getElements();
 
                     for(ProductVariant element: elements){
-                        addProductToCart(element, user, card_code);
+                        //addProductToCart(element, user, card_code);
+                        addProductToWishList(element, user);
                     }
 
                     ((MainActivity)getActivity()).clearElements();
