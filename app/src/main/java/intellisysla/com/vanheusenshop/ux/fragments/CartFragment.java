@@ -52,9 +52,11 @@ import timber.log.Timber;
 public class CartFragment extends Fragment {
 
     private ProgressDialog progressDialog;
+    private final static String CART_TYPE = "cart-type";
 
     private View emptyCart;
     private View cartFooter;
+    private int type = 0;
 
     private RecyclerView cartRecycler;
     private CartRecyclerAdapter cartRecyclerAdapter;
@@ -62,6 +64,15 @@ public class CartFragment extends Fragment {
     // Footer views and variables
     private TextView cartItemCountTv;
     private TextView cartTotalPriceTv;
+
+    public static CartFragment newInstance(int type) {
+        Bundle args = new Bundle();
+        args.putInt(CART_TYPE, type);
+
+        CartFragment fragment = new CartFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,26 +102,6 @@ public class CartFragment extends Fragment {
         cartFooter = view.findViewById(R.id.cart_footer);
         cartItemCountTv = (TextView) view.findViewById(R.id.cart_footer_quantity);
         cartTotalPriceTv = (TextView) view.findViewById(R.id.cart_footer_price);
-        /*view.findViewById(R.id.cart_footer_action).setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                DiscountDialogFragment discountDialog = DiscountDialogFragment.newInstance(new RequestListener() {
-                    @Override
-                    public void requestSuccess(long newId) {
-                        getCartContent();
-                    }
-
-                    @Override
-                    public void requestFailed(VolleyError error) {
-                        MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                    }
-                });
-
-                if (discountDialog != null) {
-                    discountDialog.show(getFragmentManager(), DiscountDialogFragment.class.getSimpleName());
-                }
-            }
-        });*/
 
         Button order = (Button) view.findViewById(R.id.cart_order);
         order.setOnClickListener(new OnSingleClickListener() {
@@ -122,15 +113,23 @@ public class CartFragment extends Fragment {
             }
         });
 
-        getCartContent();
+        Bundle args = getArguments();
+
+        if(args != null){
+            type = args.getInt(CART_TYPE);
+            getCartContent(type);
+        }else {
+            getCartContent(0);
+        }
+
         return view;
     }
 
-    private void getCartContent() {
+    private void getCartContent(int type) {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
-            String url = String.format(EndPoints.CART, user.getId());
+            String url = String.format(EndPoints.CART, user.getId(), type);
 
             progressDialog.show();
             GsonRequest<Cart> getCart = new GsonRequest<>(Request.Method.GET, url, null, Cart.class,
@@ -194,7 +193,7 @@ public class CartFragment extends Fragment {
                 UpdateCartItemDialogFragment updateDialog = UpdateCartItemDialogFragment.newInstance(cartProductItem, new RequestListener() {
                     @Override
                     public void requestSuccess(long newId) {
-                        getCartContent();
+                        getCartContent(type);
                     }
 
                     @Override
@@ -235,24 +234,13 @@ public class CartFragment extends Fragment {
             private void deleteItemFromCart(final long id, boolean isDiscount) {
                 User user = SettingsMy.getActiveUser();
                 if (user != null) {
-                    String url = String.format(EndPoints.CART_ITEM_DELETE, user.getId(), id);
-
-                    //TODO: in my app not exist discounts
-                    /*
-                    String url;
-
-                    if (isDiscount)
-                        url = String.format(EndPoints.CART_DISCOUNTS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), id);
-                    else
-                        url = String.format(EndPoints.CART_ITEM, SettingsMy.getActualNonNullShop(getActivity()).getId(), id);
-                    */
-
+                    String url = String.format(EndPoints.CART_ITEM_DELETE, user.getId(), id, type);
                     progressDialog.show();
                     JsonRequest req = new JsonRequest(Request.Method.DELETE, url, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             Timber.d("Delete item from cart: %s", response.toString());
-                            getCartContent();
+                            getCartContent(type);
                             MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE,
                                     getString(R.string.The_item_has_been_successfully_removed), MsgUtils.ToastLength.LONG);
                             if (progressDialog != null) progressDialog.cancel();

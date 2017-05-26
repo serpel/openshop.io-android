@@ -253,7 +253,7 @@ public class OrderCreateFragment extends Fragment {
         final User user = SettingsMy.getActiveUser();
         if (user != null) {
             //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
-            String url = String.format(EndPoints.CART, user.getId());
+            String url = String.format(EndPoints.CART, user.getId(), 0);
 
             progressDialog.show();
             GsonRequest<Cart> getCart = new GsonRequest<>(Request.Method.GET, url, null, Cart.class,

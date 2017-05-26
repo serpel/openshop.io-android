@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCartSelected();
+                onCartSelected(0);
             }
         });
         if (cartCountNotificationValue == CONST.DEFAULT_EMPTY_ID) {
@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                 // If cart count is loaded for the first time, we need to load whole cart because of synchronization.
                 if (initialize) {
                     //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(this).getId());
-                    String url = String.format(EndPoints.CART, user.getId());
+                    String url = String.format(EndPoints.CART, user.getId(), 0);
                     JsonRequest req = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -645,10 +645,10 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_wish_list) {
-            onWishlistSelected();
+            onCartSelected(1);
             return true;
         } else if (id == R.id.action_cart) {
-            onCartSelected();
+            onCartSelected(0);
             return true;
         }
 
@@ -945,14 +945,20 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     /**
      * If user is logged in then {@link CartFragment} is launched . Otherwise is showed a login dialog.
      */
-    public void onCartSelected() {
-        launchUserSpecificFragment(new CartFragment(), CartFragment.class.getSimpleName(), new LoginDialogInterface() {
+    public void onCartSelected(final int type) {
+        /*launchUserSpecificFragment(new CartFragment(), CartFragment.class.getSimpleName(), new LoginDialogInterface() {
             @Override
             public void successfulLoginOrRegistration(User user) {
                 // If login was successful launch CartFragment.
-                onCartSelected();
+                onCartSelected(type);
             }
-        });
+        });*/
+
+        Fragment fragment = CartFragment.newInstance(type);
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
+        }
+        replaceFragment(fragment, CartFragment.class.getSimpleName());
     }
 
     /**
@@ -976,7 +982,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             @Override
             public void successfulLoginOrRegistration(User user) {
                 // If login was successful launch CartFragment.
-                onCartSelected();
+                onCartSelected(0);
             }
         });
     }

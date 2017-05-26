@@ -68,6 +68,8 @@ public class DocumentsFragment extends Fragment {
 
     private TextView clientCode, clientName, clientCreditLimit, clientBalance, clientInOrders, clientPayCondition;
     private Button documentBegin, documentTransactions;
+    private TextView clientAddress;
+
     public static DocumentsFragment newInstance() {
         Bundle args = new Bundle();
         args.putString(SEARCH_QUERY, null); 
@@ -134,6 +136,7 @@ public class DocumentsFragment extends Fragment {
 
         clientCode = (TextView) view.findViewById(R.id.document_client_code);
         clientName = (TextView) view.findViewById(R.id.document_client_name);
+        clientAddress = (TextView) view.findViewById(R.id.document_address);
         clientCreditLimit =  (TextView) view.findViewById(R.id.document_document_credit_limit);
         clientBalance = (TextView) view.findViewById(R.id.document_balance);
         clientInOrders = (TextView) view.findViewById(R.id.document_orders);
@@ -269,6 +272,7 @@ public class DocumentsFragment extends Fragment {
 
                         clientCode.setText(response.getClientCardCode());
                         clientName.setText(response.getClientName());
+                        clientAddress.setText(response.getAddress());
                         clientCreditLimit.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getCreaditLimit()));
                         clientBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getBalance()));
                         clientInOrders.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getInOrders()));

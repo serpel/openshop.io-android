@@ -35,12 +35,12 @@ public class EndPoints {
     public static final String USERS                    = API_URL.concat("/Users");
     public static final String USER_CHANGE_PASSWORD     = API_URL.concat("%d/users/%d/password");
     public static final String USER_UPDATE              = API_URL.concat("/UpdateUser?userId=%d&bluetooth=%s");
-    public static final String CART                     = API_URL.concat("/Cart?userId=%d");
-    public static final String CART_ADD_ITEM            = API_URL.concat("/AddToCart?userId=%d&product_variant_id=%d&quantity=%d&cardcode=%s");
+    public static final String CART                     = API_URL.concat("/Cart?userId=%d&type=%d");
+    public static final String CART_ADD_ITEM            = API_URL.concat("/AddToCart?userId=%d&product_variant_id=%d&quantity=%d&cardcode=%s&type=%d");
     public static final String CART_INFO                = API_URL.concat("/CartInfo?userId=%d");
     public static final String CART_ITEM                = API_URL.concat("/Cart/%d");
     public static final String CART_ITEM_UPDATE         = API_URL.concat("/UpdateToCart?userId=%d&productCartItemId=%d&newQuantity=%d&newProductVariantId=%d");
-    public static final String CART_ITEM_DELETE         = API_URL.concat("/DeleteToCart?userId=%d&id=%d");
+    public static final String CART_ITEM_DELETE         = API_URL.concat("/DeleteToCart?userId=%d&id=%d&type=%d");
     public static final String CART_DELIVERY_INFO       = API_URL.concat("/Cart/delivery-info");
     public static final String CART_DISCOUNTS           = API_URL.concat("/Cart/discounts");
     public static final String CART_DISCOUNTS_SINGLE    = API_URL.concat("/Cart/discounts/%d");

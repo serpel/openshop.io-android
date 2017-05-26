@@ -18,6 +18,8 @@ public class DocumentListResponse {
 
     private double balance;
 
+    private String address;
+
     @SerializedName("credit_limit")
     private double creaditLimit;
 
@@ -29,6 +31,14 @@ public class DocumentListResponse {
 
     @SerializedName("records")
     private List<Document> documents;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public List<Document> getDocuments() {
         return documents;

@@ -159,7 +159,7 @@ public class ProductMatrixFragment extends Fragment {
     }
 
     private void addProductToCart(ProductVariant variant, User user, String cardcode) {
-            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity(), cardcode);
+            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity(), cardcode, 0);
             JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -447,7 +447,7 @@ public class ProductMatrixFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 if (getActivity() instanceof MainActivity)
-                                    ((MainActivity) getActivity()).onCartSelected();
+                                    ((MainActivity) getActivity()).onCartSelected(0);
                             }
                         });
                 TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
@@ -493,8 +493,8 @@ public class ProductMatrixFragment extends Fragment {
                     List<ProductVariant> elements = ((MainActivity)getActivity()).getElements();
 
                     for(ProductVariant element: elements){
-                        //addProductToCart(element, user, card_code);
-                        addProductToWishList(element, user);
+                        addProductToCart(element, user, card_code);
+                        //addProductToWishList(element, user);
                     }
 
                     ((MainActivity)getActivity()).clearElements();

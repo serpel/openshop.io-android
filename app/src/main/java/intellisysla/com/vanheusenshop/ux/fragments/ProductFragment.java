@@ -783,7 +783,7 @@ public class ProductFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     if (getActivity() instanceof MainActivity)
-                                        ((MainActivity) getActivity()).onCartSelected();
+                                        ((MainActivity) getActivity()).onCartSelected(0);
                                 }
                             });
                     TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
@@ -847,7 +847,7 @@ public class ProductFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     if (getActivity() instanceof MainActivity)
-                                        ((MainActivity) getActivity()).onCartSelected();
+                                        ((MainActivity) getActivity()).onCartSelected(0);
                                 }
                             });
                     TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
