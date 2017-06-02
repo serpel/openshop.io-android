@@ -6,7 +6,7 @@ public class EndPoints {
      * Base server url.
      */
     //private static final String API_URL                  = "http://181.199.190.20/VanHeusenShop/api/list";    // staging
-    private static final String API_URL = "http://181.199.190.20/VanShopVhBackend/api/list";    // staging
+    private static final String API_URL = "http://181.199.190.20/VanShopVhBackendPruebas/api/list";    // staging
 
     public static final String PAYMENTS                 = API_URL.concat("/GetPayments?userId=%d&begin=%s&end=%s");
     public static final String ADD_PAYMENT              = API_URL.concat("/AddPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s");

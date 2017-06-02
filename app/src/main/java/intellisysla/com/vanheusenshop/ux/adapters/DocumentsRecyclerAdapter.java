@@ -76,6 +76,7 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
         holder.totalAmount.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getTotalAmount()));
         holder.balanceDue.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getBalanceDue()));
         holder.overdueDays.setText(NumberFormat.getNumberInstance(Locale.US).format(holder.document.getOverdueDays()));
+        holder.selectedCheck.setChecked(holder.document.getPaymentSelected());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,6 +112,9 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
                 selectedCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                        document.setPaymentSelected(b);
+
                         if(b){
                             if(document.getBalanceDue() > 0)
                                 ((MainActivity) context).AddInvoice(document);

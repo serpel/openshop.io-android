@@ -27,9 +27,18 @@ public class Document implements Serializable {
     private int overdueDays;
     @SerializedName("doc_entry")
     private int docEntry;
+    private boolean paymentSelected;
     private List<DocumentItem> items;
 
     public Document(){}
+
+    public boolean getPaymentSelected() {
+        return paymentSelected;
+    }
+
+    public void setPaymentSelected(boolean paymentSelected) {
+        this.paymentSelected = paymentSelected;
+    }
 
     public List<DocumentItem> getItems() {
         return items;
