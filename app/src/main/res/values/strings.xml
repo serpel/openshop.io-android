@@ -185,7 +185,7 @@
     <!-- Format strings -->
     <string name="format_space_prefix"> %1$s</string>
     <string name="format_comma_prefix">, %1$s</string>
-    <string name="format_semicolon_prefix">%1$s: %2$s</string>
+    <string name="format_semicolon_prefix" translatable="false">%1$s: %2$s</string>
     <string name="format_string_division">%1$s / %2$s</string>
     <string name="format_quantity">%1$d uni</string>
     <string name="format_quantity_lines">%1$d items</string>
@@ -230,16 +230,17 @@
     <string name="DueDays">Due days</string>
     <string name="Discount">Discount:</string>
     <string name="BalanceDue">Balance Due</string>
-    <string name="Zero">0</string>
+    <string name="Zero" translatable="false">0</string>
     <string name="Back">Back</string>
     <string name="MainMenu">Main Menu</string>
     <string name="Status">Status</string>
-    <string name="Available">Available</string>
-    <string name="Count">Count</string>
+    <string name="Available" translatable="false">Available</string>
+    <string name="Count" translatable="false">Count</string>
     <string name="Resend">Resend</string>
+    <string name="NameAndSignature">Name and Signature</string>
     <string name="Print">Print</string>
-    <string name="Id">ID</string>
-    <string name="SAP">SAP</string>
+    <string name="Id" translatable="false">ID</string>
+    <string name="SAP" translatable="false">SAP</string>
     <string name="Begin">Begin</string>
     <string name="End">End</string>
     <string name="AccountStatus">Account Status</string>
@@ -281,7 +282,7 @@
 
     <!-- Payment Related Strings -->
     <string name="Bank">Bank</string>
-    <string name="Version">Version</string>
+    <string name="Version" translatable="false">Version</string>
     <string name="CheckNumber">Check Number</string>
     <string name="PaymentHistory">Payment history</string>
     <string name="MyPayments">My Payments</string>
@@ -295,7 +296,7 @@
     <string name="Invoiced">Invoiced</string>
     <string name="Quota">Quota</string>
     <string name="Clients">Clients</string>
-    <string name="OneNumber">1</string>
+    <string name="OneNumber" translatable="false">1</string>
     <string name="Inventory">Inventory</string>
     <string name="SendToSap">Sent SAP</string>
     <string name="Success">Success</string>
@@ -311,4 +312,5 @@
     <string name="Reports">Reports</string>
     <string name="Target">Target</string>
     <string name="DailyQuota">Daily Couta</string>
+    <string name="Refund">Refund</string>
 </resources>

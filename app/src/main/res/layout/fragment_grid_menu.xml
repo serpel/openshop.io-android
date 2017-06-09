@@ -178,6 +178,42 @@
                     android:text="@string/OneNumber"
                     android:textColor="@color/white" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/main_menu_invoices"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@mipmap/ic_client_round" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/Refund"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/main_menu_invoice_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/colorOrange"
+                    android:fontFamily="ans-serif-black"
+                    android:padding="3dp"
+                    android:text="@string/Zero"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

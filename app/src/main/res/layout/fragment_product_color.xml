@@ -28,7 +28,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/oval_stroke">
 
-                    <intellisysla.com.vanheusenshop.views.RoundedImageView
+                    <grintsys.com.vanshop.views.RoundedImageView
                         android:id="@+id/product_color_picker_image_view"
                         android:layout_width="30dp"
                         android:layout_height="30dp"

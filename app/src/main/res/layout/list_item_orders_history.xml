@@ -8,13 +8,15 @@
               android:weightSum="1">
 
     <TextView
-        android:id="@+id/order_history_item_id"
+        android:id="@+id/order_history_item_client_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.15"
+        android:layout_weight="0.3"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
         android:gravity="start"
         android:textSize="14sp"
-        tools:text="125364"/>
+        tools:text="Sergio Peralta"/>
 
     <TextView
         android:id="@+id/order_history_item_sap_id"
@@ -32,16 +34,16 @@
         android:layout_weight="0.30"
         android:gravity="start"
         android:textSize="14sp"
-        tools:text="2.8.1992"/>
+        tools:text="2017/01/01"/>
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/order_history_item_count"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.1"
         android:gravity="start"
         android:textSize="14sp"
-        tools:text="99"/>
+        tools:text="99"/>-->
 
     <TextView
         android:id="@+id/order_history_item_totalPrice"

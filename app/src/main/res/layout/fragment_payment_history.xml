@@ -80,12 +80,24 @@
             android:padding="@dimen/base_margin"
             android:weightSum="1">
 
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="start"
-                android:text="@string/Id"
+                android:text="@string/Date"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="start"
+                android:text="@string/Status"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -95,16 +107,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.30"
                 android:gravity="start"
-                android:text="@string/Seller"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.35"
-                android:gravity="start"
                 android:text="@string/Client"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
@@ -113,7 +115,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.2"
+                android:layout_weight="0.25"
                 android:gravity="end"
                 android:text="@string/Total"
                 android:textColor="@color/colorAccent"

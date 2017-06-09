@@ -8,10 +8,10 @@
     {
       "client_info": {
         "mobilesdk_app_id": "1:325761325996:android:88c2d391918f6b36",
-        "client_id": "android:intellisysla.com.vanheusenshop",
+        "client_id": "android:grintsys.com.vanshop",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "intellisysla.com.vanheusenshop"
+          "package_name": "grintsys.com.vanshop"
         }
       },
       "oauth_client": [],

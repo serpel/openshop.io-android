@@ -1,15 +1,23 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+        }
+        release {
+            keyAlias 'key0'
+            keyPassword 'javier01'
+            storeFile file('C:/Users/serpel/Documents/BAC/key_2shopv2.jks')
+            storePassword 'javier01'
+        }
+    }
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.3'
     // needed for okHttp from 23sdk. https://medium.com/android-news/android-networking-i-okhttp-volley-and-gson-72004efff196#.gsfpn3ez8
     useLibrary 'org.apache.http.legacy'
-
     dexOptions {
         javaMaxHeapSize "3g"
     }
-
     /*signingConfigs {
         release {
             try {
@@ -22,17 +30,16 @@ android {
             }
         }
     }*/
-
     defaultConfig {
-        applicationId 'intellisysla.com.vanheusenshop'
+        applicationId 'grintsys.com.vanshop'
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.5"
+        versionCode 7
+        versionName "1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //signingConfig signingConfigs.release
+        signingConfig signingConfigs.release
     }
-
     buildTypes {
         debug {
             minifyEnabled false
@@ -50,20 +57,25 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     testOptions {
         unitTests.returnDefaultValues = true
     }
-
     productFlavors {
         Modern {
             minSdkVersion 22
+            applicationId 'grintsys.com.vanshop'
+            signingConfig signingConfigs.release
+            versionCode 7
+            versionName '1.7'
         }
         Legacy {
             minSdkVersion 15
+            applicationId 'grintsys.com.vanshop'
+            signingConfig signingConfigs.release
+            versionCode 7
+            versionName '1.7'
         }
     }
-
     sourceSets {
         androidTest {
             resources.srcDirs += ['src/androidTest/resources']
@@ -72,7 +84,7 @@ android {
 }
 
 task clearData(type: Exec) {
-    def clearDataCommand = ['adb', 'shell', 'pm', 'clear', 'intellisysla.com.vanheusenshop']
+    def clearDataCommand = ['adb', 'shell', 'pm', 'clear', 'grintsys.com.vanshop']
     commandLine clearDataCommand
 }
 

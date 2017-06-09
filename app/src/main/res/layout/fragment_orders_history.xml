@@ -87,9 +87,9 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.25"
                 android:gravity="start"
-                android:text="@string/Id"
+                android:text="@string/Client"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -107,7 +107,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.35"
+                android:layout_weight="0.30"
                 android:gravity="start"
                 android:text="@string/Date_created"
                 android:textColor="@color/colorAccent"

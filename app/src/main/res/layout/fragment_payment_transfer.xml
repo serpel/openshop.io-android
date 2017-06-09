@@ -102,6 +102,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
+                    android:layout_marginTop="@dimen/base_margin_vertical_half"/>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

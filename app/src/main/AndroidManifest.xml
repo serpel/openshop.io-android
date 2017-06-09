@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="intellisysla.com.vanheusenshop">
+    package="grintsys.com.vanshop">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -16,18 +16,18 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <!-- GCM permission to prevent other Android applications from registering and receiving the Android application's messages. -->
-    <permission android:name="intellisysla.com.vanheusenshop.permission.C2D_MESSAGE"
+    <permission android:name="grintsys.com.vanshop.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="bf.io.openshop.permission.C2D_MESSAGE" />
 
-    <application android:name=".MyApplication" android:allowBackup="false"
+    <application android:name="grintsys.com.vanshop.MyApplication" android:allowBackup="false"
         android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:largeHeap="true"
         android:supportsRtl="false" android:theme="@style/MaterialTheme">
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ux.SplashActivity" android:screenOrientation="portrait">
+        <activity android:name="grintsys.com.vanshop.ux.SplashActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +41,7 @@
                 <data android:scheme="openshop" />
             </intent-filter>
         </activity>
-        <activity android:name=".ux.MainActivity" android:screenOrientation="portrait"
+        <activity android:name="grintsys.com.vanshop.ux.MainActivity" android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -49,7 +49,7 @@
 
             <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".ux.RestartAppActivity" android:screenOrientation="portrait" />
+        <activity android:name="grintsys.com.vanshop.ux.RestartAppActivity" android:screenOrientation="portrait" />
 
         <!-- Facebook activity used for FB login -->
         <activity android:name="com.facebook.FacebookActivity"

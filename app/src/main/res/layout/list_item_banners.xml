@@ -12,7 +12,7 @@
         android:foreground="?android:attr/selectableItemBackground" >
 
         <!-- Needed custom implementation of resizing for support older devices. -->
-        <intellisysla.com.vanheusenshop.views.ResizableImageView
+        <grintsys.com.vanshop.views.ResizableImageView
             android:id="@+id/banner_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

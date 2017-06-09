@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <intellisysla.com.vanheusenshop.views.ResizableImageView
+            <grintsys.com.vanshop.views.ResizableImageView
                 android:id="@+id/product_item_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
