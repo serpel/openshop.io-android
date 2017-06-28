@@ -35,6 +35,8 @@ public class Payment implements Serializable {
     private int status;
     @SerializedName("status_text")
     private String statusText;
+    @SerializedName("reference_number")
+    private String referenceNumber;
 
     public Payment() {}
 
@@ -50,6 +52,14 @@ public class Payment implements Serializable {
         this.cash = cash;
         this.transfer = transfer;
         this.checks = checks;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
     }
 
     public String getCreatedDate() {

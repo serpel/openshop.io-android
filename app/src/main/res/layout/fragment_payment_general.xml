@@ -74,7 +74,7 @@
             android:textColor="@color/colorAccent"
             android:layout_marginTop="10dp"
             android:textSize="12sp"
-            android:text="Comentario" />
+            android:text="@string/Comment" />
 
         <EditText
             android:id="@+id/payment_general_comment"
@@ -83,6 +83,24 @@
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
             android:inputType="textMultiLine"
+            android:lines="5"
+            android:text="" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:text="@string/Receipt" />
+
+        <EditText
+            android:id="@+id/payment_reference_number"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:inputType="text"
             android:lines="5"
             android:text="" />
     </LinearLayout>

@@ -119,7 +119,7 @@ public class ProductMatrixFragment extends Fragment {
         productImage = (ImageView) view.findViewById(R.id.product_matrix_image);
         productContainer = (RelativeLayout) view.findViewById(R.id.product_matrix_main_layout);
 
-        mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new ProductMatrixFragment.SectionsPagerAdapter(getChildFragmentManager());
         mWarehouseSpinner = (Spinner) view.findViewById(R.id.product_matrix_warehouse_spinner);
 
         //This show the scrollview correctly

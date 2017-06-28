@@ -6,11 +6,11 @@ public class EndPoints {
      * Base server url.
      */
     //private static final String API_URL                  = "http://181.199.190.20/VanHeusenShop/api/list";    // staging
-    private static final String API_URL = "http://181.199.190.20/VanShopVhBackend/api/list";    // staging
+    private static final String API_URL = "http://181.199.190.20/VanShopVhBackendPruebas/api/list";    // staging
 
     public static final String PAYMENTS                 = API_URL.concat("/GetPayments?userId=%d&begin=%s&end=%s");
-    public static final String SENT_PAYMENT             = API_URL.concat("/SentPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&paymentId=%d");
-    public static final String ADD_PAYMENT              = API_URL.concat("/AddPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s");
+    public static final String SENT_PAYMENT             = API_URL.concat("/SentPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&reference=%s&paymentId=%d");
+    public static final String ADD_PAYMENT              = API_URL.concat("/AddPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&reference=%s");
     public static final String CANCEL_PAYMENT           = API_URL.concat("/CancelPayment?id=%d");
     public static final String SHOPS                    = API_URL.concat("/GetShops");
     public static final String BANKS                    = API_URL.concat("/GetBanks");

@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -62,6 +63,7 @@ public class ClientTransactionsFragment extends Fragment {
     private EditText beginEdit, endEdit;
     private Button searchButton;
     private Calendar beginCalendar, endCalendar;
+    private static final String CARD_CODE_ARG = "cardcode-arg";
 
     /**
      * Request metadata containing urls for endlessScroll.
@@ -70,6 +72,7 @@ public class ClientTransactionsFragment extends Fragment {
 
     private ClientTransactionsRecyclerAdapter transactionsRecyclerAdapter;
     private EndlessRecyclerScrollListener endlessRecyclerScrollListener;
+    private String cardCode = "";
 
     /**
      * Field for recovering scroll position.
@@ -82,6 +85,15 @@ public class ClientTransactionsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    public static ClientTransactionsFragment newInstance(String cardCode) {
+        Bundle args = new Bundle();
+        args.putString(CARD_CODE_ARG, cardCode);
+        ClientTransactionsFragment fragment = new ClientTransactionsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Nullable
     @Override
@@ -98,6 +110,12 @@ public class ClientTransactionsFragment extends Fragment {
         beginEdit = (EditText) view.findViewById(R.id.client_transaction_begin);
         endEdit = (EditText) view.findViewById(R.id.client_transaction_end);
         searchButton = (Button) view.findViewById(R.id.client_transaction_ok_button);
+
+
+        Bundle args = getArguments();
+        if(args != null){
+            cardCode = args.getString(CARD_CODE_ARG);
+        }
 
         String myFormat = "yyyy/MM/dd";
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -155,12 +173,12 @@ public class ClientTransactionsFragment extends Fragment {
         searchButton.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                loadTransactions(null);
+                loadTransactions(null, cardCode);
             }
         });
 
         prepareClientTransactionsRecycler(view);
-        loadTransactions(null);
+        loadTransactions(null, cardCode);
         return view;
     }
 
@@ -190,15 +208,15 @@ public class ClientTransactionsFragment extends Fragment {
      *
      * @param url null for fresh load. Otherwise use URLs from response metadata.
      */
-    private void loadTransactions(String url) {
+    private void loadTransactions(String url, String cardCode) {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             progressDialog.show();
             transactionsRecyclerAdapter.clear();
-            SharedPreferences prefs = getSettings();
-            String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "");
+            String beginString = beginEdit.getText().toString(), endString = endEdit.getText().toString();
+
             if (url == null) {
-                url = String.format(EndPoints.CLIENT_TRANSACTIONS, card_code, beginEdit.getText().toString(),endEdit.getText().toString());
+                url = String.format(EndPoints.CLIENT_TRANSACTIONS, cardCode, beginString, endString);
             }
             GsonRequest<ClientTransactionsResponse> req = new GsonRequest<>(Request.Method.GET, url, null, ClientTransactionsResponse.class, new Response.Listener<ClientTransactionsResponse>() {
                 @Override

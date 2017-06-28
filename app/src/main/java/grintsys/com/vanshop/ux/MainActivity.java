@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private Cash cash = new Cash();
     private List<ProductVariant> elements = new ArrayList<>();
     private String comment = "";
+    private String referenceNumber = "";
 
     public void UpdateCash(Cash cash){
         this.cash = cash;
@@ -194,6 +195,10 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         this.comment = comment;
     }
 
+    public void setReferenceNumber(String reference){
+        this.referenceNumber = reference;
+    }
+
     public void addCheck(CheckPayment check) {
         if(!this.checks.contains(check)){
             this.checks.add(check);
@@ -215,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     public String getComment(){
         return this.comment;
     }
+
+    public String getReferenceNumber() { return this.referenceNumber; }
 
     public void AddInvoice(Document item){
 
@@ -261,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 
         //clearBackStack();
         this.comment = "";
+        this.referenceNumber = "";
         this.checks.clear();
         this.invoices.clear();
         this.invoiceItems.clear();
@@ -1103,8 +1111,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         }
     }
 
-    public void onClientTransacionSelected() {
-        Fragment fragment = ClientTransactionsFragment.newInstance();
+    public void onClientTransacionSelected(String cardCode) {
+        Fragment fragment = ClientTransactionsFragment.newInstance(cardCode);
         replaceFragment(fragment, ClientTransactionsFragment.class.getSimpleName());
     }
 

@@ -34,10 +34,10 @@ android {
         applicationId 'grintsys.com.vanshop'
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 7
-        versionName "1.7"
+        versionCode 10
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //signingConfig signingConfigs.release
+        //signingCofig signingConfigs.release
         signingConfig signingConfigs.release
     }
     buildTypes {
@@ -65,15 +65,15 @@ android {
             minSdkVersion 22
             applicationId 'grintsys.com.vanshop'
             signingConfig signingConfigs.release
-            versionCode 7
-            versionName '1.7'
+            versionCode 10
+            versionName '2.0'
         }
         Legacy {
             minSdkVersion 15
             applicationId 'grintsys.com.vanshop'
             signingConfig signingConfigs.release
-            versionCode 7
-            versionName '1.7'
+            versionCode 10
+            versionName '2.0'
         }
     }
     sourceSets {

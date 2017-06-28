@@ -24,8 +24,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import grintsys.com.vanshop.CONST;
 import grintsys.com.vanshop.MyApplication;
@@ -221,12 +224,12 @@ public class PaymentMainFragment extends Fragment {
                 ((MainActivity) getActivity()).UpdateChecks(payment.getChecks());
                 //((MainActivity) getActivity()).UpdateInvoiceItems(payment.getInvoices());
                 getBanks();
-            }else{
+            } else {
                 String cardcode = arguments.getString(ARG_CARDCODE, "");
                 client = (Client) arguments.getSerializable(ARG_CLIENT);
                 if(client == null)
                     getClient(cardcode);
-                else{
+                else {
                     getBanks();
                 }
             }
@@ -235,6 +238,11 @@ public class PaymentMainFragment extends Fragment {
         if(payment != null) {
             switch (payment.getStatus()){
                 case 1:
+                    paymentSaveButton.setVisibility(View.GONE);
+                    paymentSentToSapButton.setVisibility(View.VISIBLE);
+                    paymentCancelButton.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
                     paymentSaveButton.setVisibility(View.GONE);
                     paymentSentToSapButton.setVisibility(View.VISIBLE);
                     paymentCancelButton.setVisibility(View.VISIBLE);
@@ -263,28 +271,6 @@ public class PaymentMainFragment extends Fragment {
         return view;
     }
 
-    public ArrayList<Document> setDocumentsSelected(Payment payment){
-
-        if(payment != null && payment.getClient() != null){
-
-            ArrayList<Document> documents =  payment.getClient().getInvoiceList();
-            ArrayList<InvoiceItem> invoices = payment.getInvoices();
-
-            for (InvoiceItem item: invoices)
-            {
-                for(Document doc: documents) {
-                    if (item.getDocumentNumber().equals(doc.getDocumentCode())){
-                        doc.setPaymentSelected(true);
-                    }
-                }
-            }
-
-            return documents;
-        }
-
-        return new ArrayList<>();
-    }
-
     public void sendPaymentToDraft() {
 
         final User user = SettingsMy.getActiveUser();
@@ -297,8 +283,19 @@ public class PaymentMainFragment extends Fragment {
             ArrayList<CheckPayment> checks = ((MainActivity) getActivity()).getChecks();
             ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
             String comment = ((MainActivity) getActivity()).getComment();
+            String reference = ((MainActivity) getActivity()).getReferenceNumber();
 
-            putPayment(client, cash, transfer, checks, invoices, comment);
+            //TODO: este es un fix temporal ya que necesitaban con urgencia este parche
+            // el problema es que cuando dejan la fecha al dia de hoy sin tocar el campo de fecha
+            // esta no se estaba guardando
+            if(transfer.getDueDate() == null){
+                final Calendar myCalendar = Calendar.getInstance();
+                String myFormat = "yyyy/MM/dd";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                transfer.setDueDate(sdf.format(myCalendar.getTime()));
+            }
+
+            putPayment(client, cash, transfer, checks, invoices, comment, reference);
         }
     }
 
@@ -313,6 +310,32 @@ public class PaymentMainFragment extends Fragment {
             ArrayList<CheckPayment> checks = ((MainActivity) getActivity()).getChecks();
             ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
             String comment = ((MainActivity) getActivity()).getComment();
+            String reference = ((MainActivity) getActivity()).getReferenceNumber();
+
+            /*ArrayList<InvoiceItem> invoices2 = new ArrayList<>();
+            for(InvoiceItem item: invoices){
+
+                if(invoices2.size() > 0) {
+
+                    Boolean isFound = false;
+                    for (InvoiceItem item2 : invoices2) {
+                        if(item2.getDocumentNumber().equals(item.getDocumentNumber()))
+                        {
+                            isFound = true;
+                            break;
+                        }
+                    }
+
+                    if(!isFound)
+                        invoices2.add(item);
+                }else
+                {
+                    invoices2.add(item);
+                }
+            }*/
+
+           /* if(invoices.size() > 0)
+                invoices = invoices2;*/
 
             JSONObject joTransfer = new JSONObject();
             JSONObject joCash = new JSONObject();
@@ -364,7 +387,7 @@ public class PaymentMainFragment extends Fragment {
                             checkJSON.put("RefenceNumber", c.getCheckNumber());
                             checkJSON.put("BankId", c.getBank().getId());
                             checkJSON.put("Amount", c.getAmount());
-                            checkJSON.put("DueDate", c.getDate());
+                            checkJSON.put("Date", c.getDate());
                             joInvoices.put(checkJSON);
                         }
                     } catch (JSONException e) {
@@ -379,6 +402,7 @@ public class PaymentMainFragment extends Fragment {
 
             try{
                 comment = URLEncoder.encode(comment, "UTF-8");
+                reference = URLEncoder.encode(reference, "UTF-8");
             }
             catch (Exception e)
             {
@@ -396,6 +420,7 @@ public class PaymentMainFragment extends Fragment {
                     joTransfer.toString(),
                     joChecks.toString(),
                     joInvoices.toString(),
+                    reference,
                     payment.getId());
 
             ((MainActivity) getActivity()).ClearPaymentData();
@@ -424,7 +449,7 @@ public class PaymentMainFragment extends Fragment {
         }
     }
 
-    private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, ArrayList<InvoiceItem> invoices, String comment) {
+    private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, ArrayList<InvoiceItem> invoices, String comment, String refence) {
 
         final User user = SettingsMy.getActiveUser();
 
@@ -512,7 +537,8 @@ public class PaymentMainFragment extends Fragment {
                     joCash.toString(),
                     joTransfer.toString(),
                     joChecks.toString(),
-                    joInvoices.toString());
+                    joInvoices.toString(),
+                    refence);
 
             ((MainActivity) getActivity()).ClearPaymentData();
 
@@ -602,7 +628,7 @@ public class PaymentMainFragment extends Fragment {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private int count = 5;
+        private int count = 3;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);

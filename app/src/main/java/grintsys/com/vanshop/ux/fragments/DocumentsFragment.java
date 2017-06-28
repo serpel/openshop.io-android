@@ -142,7 +142,7 @@ public class DocumentsFragment extends Fragment {
         documentTransactions.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                ((MainActivity)getActivity()).onClientTransacionSelected();
+                ((MainActivity)getActivity()).onClientTransacionSelected(clientCode.getText().toString());
             }
         });
 

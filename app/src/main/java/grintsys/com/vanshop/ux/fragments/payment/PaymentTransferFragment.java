@@ -140,8 +140,7 @@ public class PaymentTransferFragment extends Fragment {
         String myFormat = "yyyy/MM/dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dateEdit.setText(sdf.format(myCalendar.getTime()));
-        ((MainActivity)getActivity()).UpdateTransferDate(sdf.format(myCalendar.getTime()));
-
+        //((MainActivity)getActivity()).UpdateTransferDate(dateEdit.getText().toString());
 
         dateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +178,19 @@ public class PaymentTransferFragment extends Fragment {
                 referenceNumberEdit.setText(transfer.getNumber());
                 amountEdit.setText(String.valueOf(transfer.getAmount()));
                 dateEdit.setText(transfer.getDueDate());
-                //selectedBank = transfer.getBank();
+                ((MainActivity)getActivity()).UpdateTransferDate(transfer.getDueDate());
+
+                if(transfer.getBank() != null && bankSpinner != null){
+                    int index = 0;
+                    for(int i=0; i<this.banks.size() ; i++){
+                        if(this.banks.get(i).getGeneralAccount().equals(transfer.getBank().getGeneralAccount()))
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                    bankSpinner.setSelection(index);
+                }
             }
         }
 
@@ -210,7 +221,7 @@ public class PaymentTransferFragment extends Fragment {
     }
 
     public void prepareSpinner(View view){
-        if(this.banks.size() > 0)
+        if(this.banks.size() > 0 && selectedBank != null)
             ((MainActivity)getActivity()).UpdateTransferBank(this.banks.get(0));
 
         bankSpinner = (Spinner) view.findViewById(R.id.payment_transfer_banks);
@@ -232,17 +243,5 @@ public class PaymentTransferFragment extends Fragment {
                 Timber.d("OnNothingSelected - no change");
             }
         });
-
-        /*if(transfer != null && transfer.getBank() != null){
-            int index = 0;
-            for(int i=0; i<this.banks.size() ; i++){
-                if(this.banks.get(i).getGeneralAccount().equals(transfer.getBank().getGeneralAccount()))
-                {
-                    index = i;
-                    break;
-                }
-            }
-            bankSpinner.setSelection(index);
-        }*/
     }
 }

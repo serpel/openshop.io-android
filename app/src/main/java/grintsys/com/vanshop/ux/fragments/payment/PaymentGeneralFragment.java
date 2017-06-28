@@ -59,6 +59,7 @@ public class PaymentGeneralFragment extends Fragment {
     private TextView clientCardCode;
     private TextView clientName;
     private EditText comment;
+    private EditText referenceNumber;
     private Payment payment;
 
     // TODO: Rename and change types of parameters
@@ -103,6 +104,7 @@ public class PaymentGeneralFragment extends Fragment {
         clientCardCode = (TextView) view.findViewById(R.id.payment_general_client_code);
         clientName = (TextView) view.findViewById(R.id.payment_general_client_name);
         comment = (EditText) view.findViewById(R.id.payment_general_comment);
+        referenceNumber = (EditText) view.findViewById(R.id.payment_reference_number);
 
         comment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -121,6 +123,23 @@ public class PaymentGeneralFragment extends Fragment {
             }
         });
 
+        referenceNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ((MainActivity)getActivity()).setReferenceNumber(referenceNumber.getText().toString());
+            }
+        });
+
         Bundle args = getArguments();
         if(args != null){
             payment = (Payment) args.getSerializable(ARG_PAYMENT);
@@ -128,6 +147,7 @@ public class PaymentGeneralFragment extends Fragment {
                 comment.setText(payment.getComment());
                 clientName.setText(payment.getClient().getName());
                 clientCardCode.setText(payment.getClient().getCardCode());
+                referenceNumber.setText(payment.getReferenceNumber());
 
                 //Status 4 is Canceled
                 if(payment.getStatus() == 4){
