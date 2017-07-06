@@ -71,11 +71,11 @@ public class MyApplication extends Application {
      * @return DefaultRetryPolicy object
      */
     public static DefaultRetryPolicy getDefaultRetryPolice() {
-        return new DefaultRetryPolicy(14000, 1, 1);
+        return new DefaultRetryPolicy(30000, 1, 1);
     }
 
     public static DefaultRetryPolicy getSimpleRetryPolice() {
-        return new DefaultRetryPolicy(14000, 0, 1);
+        return new DefaultRetryPolicy(30000, 0, 1);
     }
 
     @Override
