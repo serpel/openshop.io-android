@@ -132,6 +132,11 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             viewHolderSelect.bindContent(filterTypeSelect);
             viewHolderSelect.selectName.setText(filterTypeSelect.getName());
             viewHolderSelect.filterSelectSpinnerAdapter.setSelectValuesList(filterTypeSelect.getValues());
+
+            if((position -1) >= 0){
+                FilterTypeSelect filterTypeSelect2 = (FilterTypeSelect) filterTypeList.get(position);
+            }
+
         } else if (holder instanceof ViewHolderRange) {
             final ViewHolderRange viewHolderRange = (ViewHolderRange) holder;
 
