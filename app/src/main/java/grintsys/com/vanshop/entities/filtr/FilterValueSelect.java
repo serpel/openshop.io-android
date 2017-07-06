@@ -5,6 +5,7 @@ public class FilterValueSelect {
 
     private long id = 0;
     private String value;
+    private long parent = 0;
 
     public FilterValueSelect() {
     }
@@ -12,6 +13,14 @@ public class FilterValueSelect {
     public FilterValueSelect(long id, String value) {
         this.id = id;
         this.value = value;
+    }
+
+    public long getParent() {
+        return parent;
+    }
+
+    public void setParent(long parent) {
+        this.parent = parent;
     }
 
     public long getId() {
