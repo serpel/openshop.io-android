@@ -53,6 +53,7 @@ import grintsys.com.vanshop.utils.RecyclerMarginDecorator;
 import grintsys.com.vanshop.ux.MainActivity;
 import grintsys.com.vanshop.ux.adapters.ProductsRowRecyclerAdapter;
 import grintsys.com.vanshop.ux.adapters.SortSpinnerAdapter;
+import grintsys.com.vanshop.ux.dialogs.FilterDialogCustomFragment;
 import grintsys.com.vanshop.ux.dialogs.FilterDialogFragment;
 import timber.log.Timber;
 
@@ -200,7 +201,7 @@ public class CategoryFragment extends Fragment {
                     if (filters == null) {
                         MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Filter_unavailable), MsgUtils.ToastLength.SHORT);
                     } else {
-                        FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance(filters, new FilterDialogInterface() {
+                        /*FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance(filters, new FilterDialogInterface() {
                             @Override
                             public void onFilterSelected(String newFilterUrl) {
                                 filterParameters = newFilterUrl;
@@ -214,7 +215,10 @@ public class CategoryFragment extends Fragment {
                                 filterButton.setImageResource(R.drawable.filter_unselected);
                                 getProducts(null);
                             }
-                        });
+                        });*/
+
+                        FilterDialogCustomFragment filterDialogFragment = FilterDialogCustomFragment.newInstance(filters);
+
                         if (filterDialogFragment != null)
                             filterDialogFragment.show(getFragmentManager(), "filterDialogFragment");
                         else {

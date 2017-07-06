@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="@dimen/base_margin">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="@string/FILTER"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Categoria"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_custom_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/spinner_background_black_baseline"
+            android:gravity="start"
+            android:paddingBottom="8dp"
+            android:visibility="visible"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SubCategoria"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_custom_subcategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/spinner_background_black_baseline"
+            android:gravity="start"
+            android:paddingBottom="8dp"
+            android:visibility="visible"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Familia"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_custom_family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/spinner_background_black_baseline"
+            android:gravity="start"
+            android:paddingBottom="8dp"
+            android:visibility="visible"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SubFamilia"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_custom_subfamily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/spinner_background_black_baseline"
+            android:gravity="start"
+            android:paddingBottom="8dp"
+            android:visibility="visible"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/brand"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_custom_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/spinner_background_black_baseline"
+            android:gravity="start"
+            android:paddingBottom="8dp"
+            android:visibility="visible"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/filter_btn_cancel"
+            style="@style/buttonSecondaryStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/Clear"/>
+
+        <View
+            android:layout_width="@dimen/base_margin_horizontal"
+            android:layout_height="5dp"/>
+
+        <Button
+            android:id="@+id/filter_btn_apply"
+            style="@style/buttonPrimaryStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/Apply"/>
+    </LinearLayout>
+</LinearLayout>
