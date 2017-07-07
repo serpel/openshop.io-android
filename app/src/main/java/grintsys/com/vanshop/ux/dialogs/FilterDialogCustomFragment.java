@@ -38,6 +38,7 @@ import grintsys.com.vanshop.entities.filtr.FilterValueSelect;
 import grintsys.com.vanshop.entities.filtr.Filters;
 import grintsys.com.vanshop.entities.payment.CheckPayment;
 import grintsys.com.vanshop.interfaces.BankDialogInterface;
+import grintsys.com.vanshop.interfaces.FilterDialogInterface;
 import grintsys.com.vanshop.listeners.OnSingleClickListener;
 import grintsys.com.vanshop.ux.adapters.BankSpinnerAdapter;
 import grintsys.com.vanshop.ux.adapters.SelectSpinnerAdapter;
@@ -51,11 +52,20 @@ import timber.log.Timber;
 public class FilterDialogCustomFragment extends DialogFragment {
     private Spinner categorySpinner, subcategorySpinner, familySpinner, subfamilySpinner, brandSpinner;
     private Filters filterData;
+    private FilterDialogInterface filterDialogInterface;
 
-    public static FilterDialogCustomFragment newInstance(Filters filter) {
+    public static FilterDialogCustomFragment newInstance(Filters filter, FilterDialogInterface filterDialogInterface) {
         FilterDialogCustomFragment frag = new FilterDialogCustomFragment();
 
+        if (filter == null || filterDialogInterface == null) {
+            Timber.e(new RuntimeException(), "Created filterDialog with null parameters.");
+            return null;
+        }
+
         frag.filterData = filter;
+        frag.filterDialogInterface = filterDialogInterface;
+
+
         return frag;
     }
 
@@ -93,8 +103,18 @@ public class FilterDialogCustomFragment extends DialogFragment {
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String filterUrl = buildFilterUrl();
-                //filterDialogInterface.onFilterSelected(filterUrl);
+                String filterUrl = "";
+                if(subfamilySpinner.getSelectedItem() != null  && subfamilySpinner.getSelectedItemId() > 0)
+                {
+                    filterUrl+="category=" + ((FilterValueSelect)subfamilySpinner.getSelectedItem()).getId();
+                }
+                if(brandSpinner.getSelectedItem() != null && brandSpinner.getSelectedItemId() > 0)
+                {
+                    filterUrl+="&brand=" + ((FilterValueSelect)brandSpinner.getSelectedItem()).getId();
+                }
+
+                filterDialogInterface.onFilterSelected(filterUrl);
+
                 dismiss();
             }
         });
@@ -105,14 +125,7 @@ public class FilterDialogCustomFragment extends DialogFragment {
             public void onClick(View v) {
                 // Clear all selected values
                 if (filterData != null) {
-                    FilterTypeSelect filterTypeSelect = (FilterTypeSelect) filterData.getFilters().get(0);
-                    List<FilterValueSelect> subCategoryItems = filterTypeSelect.getValues();
-                    FilterValueSelect select_item = new FilterValueSelect();
-                    select_item.setValue("Seleccionar");
-                    subCategoryItems.add(0,select_item);
-                    final SelectSpinnerAdapter selectSpinnerAdapter = new SelectSpinnerAdapter(getActivity(), filterTypeSelect.getValues());
-                    categorySpinner.setAdapter(selectSpinnerAdapter);
-
+                    categorySpinner.setSelection(0);
                     subcategorySpinner.setAdapter(null);
                     familySpinner.setAdapter(null);
                     subfamilySpinner.setAdapter(null);
@@ -125,27 +138,45 @@ public class FilterDialogCustomFragment extends DialogFragment {
     }
 
     public void prepareSpinner(View view){
+
+
+        final ArrayList<FilterValueSelect> filteredSubCategoryItems  = new ArrayList<>();
+        final ArrayList<FilterValueSelect> filteredFamilyItems  = new ArrayList<>();
+        final ArrayList<FilterValueSelect> filteredSubFamilyItems  = new ArrayList<>();
+
         categorySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_category);
+        subcategorySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_subcategory);
+        familySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_family);
+        subfamilySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_subfamily);
+        brandSpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_brand);
+
         FilterTypeSelect filterTypeSelect = (FilterTypeSelect) this.filterData.getFilters().get(0);
-        List<FilterValueSelect> subCategoryItems = filterTypeSelect.getValues();
-        FilterValueSelect select_item = new FilterValueSelect();
-        select_item.setValue("Seleccionar");
-        subCategoryItems.add(0,select_item);
-        final SelectSpinnerAdapter selectSpinnerAdapter = new SelectSpinnerAdapter(getActivity(), filterTypeSelect.getValues());
+        final ArrayList<FilterValueSelect> categoryItems = new ArrayList<>(filterTypeSelect.getValues());
+        FilterValueSelect select_item_category = new FilterValueSelect();
+        select_item_category.setValue("Seleccionar");
+        categoryItems.add(0, select_item_category);
+        final SelectSpinnerAdapter selectSpinnerAdapter = new SelectSpinnerAdapter(getActivity(), categoryItems);
         categorySpinner.setAdapter(selectSpinnerAdapter);
+
+        filterTypeSelect = (FilterTypeSelect) this.filterData.getFilters().get(4);
+        final ArrayList<FilterValueSelect> brandItems = new ArrayList<>(filterTypeSelect.getValues());
+        FilterValueSelect select_item_brand = new FilterValueSelect();
+        select_item_brand.setValue("Seleccionar");
+        brandItems.add(0, select_item_brand);
+        final SelectSpinnerAdapter selectSpinnerAdapterBrand = new SelectSpinnerAdapter(getActivity(), brandItems);
+        brandSpinner.setAdapter(selectSpinnerAdapterBrand);
+
         categorySpinner.setOnItemSelectedListener(null);
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i>0)
                 {
-                    FilterTypeSelect filterTypeSelectCategory = (FilterTypeSelect) filterData.getFilters().get(0);
-                    List<FilterValueSelect> categoryItems = filterTypeSelectCategory.getValues();
                     long selected_id = categoryItems.get(i).getId();
 
                     FilterTypeSelect filterTypeSelectSubCategory = (FilterTypeSelect) filterData.getFilters().get(1);
                     List<FilterValueSelect> subCategoryItems = filterTypeSelectSubCategory.getValues();
-                    ArrayList<FilterValueSelect> filteredSubCategoryItems = new ArrayList<>();
+                    filteredSubCategoryItems.clear();
 
                     for (FilterValueSelect subCategoryItem : subCategoryItems) {
                         if (subCategoryItem.getParent() == selected_id) {
@@ -170,23 +201,17 @@ public class FilterDialogCustomFragment extends DialogFragment {
 
         if(this.filterData.getFilters().size() >= 1) {
 
-            subcategorySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_subcategory);
-            familySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_family);
-            subfamilySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_subfamily);
-
             subcategorySpinner.setOnItemSelectedListener(null);
             subcategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if(i>0)
                     {
-                        FilterTypeSelect filterTypeSelectSubCategory = (FilterTypeSelect) filterData.getFilters().get(1);
-                        List<FilterValueSelect> subCategoryItems = filterTypeSelectSubCategory.getValues();
-                        long selected_id = subCategoryItems.get(i).getId();
+                        long selected_id = filteredSubCategoryItems.get(i).getId();
 
                         FilterTypeSelect filterTypeSelectFamily = (FilterTypeSelect) filterData.getFilters().get(2);
                         List<FilterValueSelect> familyItems = filterTypeSelectFamily.getValues();
-                        ArrayList<FilterValueSelect> filteredFamilyItems = new ArrayList<>();
+                        filteredFamilyItems.clear();
 
                         for (FilterValueSelect familyItem : familyItems) {
                             if (familyItem.getParent() == selected_id) {
@@ -214,13 +239,11 @@ public class FilterDialogCustomFragment extends DialogFragment {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if(i>0)
                     {
-                        FilterTypeSelect filterTypeSelectFamily = (FilterTypeSelect) filterData.getFilters().get(2);
-                        List<FilterValueSelect> familyItems = filterTypeSelectFamily.getValues();
-                        long selected_id = familyItems.get(i).getId();
+                        long selected_id = filteredFamilyItems.get(i).getId();
 
                         FilterTypeSelect filterTypeSubFamily = (FilterTypeSelect) filterData.getFilters().get(3);
                         List<FilterValueSelect> subFamilyItems = filterTypeSubFamily.getValues();
-                        ArrayList<FilterValueSelect> filteredSubFamilyItems = new ArrayList<>();
+                        filteredSubFamilyItems.clear();
 
                         for (FilterValueSelect subFamilyItem : subFamilyItems) {
                             if (subFamilyItem.getParent() == selected_id) {
@@ -241,46 +264,5 @@ public class FilterDialogCustomFragment extends DialogFragment {
                 }
             });
         }
-
-        if(this.filterData.getFilters().size() >= 2) {
-
-            familySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_family);
-            FilterTypeSelect filterTypeSelectFamily = (FilterTypeSelect) this.filterData.getFilters().get(2);
-            final SelectSpinnerAdapter selectSpinnerAdapterFamily = new SelectSpinnerAdapter(getActivity(), filterTypeSelectFamily.getValues());
-            familySpinner.setAdapter(selectSpinnerAdapterFamily);
-            familySpinner.setOnItemSelectedListener(null);
-            familySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    //selectedBank = bankSpinnerAdapter.getItem(i);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    Timber.d("OnNothingSelected - no change");
-                }
-            });
-        }
-
-        /*
-        if(this.filterData.getFilters().size() >= 3) {
-
-            subfamilySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_subfamily);
-            FilterTypeSelect filterTypeSelectSubFamily = (FilterTypeSelect) this.filterData.getFilters().get(3);
-            final SelectSpinnerAdapter selectSpinnerAdapterSubFamily = new SelectSpinnerAdapter(getActivity(), filterTypeSelectSubFamily.getValues());
-            subfamilySpinner.setAdapter(selectSpinnerAdapterSubFamily);
-            subfamilySpinner.setOnItemSelectedListener(null);
-            subfamilySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    //selectedBank = bankSpinnerAdapter.getItem(i);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    Timber.d("OnNothingSelected - no change");
-                }
-            });
-        }*/
     }
 }

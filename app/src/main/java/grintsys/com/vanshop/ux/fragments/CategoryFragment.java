@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -201,7 +202,7 @@ public class CategoryFragment extends Fragment {
                     if (filters == null) {
                         MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Filter_unavailable), MsgUtils.ToastLength.SHORT);
                     } else {
-                        /*FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance(filters, new FilterDialogInterface() {
+                        FilterDialogCustomFragment filterDialogFragment = FilterDialogCustomFragment.newInstance(filters, new FilterDialogInterface() {
                             @Override
                             public void onFilterSelected(String newFilterUrl) {
                                 filterParameters = newFilterUrl;
@@ -215,9 +216,7 @@ public class CategoryFragment extends Fragment {
                                 filterButton.setImageResource(R.drawable.filter_unselected);
                                 getProducts(null);
                             }
-                        });*/
-
-                        FilterDialogCustomFragment filterDialogFragment = FilterDialogCustomFragment.newInstance(filters);
+                        });
 
                         if (filterDialogFragment != null)
                             filterDialogFragment.show(getFragmentManager(), "filterDialogFragment");
@@ -432,9 +431,17 @@ public class CategoryFragment extends Fragment {
             }
 
             // Add filters parameter if exist
+
+            if(filterParameters != null && filterParameters.contains("category="))
+            {
+                url = url.substring(0,url.indexOf('?')+1);
+            }
+
             if (filterParameters != null && !filterParameters.isEmpty()) {
                 url += filterParameters;
             }
+
+            Log.d("probandito", url);
 
             SortItem sortItem = (SortItem) sortSpinner.getSelectedItem();
             if (sortItem != null) {
