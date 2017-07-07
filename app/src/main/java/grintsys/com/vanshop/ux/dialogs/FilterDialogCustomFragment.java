@@ -149,7 +149,7 @@ public class FilterDialogCustomFragment extends DialogFragment {
             });
         }
 
-        /*if(this.filterData.getFilters().size() >= 2) {
+        if(this.filterData.getFilters().size() >= 2) {
 
             familySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_family);
             FilterTypeSelect filterTypeSelectFamily = (FilterTypeSelect) this.filterData.getFilters().get(2);
@@ -169,6 +169,7 @@ public class FilterDialogCustomFragment extends DialogFragment {
             });
         }
 
+        /*
         if(this.filterData.getFilters().size() >= 3) {
 
             subfamilySpinner = (Spinner) view.findViewById(R.id.dialog_filter_custom_subfamily);
