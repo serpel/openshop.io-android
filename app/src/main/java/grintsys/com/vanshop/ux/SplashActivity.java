@@ -333,7 +333,7 @@ public class SplashActivity extends AppCompatActivity {
     private void requestShops() {
         if (layoutIntroScreen.getVisibility() != View.VISIBLE)
             progressDialog.show();
-        GsonRequest<ShopResponse> getShopsRequest = new GsonRequest<>(Request.Method.GET, EndPoints.SHOPS, null, ShopResponse.class,
+                GsonRequest<ShopResponse> getShopsRequest = new GsonRequest<>(Request.Method.GET, EndPoints.SHOPS, null, ShopResponse.class,
                 new Response.Listener<ShopResponse>() {
                     @Override
                     public void onResponse(@NonNull ShopResponse response) {

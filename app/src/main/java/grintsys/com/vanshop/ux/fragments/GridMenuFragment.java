@@ -189,22 +189,29 @@ public class GridMenuFragment extends Fragment {
         }
     }*/
 
-    public void getBadgeCount(){
-        GsonRequest<MainMenu> getProductRequest = new GsonRequest<>(Request.Method.GET, EndPoints.MAIN_MENU_BADGE_COUNT, null, MainMenu.class,
-                new Response.Listener<MainMenu>() {
-                    @Override
-                    public void onResponse(@NonNull MainMenu response) {
-                        setBadgeCount(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        getProductRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getProductRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.MAIN_MENU_REQUESTS_TAG);
+    public void getBadgeCount() {
+        User user = SettingsMy.getActiveUser();
+
+        if (user != null) {
+            //String url = String.format(EndPoints.ORDERS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), orderId);
+            String url = String.format(EndPoints.MAIN_MENU_BADGE_COUNT, user.getId());
+
+            GsonRequest<MainMenu> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, MainMenu.class,
+                    new Response.Listener<MainMenu>() {
+                        @Override
+                        public void onResponse(@NonNull MainMenu response) {
+                            setBadgeCount(response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getProductRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            getProductRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.MAIN_MENU_REQUESTS_TAG);
+        }
     }
 
     public void setBadgeCount(MainMenu mainMenu){

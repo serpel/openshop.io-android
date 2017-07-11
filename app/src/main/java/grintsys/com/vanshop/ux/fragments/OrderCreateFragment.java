@@ -217,23 +217,28 @@ public class OrderCreateFragment extends Fragment {
     }
 
 
-    private void getSellers(){
-        GsonRequest<UsersResponse> usersRequest = new GsonRequest<>(Request.Method.GET, EndPoints.USERS, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
-            @Override
-            public void onResponse(@NonNull UsersResponse usersResponse) {
-                //deliveryProgressBar.setVisibility(View.GONE);
-                userSpinnerAdapter.setUserList(usersResponse.getUserList());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //deliveryProgressBar.setVisibility(View.GONE);
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        usersRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        usersRequest.setShouldCache(true);
-        MyApplication.getInstance().addToRequestQueue(usersRequest, CONST.USERS_TAG);
+    private void getSellers() {
+
+        User user = SettingsMy.getActiveUser();
+        if (user != null) {
+            String url = String.format(EndPoints.USERS, user.getId());
+            GsonRequest<UsersResponse> usersRequest = new GsonRequest<>(Request.Method.GET, url, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
+                @Override
+                public void onResponse(@NonNull UsersResponse usersResponse) {
+                    //deliveryProgressBar.setVisibility(View.GONE);
+                    userSpinnerAdapter.setUserList(usersResponse.getUserList());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //deliveryProgressBar.setVisibility(View.GONE);
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            usersRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            usersRequest.setShouldCache(true);
+            MyApplication.getInstance().addToRequestQueue(usersRequest, CONST.USERS_TAG);
+        }
     }
 
     private void getUserCart() {

@@ -29,8 +29,10 @@ import java.net.URLEncoder;
 import grintsys.com.vanshop.CONST;
 import grintsys.com.vanshop.MyApplication;
 import grintsys.com.vanshop.R;
+import grintsys.com.vanshop.SettingsMy;
 import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
+import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.client.Client;
 import grintsys.com.vanshop.entities.client.ClientListResponse;
 import grintsys.com.vanshop.entities.invoice.Invoice;
@@ -174,41 +176,44 @@ public class InvoiceHistoryFragment extends Fragment {
 
     private void getInvoices() {
         loadMoreProgress.setVisibility(View.VISIBLE);
+        User user = SettingsMy.getActiveUser();
 
-        String url = EndPoints.INVOICE_HISTORY;
+        if (user != null) {
+            String url = String.format(EndPoints.INVOICE_HISTORY, user.getId());
 
-        if (searchQuery != null) {
-            String newSearchQueryString;
-            try {
-                newSearchQueryString = URLEncoder.encode(searchQuery, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                Timber.e(e, "Unsupported encoding exception");
-                newSearchQueryString = URLEncoder.encode(searchQuery);
+            if (searchQuery != null) {
+                String newSearchQueryString;
+                try {
+                    newSearchQueryString = URLEncoder.encode(searchQuery, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    Timber.e(e, "Unsupported encoding exception");
+                    newSearchQueryString = URLEncoder.encode(searchQuery);
+                }
+                Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
+                url += "?search=" + newSearchQueryString;
             }
-            Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
-            url += "?search=" + newSearchQueryString;
+
+            GsonRequest<InvoiceResponse> getClientsRequest = new GsonRequest<>(Request.Method.GET, url, null, InvoiceResponse.class,
+                    new Response.Listener<InvoiceResponse>() {
+                        @Override
+                        public void onResponse(@NonNull InvoiceResponse response) {
+                            //Timber.d("response:" + response.toString());
+                            invoicesRecyclerAdapter.addItem(response.getInvoices());
+                            checkEmptyContent();
+                            loadMoreProgress.setVisibility(View.GONE);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (loadMoreProgress != null) loadMoreProgress.setVisibility(View.GONE);
+                    checkEmptyContent();
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getClientsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            getClientsRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getClientsRequest, CONST.INVOICE_HISTORY_REQUESTS_TAG);
         }
-
-        GsonRequest<InvoiceResponse> getClientsRequest = new GsonRequest<>(Request.Method.GET, url, null, InvoiceResponse.class,
-                new Response.Listener<InvoiceResponse>() {
-                    @Override
-                    public void onResponse(@NonNull InvoiceResponse response) {
-//                        Timber.d("response:" + response.toString());
-                        invoicesRecyclerAdapter.addItem(response.getInvoices());
-                        checkEmptyContent();
-                        loadMoreProgress.setVisibility(View.GONE);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (loadMoreProgress != null) loadMoreProgress.setVisibility(View.GONE);
-                checkEmptyContent();
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        getClientsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getClientsRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getClientsRequest, CONST.INVOICE_HISTORY_REQUESTS_TAG);
     }
 
     private void checkEmptyContent() {

@@ -314,4 +314,5 @@
     <string name="DailyQuota">Daily Couta</string>
     <string name="Refund">Refund</string>
     <string name="Receipt">No. Receipt</string>
+    <string name="Country">Country</string>
 </resources>

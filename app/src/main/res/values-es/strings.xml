@@ -295,4 +295,5 @@
     <string name="Refund">Devolucion</string>
     <string name="SendToSap">Enviar a SAP</string>
     <string name="Receipt">No. Recibo</string>
+    <string name="Country">Pais</string>
 </resources>

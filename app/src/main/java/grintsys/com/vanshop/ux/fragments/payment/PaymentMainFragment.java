@@ -132,47 +132,59 @@ public class PaymentMainFragment extends Fragment {
     }
 
     private void getClient(String card_code) {
-        String url = String.format(EndPoints.CLIENT, card_code);
-        setContentVisible(CONST.VISIBLE.PROGRESS);
 
-        GsonRequest<Client> clientGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
-                new Response.Listener<Client>() {
-                    @Override
-                    public void onResponse(@NonNull Client response) {
-                        client = response;
-                        getBanks();
-                        setContentVisible(CONST.VISIBLE.CONTENT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                setContentVisible(CONST.VISIBLE.EMPTY);
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        clientGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        clientGsonRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(clientGsonRequest, CONST.CLIENT_REQUESTS_TAG);
+        final User user = SettingsMy.getActiveUser();
+
+        if (user != null) {
+            String url = String.format(EndPoints.CLIENT, user.getId(), card_code);
+            setContentVisible(CONST.VISIBLE.PROGRESS);
+
+            GsonRequest<Client> clientGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
+                    new Response.Listener<Client>() {
+                        @Override
+                        public void onResponse(@NonNull Client response) {
+                            client = response;
+                            getBanks();
+                            setContentVisible(CONST.VISIBLE.CONTENT);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    setContentVisible(CONST.VISIBLE.EMPTY);
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            clientGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            clientGsonRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(clientGsonRequest, CONST.CLIENT_REQUESTS_TAG);
+        }
     }
 
     private void getBanks() {
-        setContentVisible(CONST.VISIBLE.PROGRESS);
-        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, EndPoints.BANKS, null, BankResponse.class,
-                new Response.Listener<BankResponse>() {
-                    @Override
-                    public void onResponse(@NonNull BankResponse response) {
-                        banks = response.getBanks();
-                        setContentVisible(CONST.VISIBLE.CONTENT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        banksGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        banksGsonRequest.setShouldCache(true);
-        MyApplication.getInstance().addToRequestQueue(banksGsonRequest, CONST.BANKS_TAG);
+
+        final User user = SettingsMy.getActiveUser();
+
+        if (user != null) {
+            String url = String.format(EndPoints.BANKS, user.getId());
+
+            setContentVisible(CONST.VISIBLE.PROGRESS);
+            GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, BankResponse.class,
+                    new Response.Listener<BankResponse>() {
+                        @Override
+                        public void onResponse(@NonNull BankResponse response) {
+                            banks = response.getBanks();
+                            setContentVisible(CONST.VISIBLE.CONTENT);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            banksGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            banksGsonRequest.setShouldCache(true);
+            MyApplication.getInstance().addToRequestQueue(banksGsonRequest, CONST.BANKS_TAG);
+        }
     }
 
     @Override
@@ -576,26 +588,30 @@ public class PaymentMainFragment extends Fragment {
 
     public void cancelPayment(int id)
     {
-        String url = String.format(EndPoints.CANCEL_PAYMENT, id);
+        final User user = SettingsMy.getActiveUser();
 
-        GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(@NonNull JSONObject payment) {
-                        Timber.d("Esto devolvio %s", payment);
-                        ((MainActivity) getActivity()).ClearPaymentData();
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //if (progressDialog != null) progressDialog.cancel();
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        }, getFragmentManager(), null);
-        req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        req.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(req, CONST.CANCEL_PAYMENT_TAG);
+        if(user != null) {
+            String url = String.format(EndPoints.CANCEL_PAYMENT, user.getId(), id);
+
+            GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(@NonNull JSONObject payment) {
+                            Timber.d("Esto devolvio %s", payment);
+                            ((MainActivity) getActivity()).ClearPaymentData();
+                            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //if (progressDialog != null) progressDialog.cancel();
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            }, getFragmentManager(), null);
+            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            req.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(req, CONST.CANCEL_PAYMENT_TAG);
+        }
     }
 
 

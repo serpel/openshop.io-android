@@ -157,28 +157,31 @@ public class UpdateCartItemDialogFragment extends DialogFragment {
     }
 
     private void getProductDetail(CartProductItem cartProductItem) {
-        //String url = String.format(EndPoints.PRODUCTS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), cartProductItem.getVariant().getProductId());
 
-        String url = String.format(EndPoints.PRODUCTS_SINGLE, cartProductItem.getVariant().getProductId());
-        setProgressActive(true);
+        final User user = SettingsMy.getActiveUser();
+        if (user != null) {
 
-        GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
-                new Response.Listener<Product>() {
-                    @Override
-                    public void onResponse(@NonNull Product response) {
-                        setProgressActive(false);
-                        setSpinners(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                setProgressActive(false);
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        getProductRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-        getProductRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.UPDATE_CART_ITEM_REQUESTS_TAG);
+            String url = String.format(EndPoints.PRODUCTS_SINGLE, user.getId(), cartProductItem.getVariant().getProductId());
+            setProgressActive(true);
+
+            GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
+                    new Response.Listener<Product>() {
+                        @Override
+                        public void onResponse(@NonNull Product response) {
+                            setProgressActive(false);
+                            setSpinners(response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    setProgressActive(false);
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getProductRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            getProductRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.UPDATE_CART_ITEM_REQUESTS_TAG);
+        }
     }
 
 

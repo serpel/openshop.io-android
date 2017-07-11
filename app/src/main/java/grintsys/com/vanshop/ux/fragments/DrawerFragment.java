@@ -34,6 +34,7 @@ import grintsys.com.vanshop.R;
 import grintsys.com.vanshop.SettingsMy;
 import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
+import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.drawerMenu.DrawerItemCategory;
 import grintsys.com.vanshop.entities.drawerMenu.DrawerItemPage;
 import grintsys.com.vanshop.entities.drawerMenu.DrawerResponse;
@@ -302,34 +303,38 @@ public class DrawerFragment extends Fragment {
         drawerProgress.setVisibility(View.VISIBLE);
         drawerRetryBtn.setVisibility(View.GONE);
 
-        String url = String.format(EndPoints.NAVIGATION_DRAWER, SettingsMy.getActualNonNullShop(getActivity()).getId());
-        GsonRequest<DrawerResponse> getDrawerMenu = new GsonRequest<>(Request.Method.GET, url, null, DrawerResponse.class, new Response.Listener<DrawerResponse>() {
-            @Override
-            public void onResponse(@NonNull DrawerResponse drawerResponse) {
-                drawerRecyclerAdapter.addDrawerItem(new DrawerItemCategory(BANNERS_ID, BANNERS_ID, getString(R.string.Just_arrived)));
-                drawerRecyclerAdapter.addDrawerItemList(drawerResponse.getNavigation());
-                drawerRecyclerAdapter.addPageItemList(drawerResponse.getPages());
-                drawerRecyclerAdapter.notifyDataSetChanged();
+        final User user = SettingsMy.getActiveUser();
 
-                if (drawerListener != null)
-                    drawerListener.prepareSearchSuggestions(drawerResponse.getNavigation());
+        if (user != null) {
+            String url = String.format(EndPoints.NAVIGATION_DRAWER, user.getId(), SettingsMy.getActualNonNullShop(getActivity()).getId());
+            GsonRequest<DrawerResponse> getDrawerMenu = new GsonRequest<>(Request.Method.GET, url, null, DrawerResponse.class, new Response.Listener<DrawerResponse>() {
+                @Override
+                public void onResponse(@NonNull DrawerResponse drawerResponse) {
+                    drawerRecyclerAdapter.addDrawerItem(new DrawerItemCategory(BANNERS_ID, BANNERS_ID, getString(R.string.Just_arrived)));
+                    drawerRecyclerAdapter.addDrawerItemList(drawerResponse.getNavigation());
+                    drawerRecyclerAdapter.addPageItemList(drawerResponse.getPages());
+                    drawerRecyclerAdapter.notifyDataSetChanged();
 
-                drawerLoading = false;
-                if (drawerRecycler != null) drawerRecycler.setVisibility(View.VISIBLE);
-                if (drawerProgress != null) drawerProgress.setVisibility(View.GONE);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                drawerLoading = false;
-                if (drawerProgress != null) drawerProgress.setVisibility(View.GONE);
-                if (drawerRetryBtn != null) drawerRetryBtn.setVisibility(View.VISIBLE);
-            }
-        });
-        getDrawerMenu.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getDrawerMenu.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getDrawerMenu, CONST.DRAWER_REQUESTS_TAG);
+                    if (drawerListener != null)
+                        drawerListener.prepareSearchSuggestions(drawerResponse.getNavigation());
+
+                    drawerLoading = false;
+                    if (drawerRecycler != null) drawerRecycler.setVisibility(View.VISIBLE);
+                    if (drawerProgress != null) drawerProgress.setVisibility(View.GONE);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                    drawerLoading = false;
+                    if (drawerProgress != null) drawerProgress.setVisibility(View.GONE);
+                    if (drawerRetryBtn != null) drawerRetryBtn.setVisibility(View.VISIBLE);
+                }
+            });
+            getDrawerMenu.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            getDrawerMenu.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getDrawerMenu, CONST.DRAWER_REQUESTS_TAG);
+        }
     }
 
     private void animateSubListHide() {

@@ -453,31 +453,34 @@ public class ProductFragment extends Fragment {
         // Load product info
         //TODO: multiple companies
         //String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
-        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, productId);
-        setContentVisible(CONST.VISIBLE.PROGRESS);
+        final User user = SettingsMy.getActiveUser();
+        if (user != null) {
+            String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, user.getId(), productId);
+            setContentVisible(CONST.VISIBLE.PROGRESS);
 
-        GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
-                new Response.Listener<Product>() {
-                    @Override
-                    public void onResponse(@NonNull Product response) {
-                        MainActivity.setActionBarTitle(response.getName());
-                        if (response.getVariants() != null && response.getVariants().size() > 0) {
-                            //getWishListInfo(productId);
+            GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
+                    new Response.Listener<Product>() {
+                        @Override
+                        public void onResponse(@NonNull Product response) {
+                            MainActivity.setActionBarTitle(response.getName());
+                            if (response.getVariants() != null && response.getVariants().size() > 0) {
+                                //getWishListInfo(productId);
+                            }
+                            addRecommendedProducts(response.getRelated());
+                            refreshScreenData(response);
+                            setContentVisible(CONST.VISIBLE.CONTENT);
                         }
-                        addRecommendedProducts(response.getRelated());
-                        refreshScreenData(response);
-                        setContentVisible(CONST.VISIBLE.CONTENT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                setContentVisible(CONST.VISIBLE.EMPTY);
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        getProductRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-        getProductRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.PRODUCT_REQUESTS_TAG);
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    setContentVisible(CONST.VISIBLE.EMPTY);
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getProductRequest.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+            getProductRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.PRODUCT_REQUESTS_TAG);
+        }
     }
 
     /**

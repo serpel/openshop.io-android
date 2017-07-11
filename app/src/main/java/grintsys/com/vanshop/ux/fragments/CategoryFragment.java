@@ -40,6 +40,7 @@ import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.Metadata;
 import grintsys.com.vanshop.entities.SortItem;
+import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.drawerMenu.DrawerItemCategory;
 import grintsys.com.vanshop.entities.filtr.Filters;
 import grintsys.com.vanshop.entities.product.Product;
@@ -413,65 +414,68 @@ public class CategoryFragment extends Fragment {
         if (url == null) {
             if (endlessRecyclerScrollListener != null) endlessRecyclerScrollListener.clean();
             productsRecyclerAdapter.clear();
-            url = String.format(EndPoints.PRODUCTS, SettingsMy.getActualNonNullShop(getActivity()).getId());
 
-            // Build request url
-            if (searchQuery != null) {
-                String newSearchQueryString;
-                try {
-                    newSearchQueryString = URLEncoder.encode(searchQuery, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    Timber.e(e, "Unsupported encoding exception");
-                    newSearchQueryString = URLEncoder.encode(searchQuery);
-                }
-                Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
-                url += "?search=" + newSearchQueryString;
-            } else {
-                url += "?" + categoryType + "=" + categoryId;
-            }
+            final User user = SettingsMy.getActiveUser();
+            if (user != null) {
+                url = String.format(EndPoints.PRODUCTS, user.getId(), SettingsMy.getActualNonNullShop(getActivity()).getId());
 
-            // Add filters parameter if exist
-
-            if(filterParameters != null && filterParameters.contains("category="))
-            {
-                url = url.substring(0,url.indexOf('?')+1);
-            }
-
-            if (filterParameters != null && !filterParameters.isEmpty()) {
-                url += filterParameters;
-            }
-
-            Log.d("probandito", url);
-
-            SortItem sortItem = (SortItem) sortSpinner.getSelectedItem();
-            if (sortItem != null) {
-                url = url + "&sort=" + sortItem.getValue();
-            }
-        }
-
-        GsonRequest<ProductListResponse> getProductsRequest = new GsonRequest<>(Request.Method.GET, url, null, ProductListResponse.class,
-                new Response.Listener<ProductListResponse>() {
-                    @Override
-                    public void onResponse(@NonNull ProductListResponse response) {
-                        firstTimeSort = false;
-//                        Timber.d("response:" + response.toString());
-                        productsRecyclerAdapter.addProducts(response.getProducts());
-                        productsMetadata = response.getMetadata();
-                        if (filters == null) filters = productsMetadata.getFilters();
-                        checkEmptyContent();
-                        loadMoreProgress.setVisibility(View.GONE);
+                // Build request url
+                if (searchQuery != null) {
+                    String newSearchQueryString;
+                    try {
+                        newSearchQueryString = URLEncoder.encode(searchQuery, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        Timber.e(e, "Unsupported encoding exception");
+                        newSearchQueryString = URLEncoder.encode(searchQuery);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (loadMoreProgress != null) loadMoreProgress.setVisibility(View.GONE);
-                checkEmptyContent();
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                    Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
+                    url += "?search=" + newSearchQueryString;
+                } else {
+                    url += "?" + categoryType + "=" + categoryId;
+                }
+
+                // Add filters parameter if exist
+
+                if (filterParameters != null && filterParameters.contains("category=")) {
+                    url = url.substring(0, url.indexOf('?') + 1);
+                }
+
+                if (filterParameters != null && !filterParameters.isEmpty()) {
+                    url += filterParameters;
+                }
+
+                Log.d("probandito", url);
+
+                SortItem sortItem = (SortItem) sortSpinner.getSelectedItem();
+                if (sortItem != null) {
+                    url = url + "&sort=" + sortItem.getValue();
+                }
             }
-        });
-        getProductsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getProductsRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getProductsRequest, CONST.CATEGORY_REQUESTS_TAG);
+
+            GsonRequest<ProductListResponse> getProductsRequest = new GsonRequest<>(Request.Method.GET, url, null, ProductListResponse.class,
+                    new Response.Listener<ProductListResponse>() {
+                        @Override
+                        public void onResponse(@NonNull ProductListResponse response) {
+                            firstTimeSort = false;
+//                        Timber.d("response:" + response.toString());
+                            productsRecyclerAdapter.addProducts(response.getProducts());
+                            productsMetadata = response.getMetadata();
+                            if (filters == null) filters = productsMetadata.getFilters();
+                            checkEmptyContent();
+                            loadMoreProgress.setVisibility(View.GONE);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (loadMoreProgress != null) loadMoreProgress.setVisibility(View.GONE);
+                    checkEmptyContent();
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getProductsRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            getProductsRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getProductsRequest, CONST.CATEGORY_REQUESTS_TAG);
+        }
     }
 
     private void checkEmptyContent() {

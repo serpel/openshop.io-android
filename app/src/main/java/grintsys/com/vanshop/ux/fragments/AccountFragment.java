@@ -49,6 +49,7 @@ public class AccountFragment extends Fragment {
     private Button backButton;
     private Button myPayments;
     private TextView tvVersion;
+    private TextView tvCountry;
 
     // Actions
     private Button myOrdersBtn;
@@ -67,6 +68,7 @@ public class AccountFragment extends Fragment {
         tvUserName = (TextView) view.findViewById(R.id.account_name);
         tvEmail = (TextView) view.findViewById(R.id.account_email);
         tvVersion = (TextView) view.findViewById(R.id.account_app_version);
+        tvCountry = (TextView) view.findViewById(R.id.account_country);
         backButton = (Button) view.findViewById(R.id.account_back);
 
         myOrdersBtn = (Button) view.findViewById(R.id.account_my_orders);
@@ -169,6 +171,7 @@ public class AccountFragment extends Fragment {
 
             tvUserName.setText(user.getName());
             tvEmail.setText(user.getEmail());
+            tvCountry.setText(user.getCountry());
         }
     }
 

@@ -64,6 +64,22 @@
                 android:textSize="16sp"
                 tools:text="test@mailing.com"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin_vertical"
+                android:text="@string/Country"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/account_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                tools:text="@string/Country"/>
+
         </LinearLayout>
 
         <LinearLayout

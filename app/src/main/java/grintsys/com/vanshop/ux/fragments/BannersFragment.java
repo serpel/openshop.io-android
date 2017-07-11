@@ -27,6 +27,7 @@ import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.Banner;
 import grintsys.com.vanshop.entities.BannersResponse;
 import grintsys.com.vanshop.entities.Metadata;
+import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.interfaces.BannersRecyclerInterface;
 import grintsys.com.vanshop.listeners.OnSingleClickListener;
 import grintsys.com.vanshop.utils.EndlessRecyclerScrollListener;
@@ -156,7 +157,10 @@ public class BannersFragment extends Fragment {
         progressDialog.show();
         if (url == null) {
             bannersRecyclerAdapter.clear();
-            url = String.format(EndPoints.BANNERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            final User user = SettingsMy.getActiveUser();
+            if (user != null) {
+                url = String.format(EndPoints.BANNERS, user.getId(), SettingsMy.getActualNonNullShop(getActivity()).getId());
+            }
         }
         GsonRequest<BannersResponse> getBannersRequest = new GsonRequest<>(Request.Method.GET, url, null, BannersResponse.class,
                 new Response.Listener<BannersResponse>() {

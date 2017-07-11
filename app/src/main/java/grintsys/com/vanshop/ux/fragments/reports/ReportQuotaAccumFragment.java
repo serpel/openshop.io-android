@@ -188,13 +188,10 @@ public class ReportQuotaAccumFragment extends Fragment {
                     new Response.Listener<ReportEntryLineResponse>() {
                         @Override
                         public void onResponse(@NonNull ReportEntryLineResponse response) {
-
-
                             FillChart(response.getFirstLine(), response.getSecondLine());
 
                             quotaTextView.setText(String.format(Locale.US, "%.2f", response.getQuotaAccum()));
                             invoicedTextView.setText(String.format(Locale.US, "%.2f", response.getTotalInvoiced()));
-
                             progressView.setVisibility(View.GONE);
                         }
                     }, new Response.ErrorListener() {

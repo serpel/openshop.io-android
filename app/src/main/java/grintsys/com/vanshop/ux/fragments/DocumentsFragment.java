@@ -34,6 +34,7 @@ import grintsys.com.vanshop.R;
 import grintsys.com.vanshop.SettingsMy;
 import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
+import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.client.Document;
 import grintsys.com.vanshop.entities.client.DocumentListResponse;
 import grintsys.com.vanshop.interfaces.DocumentRecyclerInterface;
@@ -256,38 +257,40 @@ public class DocumentsFragment extends Fragment {
     private void getDocuments(String card_code) {
         loadMoreProgress.setVisibility(View.VISIBLE);
 
-        String url = String.format(EndPoints.DOCUMENTS_SINGLE, card_code);
+        final User user = SettingsMy.getActiveUser();
+        if (user != null) {
+            String url = String.format(EndPoints.DOCUMENTS_SINGLE, user.getId(), card_code);
 
-        GsonRequest<DocumentListResponse> getDocumentRequest = new GsonRequest<>(Request.Method.GET, url, null, DocumentListResponse.class,
-                new Response.Listener<DocumentListResponse>() {
-                    @Override
-                    public void onResponse(@NonNull DocumentListResponse response) {
-//                        Timber.d("response:" + response.toString());
-                        documentsRecyclerAdapter.addDocuments(response.getDocuments());
-                        checkEmptyContent();
+            GsonRequest<DocumentListResponse> getDocumentRequest = new GsonRequest<>(Request.Method.GET, url, null, DocumentListResponse.class,
+                    new Response.Listener<DocumentListResponse>() {
+                        @Override
+                        public void onResponse(@NonNull DocumentListResponse response) {
+                            documentsRecyclerAdapter.addDocuments(response.getDocuments());
+                            checkEmptyContent();
 
-                        clientCode.setText(response.getClientCardCode());
-                        clientName.setText(response.getClientName());
-                        clientAddress.setText(response.getAddress());
-                        clientCreditLimit.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getCreaditLimit()));
-                        clientBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getBalance()));
-                        clientInOrders.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getInOrders()));
-                        clientPayCondition.setText(response.getPayCondition());
+                            clientCode.setText(response.getClientCardCode());
+                            clientName.setText(response.getClientName());
+                            clientAddress.setText(response.getAddress());
+                            clientCreditLimit.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getCreaditLimit()));
+                            clientBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getBalance()));
+                            clientInOrders.setText(NumberFormat.getNumberInstance(Locale.US).format(response.getInOrders()));
+                            clientPayCondition.setText(response.getPayCondition());
 
-                        loadMoreProgress.setVisibility(View.GONE);
+                            loadMoreProgress.setVisibility(View.GONE);
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (loadMoreProgress != null) loadMoreProgress.setVisibility(View.GONE);
-                checkEmptyContent();
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        getDocumentRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getDocumentRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getDocumentRequest, CONST.DOCUMENT_REQUESTS_TAG);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (loadMoreProgress != null) loadMoreProgress.setVisibility(View.GONE);
+                    checkEmptyContent();
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getDocumentRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            getDocumentRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getDocumentRequest, CONST.DOCUMENT_REQUESTS_TAG);
+        }
     }
 
     private void checkEmptyContent() {
