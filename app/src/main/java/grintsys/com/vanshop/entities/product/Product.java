@@ -133,6 +133,28 @@ public class Product {
         return variants;
     }
 
+    public List<ProductSize> getSizes(String warehouse){
+        List<ProductSize> sizes = new ArrayList<>();
+
+        for(ProductVariant v:variants){
+            if(!sizes.contains(v.getSize()) && v.getWarehouse().equals(warehouse))
+                sizes.add(v.getSize());
+        }
+
+        return sizes;
+    }
+
+    public List<ProductColor> getColors(String warehouse){
+        List<ProductColor> colors = new ArrayList<>();
+
+        for(ProductVariant v:variants){
+            if(!colors.contains(v.getColor()) && v.getWarehouse().equals(warehouse))
+                colors.add(v.getColor());
+        }
+
+        return colors;
+    }
+
     public ArrayList<ProductVariant> getVariantsBySize(ProductSize size){
 
         ArrayList<ProductVariant> items = new ArrayList<>();
@@ -152,6 +174,19 @@ public class Product {
 
         for(ProductVariant variant : this.variants){
             if(variant.getSize().getValue().equals(size.getValue()) && variant.getWarehouse().equals(warehouse)){
+                items.add(variant);
+            }
+        }
+
+        return items;
+    }
+
+    public ArrayList<ProductVariant> getVariantsByWarehouse(String warehouse){
+
+        ArrayList<ProductVariant> items = new ArrayList<>();
+
+        for(ProductVariant variant : this.variants){
+            if(variant.getWarehouse().equals(warehouse)){
                 items.add(variant);
             }
         }

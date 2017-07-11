@@ -2,60 +2,6 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/product_matrix_table"
     android:stretchColumns="0">
-    <TableRow>
-        <TextView
-            android:text="asdsds"
-            android:padding="3dip" />
-
-        <TextView
-            android:text="sdsds"
-            android:gravity="right"
-            android:padding="3dip" />
-
-        <TextView
-            android:text="sdsds"
-            android:gravity="right"
-            android:padding="3dip" />
-
-        <TextView
-            android:text="sdsds"
-            android:gravity="right"
-            android:padding="3dip" />
-
-        <TextView
-            android:text="sdsds"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="sdsasds"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="sxsx"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="sxs"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="sxsxs"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="xsxs"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="sxsxs"
-            android:gravity="right"
-            android:padding="3dip" />
-        <TextView
-            android:text="xxx"
-            android:gravity="right"
-            android:padding="3dip" />
-
-    </TableRow>
-    
 </TableLayout>

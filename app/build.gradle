@@ -65,15 +65,15 @@ android {
             minSdkVersion 22
             applicationId 'grintsys.com.vanshop'
             //signingConfig signingConfigs.release
-            versionCode 10
-            versionName '2.0'
+            versionCode 11
+            versionName '2.1'
         }
         Legacy {
             minSdkVersion 15
             applicationId 'grintsys.com.vanshop'
             //signingConfig signingConfigs.release
-            versionCode 10
-            versionName '2.0'
+            versionCode 11
+            versionName '2.1'
         }
     }
     sourceSets {
