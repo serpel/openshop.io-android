@@ -188,31 +188,32 @@ public class ProductMatrixTableFragment extends Fragment {
 
 
     private void getProduct(final long productId) {
-        // Load product info
-        //TODO: multiple companies
-        //String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
-        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, productId);
-        setContentVisible(CONST.VISIBLE.PROGRESS);
+        final User user = SettingsMy.getActiveUser();
+        if (user != null) {
+            //String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
+            String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, user.getId(), productId);
+            setContentVisible(CONST.VISIBLE.PROGRESS);
 
-        GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
-                new Response.Listener<Product>() {
-                    @Override
-                    public void onResponse(@NonNull Product response) {
-                        MainActivity.setActionBarTitle(response.getName());
-                        refreshScreenData(response);
-                        generateMatrix(response);
-                        setContentVisible(CONST.VISIBLE.CONTENT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                setContentVisible(CONST.VISIBLE.EMPTY);
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        getProductRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        getProductRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.PRODUCT_REQUESTS_TAG);
+            GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
+                    new Response.Listener<Product>() {
+                        @Override
+                        public void onResponse(@NonNull Product response) {
+                            MainActivity.setActionBarTitle(response.getName());
+                            refreshScreenData(response);
+                            generateMatrix(response);
+                            setContentVisible(CONST.VISIBLE.CONTENT);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    setContentVisible(CONST.VISIBLE.EMPTY);
+                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                }
+            });
+            getProductRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+            getProductRequest.setShouldCache(false);
+            MyApplication.getInstance().addToRequestQueue(getProductRequest, CONST.PRODUCT_REQUESTS_TAG);
+        }
     }
 
     private void setContentVisible(CONST.VISIBLE visible) {

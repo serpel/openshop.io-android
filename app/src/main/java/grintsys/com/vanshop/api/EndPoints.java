@@ -20,7 +20,7 @@ public class EndPoints {
     public static final String PAGES_SINGLE             = API_URL.concat("%d/pages/%d");
     public static final String PAGES_TERMS_AND_COND     = API_URL.concat("%d/pages/terms");
     public static final String CLIENT                   = API_URL.concat("/Client?userId=%d&cardcode=%s");
-    public static final String CLIENTS                  = API_URL.concat("/GetClients?userId=%d&search=%s");
+    public static final String CLIENTS                  = API_URL.concat("/GetClients?userId=%d");
     public static final String CLIENT_TRANSACTIONS      = API_URL.concat("/GetClientTransactions?userId=%d&cardcode=%s&begin=%s&end=%s");
     public static final String DOCUMENTS                = API_URL.concat("/GetDocuments?userId=%d");
     public static final String DOCUMENTS_SINGLE         = API_URL.concat("/GetDocuments?userId=%d&card_code=%s");
@@ -34,7 +34,7 @@ public class EndPoints {
     public static final String USER_LOGIN_FACEBOOK      = API_URL.concat("%d/login/facebook");
     public static final String USER_RESET_PASSWORD      = API_URL.concat("%d/users/reset-password");
     public static final String USER_SINGLE              = API_URL.concat("/GetUser/%d");
-    public static final String USERS                    = API_URL.concat("/Users");
+    public static final String USERS                    = API_URL.concat("/Users?userId=%d");
     public static final String USER_CHANGE_PASSWORD     = API_URL.concat("%d/users/%d/password");
     public static final String USER_UPDATE              = API_URL.concat("/UpdateUser?userId=%d&bluetooth=%s");
     public static final String CART                     = API_URL.concat("/Cart?userId=%d&type=%d");

@@ -879,18 +879,18 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
      */
     public void onProductSelected(long productId) {
 
-       /* Fragment fragment = ProductMatrixFragment.newInstance(productId);
+        Fragment fragment = ProductMatrixFragment.newInstance(productId);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
         }
-        replaceFragment(fragment, ProductMatrixFragment.class.getSimpleName());*/
+        replaceFragment(fragment, ProductMatrixFragment.class.getSimpleName());
 
-        Fragment fragment = ProductMatrixTableFragment.newInstance(productId);
+       /* Fragment fragment = ProductMatrixTableFragment.newInstance(productId);
 
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             fragment.setReturnTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.fade));
         }
-        replaceFragment(fragment, ProductMatrixTableFragment.class.getSimpleName());
+        replaceFragment(fragment, ProductMatrixTableFragment.class.getSimpleName());*/
     }
 
     public void onOpenClientFragment() {

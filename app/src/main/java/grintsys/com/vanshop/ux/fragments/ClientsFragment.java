@@ -185,7 +185,7 @@ public class ClientsFragment extends Fragment {
                     newSearchQueryString = URLEncoder.encode(searchQuery);
                 }
                 Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
-                url += "?search=" + newSearchQueryString;
+                url += "&search=" + newSearchQueryString;
             }
 
             GsonRequest<ClientListResponse> getClientsRequest = new GsonRequest<>(Request.Method.GET, url, null, ClientListResponse.class,

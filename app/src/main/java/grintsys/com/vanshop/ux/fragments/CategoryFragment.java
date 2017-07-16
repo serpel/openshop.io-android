@@ -429,9 +429,9 @@ public class CategoryFragment extends Fragment {
                         newSearchQueryString = URLEncoder.encode(searchQuery);
                     }
                     Timber.d("GetFirstProductsInCategory isSearch: %s", searchQuery);
-                    url += "?search=" + newSearchQueryString;
+                    url += "&search=" + newSearchQueryString;
                 } else {
-                    url += "?" + categoryType + "=" + categoryId;
+                    url += "&" + categoryType + "=" + categoryId;
                 }
 
                 // Add filters parameter if exist
