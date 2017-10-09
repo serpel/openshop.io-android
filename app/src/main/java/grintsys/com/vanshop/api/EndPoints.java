@@ -49,7 +49,7 @@ public class EndPoints {
     public static final String ORDERS                   = API_URL.concat("/GetOrders?userId=%d");
     public static final String ORDERS_RANGE             = API_URL.concat("/GetOrders?userId=%d&begin=%s&end=%s");
     public static final String ORDERS_CREATE            = API_URL.concat("/CreateOrder?userId=%d&cartId=%d&jo=%s");
-    public static final String ORDERS_SINGLE            = API_URL.concat("/Order?userId&id=%d");
+    public static final String ORDERS_SINGLE            = API_URL.concat("/Order?userId=%d&id=%d");
     public static final String ORDERS_RECREATE          = API_URL.concat("/ReCreateOrder?orderId=%d");
     public static final String BRANCHES                 = API_URL.concat("%d/branches");
     public static final String WISHLIST                 = API_URL.concat("/GetWishlist?userId=%d");

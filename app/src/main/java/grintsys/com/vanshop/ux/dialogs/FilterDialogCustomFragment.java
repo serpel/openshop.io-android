@@ -158,13 +158,15 @@ public class FilterDialogCustomFragment extends DialogFragment {
         final SelectSpinnerAdapter selectSpinnerAdapter = new SelectSpinnerAdapter(getActivity(), categoryItems);
         categorySpinner.setAdapter(selectSpinnerAdapter);
 
-        filterTypeSelect = (FilterTypeSelect) this.filterData.getFilters().get(4);
-        final ArrayList<FilterValueSelect> brandItems = new ArrayList<>(filterTypeSelect.getValues());
-        FilterValueSelect select_item_brand = new FilterValueSelect();
-        select_item_brand.setValue("Seleccionar");
-        brandItems.add(0, select_item_brand);
-        final SelectSpinnerAdapter selectSpinnerAdapterBrand = new SelectSpinnerAdapter(getActivity(), brandItems);
-        brandSpinner.setAdapter(selectSpinnerAdapterBrand);
+        if(this.filterData.getFilters().size() == 4) {
+            filterTypeSelect = (FilterTypeSelect) this.filterData.getFilters().get(4);
+            final ArrayList<FilterValueSelect> brandItems = new ArrayList<>(filterTypeSelect.getValues());
+            FilterValueSelect select_item_brand = new FilterValueSelect();
+            select_item_brand.setValue("Seleccionar");
+            brandItems.add(0, select_item_brand);
+            final SelectSpinnerAdapter selectSpinnerAdapterBrand = new SelectSpinnerAdapter(getActivity(), brandItems);
+            brandSpinner.setAdapter(selectSpinnerAdapterBrand);
+        }
 
         categorySpinner.setOnItemSelectedListener(null);
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
